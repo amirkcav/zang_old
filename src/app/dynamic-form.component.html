@@ -1,0 +1,16 @@
+<div class="container">
+  <form *ngIf="questions.length" (ngSubmit)="onSubmit()" [formGroup]="form">
+
+    <div *ngFor="let question of questions" class="form-row">
+      <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur"></df-question>
+    </div>
+
+    <div class="form-row">
+      <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+
+  <div *ngIf="payLoad" class="form-row">
+    <strong>Saved the following values</strong><br>{{payLoad}}
+  </div>
+</div>

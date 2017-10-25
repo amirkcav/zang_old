@@ -1,0 +1,28 @@
+<div [formGroup]="form" class="form-group">
+	<label [attr.for]="question.key" class="center-block">{{question.label}}</label>
+
+	<div [ngSwitch]="question.controlType">
+
+		<input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+		[id]="question.key" [type]="question.type" class="form-control" 
+		[appValidateOnBlur]="validateOnBlur">
+
+		<select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key"
+		[appValidateOnBlur]="validateOnBlur">
+			<option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+		</select>
+
+	</div> 
+
+	<div class="alert alert-danger" *ngIf="isInvalid">
+		<div *ngIf="errors.required">
+			{{question.label}} is required.
+		</div>
+		<div *ngIf="errors.minlength">
+			{{question.label}} must be at least 4 characters long.
+		</div>
+		<div *ngIf="errors.serverError">
+			{{errors.serverError.message}}
+		</div>
+	</div>
+</div>

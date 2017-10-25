@@ -1,16 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule }                from '@angular/platform-browser';
+import { ReactiveFormsModule }          from '@angular/forms';
+import { NgModule }                     from '@angular/core';
+import { HttpModule }    from '@angular/http';
 
-import { AppComponent } from './app.component';
+import { AppComponent }                 from './app.component';
+import { DynamicFormComponent }         from './dynamic-form.component';
+import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
+import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [ 
+  BrowserModule, 
+  ReactiveFormsModule, 
+  HttpModule ],
+  declarations: [ AppComponent, DynamicFormComponent, DynamicFormQuestionComponent, ValidateOnBlurDirective ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+  }
+}
