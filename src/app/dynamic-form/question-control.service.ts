@@ -7,14 +7,28 @@ import { QuestionBase } from './question-base';
 import { QuestionService } from './question.service';
 import { FormValidationResponse }      from './form-validation-response'
 
+/**
+ * Handles the reactive form creation and validation.
+ */
 @Injectable()
 export class QuestionControlService {
 	constructor(private service: QuestionService) { }
 
+	/**
+	 * @param  {string} The key (identifier) of the form, at the server
+	 * @return {Promise} A promise with array of questions.
+	 */
 	getQuestions(formKey: string) : Promise<QuestionBase<any>[]> {
 		return this.service.getQuestions(formKey);
 	}
 
+	/**
+	 * Generates a FormGroup from the given questions, and sets the server validation
+	 * for the form
+	 * @param  {QuestionBase<any>[]} The questions returned from the service
+	 * @param  {string} The key (identifier) of the form
+	 * @return {FormGroup} 
+	 */
 	toFormGroup(questions: QuestionBase<any>[], formKey: string) : FormGroup {
 		let group: any = {};
 		// Observable FormValidationResponse 
@@ -38,6 +52,13 @@ export class QuestionControlService {
 		return formGroup;
 	}
 
+	/**
+	 * Validator factory method, which create a server validator for a given field
+	 * @param  {Subject<FormValidationResponse>} The subject to publish to, once the server return validation response 
+	 * @param  {string} The form id
+	 * @param  {string} The field id
+	 * @return {AsyncValidatorFn} the generated validator function
+	 */
 	serverValidator(formData: Subject<FormValidationResponse>, formKey: string, fieldName: string): AsyncValidatorFn {
 		return (control: AbstractControl) : Promise<{[key : string] : any}>|Observable<{[key : string] : any}> => {
 			//if (control.pristine || control.untouched) {
