@@ -5,7 +5,7 @@
 
 		<input *ngSwitchCase="'textbox'" [formControlName]="question.key"
 		[id]="question.key" [type]="question.type" class="form-control" 
-		[appValidateOnBlur]="validateOnBlur">
+		[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null">
 
 		<select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key"
 		[appValidateOnBlur]="validateOnBlur">

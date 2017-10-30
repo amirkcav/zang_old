@@ -6,6 +6,7 @@ export class QuestionBase<T> {
   required: boolean;
   order: number;
   controlType: string;
+  readonly: boolean;
 
   constructor(options: {
       value?: T,
@@ -13,7 +14,8 @@ export class QuestionBase<T> {
       label?: string,
       required?: boolean,
       order?: number,
-      controlType?: string
+      controlType?: string,
+      readonly?: boolean
     } = {}) {
     this.value = options.value;
     this.key = options.key || '';
@@ -21,5 +23,6 @@ export class QuestionBase<T> {
     this.required = !!options.required;
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';
+    this.readonly = !!options.readonly;
   }
 }
