@@ -26,9 +26,9 @@ export class QuestionService {
 
   constructor(private http: Http) { }
 
-  getQuestions(formKey: string) : Promise<QuestionBase<any>[]> {
+  getQuestions(formKey: string, formParameters: any) : Promise<QuestionBase<any>[]> {
     let url = this.getUrl(this.questionsUrl);
-    let data = { 'FORM': formKey };
+    let data = { 'FORM': formKey, 'PARAMS': formParameters };
 
     return this.http.post(
       url,

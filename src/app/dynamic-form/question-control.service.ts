@@ -18,8 +18,8 @@ export class QuestionControlService {
 	 * @param  {string} The key (identifier) of the form, at the server
 	 * @return {Promise} A promise with array of questions.
 	 */
-	getQuestions(formKey: string) : Promise<QuestionBase<any>[]> {
-		return this.service.getQuestions(formKey);
+	getQuestions(formKey: string, formParameters: any) : Promise<QuestionBase<any>[]> {
+		return this.service.getQuestions(formKey, formParameters);
 	}
 
 	/**

@@ -16,6 +16,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   @Input() formKey: string;
   @Input() validateOnBlur: boolean;
+  @Input() formParameters: any = null;
   
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
@@ -37,7 +38,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   initForm() : void {
-    this.service.getQuestions(this.formKey).then(response => {
+    this.service.getQuestions(this.formKey, this.formParameters).then(response => {
       this.questions = response;
       this.form = this.service.toFormGroup(this.questions, this.formKey);
     });
