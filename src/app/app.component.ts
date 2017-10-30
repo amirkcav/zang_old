@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router }   from '@angular/router';
 
-import { QuestionService } from './question.service';
-
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',

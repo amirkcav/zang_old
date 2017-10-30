@@ -1,6 +1,7 @@
 import { Injectable }       from '@angular/core';
 import { isDevMode } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
 import { Observable }        from 'rxjs/Observable';
@@ -15,13 +16,13 @@ import { FormValidationResponse }      from './form-validation-response'
 @Injectable()
 export class QuestionService {
 
-  private readonly baseDevUrl = 'http://cache.cav.local:8080/zang/app/';
+  private readonly baseDevUrl = environment.dynamicFormBaseDevUrl || 'http://cache.cav.local:8080/zang/app/';
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  private readonly questionsUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM';  // Get the session info
+  private readonly questionsUrl = environment.dynamicFormQuestionsUrl || '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM';  // Get the session info
 
-  private readonly validateUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE';  // Get the session info
+  private readonly validateUrl = environment.dynamicFormValidateUrl || '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE';  // Get the session info
 
   constructor(private http: Http) { }
 

@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+	production: false,
+	dynamicFormBaseDevUrl: 'http://cache.cav.local:8080/zang/app/',
+	dynamicFormQuestionsUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM',
+	dynamicFormValidateUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE'
 };
