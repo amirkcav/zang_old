@@ -3,13 +3,13 @@
   <div class="card" style="width: 30rem;">
     <div class="card-block">
       <h4 class="card-title">Form validation on changes</h4>
-      <dynamic-form [formKey]="'A'"></dynamic-form>
+      <dynamic-form [formKey]="'A'" (onSaved)="onSaved('A', $event)"></dynamic-form>
     </div>
   </div>
   <div class="card" style="width: 30rem;">
     <div class="card-block">
       <h4 class="card-title">Form validation on blur</h4>
-      <dynamic-form [formKey]="'C'" [validateOnBlur]="true"></dynamic-form>
+      <dynamic-form [formKey]="'C'" [validateOnBlur]="true" (onSaved)="onSaved('C', $event)"></dynamic-form>
     </div>
   </div>
   <div class="card" style="width: 30rem;">

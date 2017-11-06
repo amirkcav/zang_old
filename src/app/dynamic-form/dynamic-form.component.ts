@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges }  from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges }  from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
@@ -17,10 +17,11 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() formKey: string;
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
+  @Output() onSaved = new EventEmitter<any>();
   
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
-  payLoad = '';
+
 
   constructor(private service: QuestionControlService) { }
 
@@ -30,11 +31,12 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.initForm();
-
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.value);
+    this.service.save(this.formKey, this.formParameters, this.form.value).then(response => {
+      this.onSaved.emit(response);
+    });
   }
 
   initForm() : void {
@@ -42,6 +44,5 @@ export class DynamicFormComponent implements OnInit, OnChanges {
       this.questions = response;
       this.form = this.service.toFormGroup(this.questions, this.formKey);
     });
-
   }
 }

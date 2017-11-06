@@ -24,6 +24,8 @@ export class QuestionService {
 
   private readonly validateUrl = environment.dynamicFormValidateUrl || '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE';  // Get the session info
 
+  private readonly saveUrl = environment.dynamicFormSaveUrl || '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE';  // Get the session info
+
   constructor(private http: Http) { }
 
   getQuestions(formKey: string, formParameters: any) : Promise<QuestionBase<any>[]> {
@@ -46,6 +48,27 @@ export class QuestionService {
       // return res.data as QuestionBase<any>[];
     })
     .catch(this.handleError);
+  }
+
+  save(formKey: string, formParameters: any, formValues: any) : Promise<FormValidationResponse> {
+    let url = this.getUrl(this.saveUrl);
+    let data = { 'FORM': formKey, 'PARAMS': formParameters, 'VALUES': formValues };
+
+    return this.http.post(
+      url,
+      JSON.stringify(data),
+      {headers: this.headers}
+      )
+    .toPromise()
+    .then(response => {
+      let res = response.json() as ServiceResponse;
+      if (res.status !== 'ok') {
+        return this.handleError(res);
+      }
+      return res.data as FormValidationResponse;
+    })
+    .catch(this.handleError);
+
   }
 
   private handleError(error: any) : Promise<any> {

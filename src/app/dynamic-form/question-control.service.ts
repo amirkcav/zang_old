@@ -22,6 +22,10 @@ export class QuestionControlService {
 		return this.service.getQuestions(formKey, formParameters);
 	}
 
+	save(formKey: string, formParameters: any, formValues: any) : Promise<FormValidationResponse> {
+		return this.service.save(formKey, formParameters, formValues);
+	}
+
 	/**
 	 * Generates a FormGroup from the given questions, and sets the server validation
 	 * for the form

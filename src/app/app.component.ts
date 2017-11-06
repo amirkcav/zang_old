@@ -18,4 +18,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  onSaved(formKey: string, values: any) {
+    alert("Form " + formKey + " saved: " + JSON.stringify(values));
+  }
 }
