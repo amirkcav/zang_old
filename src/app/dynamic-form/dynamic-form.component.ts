@@ -17,7 +17,10 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() formKey: string;
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
+  @Input() cancelButton: string = null;
+
   @Output() onSaved = new EventEmitter<any>();
+  @Output() onCancelled = new EventEmitter<any>();
   
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
@@ -37,6 +40,10 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     this.service.save(this.formKey, this.formParameters, this.form.value).then(response => {
       this.onSaved.emit(response);
     });
+  }
+
+  onCancel() {
+    this.onCancelled.emit();
   }
 
   initForm() : void {

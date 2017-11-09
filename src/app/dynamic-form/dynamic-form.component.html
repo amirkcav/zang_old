@@ -7,7 +7,9 @@
 
     <div class="form-row">
       <button type="submit" [disabled]="form.invalid" class="btn btn-primary">שמור</button>
+      <button *ngIf="cancelButton" type="button" (click)="onCancel()" class="btn btn-secondary">{{cancelButton}}</button>
     </div>
+
   </form>
 
   <div *ngIf="payLoad" class="form-row">

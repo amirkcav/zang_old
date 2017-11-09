@@ -22,4 +22,8 @@ export class AppComponent implements OnInit {
   onSaved(formKey: string, values: any) {
     alert("Form " + formKey + " saved: " + JSON.stringify(values));
   }
+
+  onCancelled(formKey: string) {
+    alert("Form " + formKey + " cancelled");
+  }
 }
