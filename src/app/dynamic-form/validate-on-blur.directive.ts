@@ -40,7 +40,7 @@ export class ValidateOnBlurDirective {
 	}
 
 	onChange($event) {
-		//this.wasChanged = true; // copypaste change
+		this.wasChanged = true; // copypaste change or numeric/date/list change not by keyboard
 	}
 
 	onNgModelChange($event) {
