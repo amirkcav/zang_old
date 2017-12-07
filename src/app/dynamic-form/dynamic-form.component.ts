@@ -18,6 +18,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
   @Input() cancelButton: string = null;
+  @Input() saveButton: string = "שמור";
 
   @Output() onSaved = new EventEmitter<any>();
   @Output() onCancelled = new EventEmitter<any>();

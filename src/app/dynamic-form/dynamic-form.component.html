@@ -5,8 +5,8 @@
       <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur"></df-question>
     </div>
 
-    <div class="form-row">
-      <button type="submit" [disabled]="form.invalid" class="btn btn-primary">שמור</button>
+    <div *ngIf="saveButton || cancelButton" class="form-row">
+      <button *ngIf="saveButton" type="submit" [disabled]="form.invalid" class="btn btn-primary">{{saveButton}}</button>
       <button *ngIf="cancelButton" type="button" (click)="onCancel()" class="btn btn-secondary">{{cancelButton}}</button>
     </div>
 
