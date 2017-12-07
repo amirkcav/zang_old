@@ -78,7 +78,7 @@ export class QuestionService {
 
   validateControl(formKey: string, field: string, value: string) : Promise<FormValidationResponse> {
     let url = this.getUrl(this.validateUrl);
-    let data = { 'FORM': formKey, 'FIELD': field, 'VALUE': value };
+    let data = { 'FORM': formKey, 'FIELD': field, 'VALUE': (value === null ? "" : value) };
 
     return this.http.post(
       url,
