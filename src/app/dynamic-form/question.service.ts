@@ -51,8 +51,17 @@ export class QuestionService {
   }
 
   save(formKey: string, formParameters: any, formValues: any) : Promise<FormValidationResponse> {
+    // convert the null values to empty strings ("")
+    for (let key in formValues) {
+      if (formValues[key] === null) {
+        formValues[key] = "";
+      }
+    }
+
     let url = this.getUrl(this.saveUrl);
-    let data = { 'FORM': formKey, 'PARAMS': formParameters, 'VALUES': formValues };
+    let data = { 'FORM': formKey, 
+      'PARAMS': formParameters === null ? {} : formParameters, 
+      'VALUES': formValues };
 
     return this.http.post(
       url,
