@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngBusy]="{busy: loadingQuestions, message: 'טוען נתונים...'}" >
   <form *ngIf="questions.length" (ngSubmit)="onSubmit()" [formGroup]="form">
 
     <div *ngFor="let question of questions" class="form-row">

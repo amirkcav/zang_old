@@ -26,6 +26,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
 
+  loadingQuestions: Promise<any>;
 
   constructor(private service: QuestionControlService) { }
 
@@ -48,7 +49,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   initForm() : void {
-    this.service.getQuestions(this.formKey, this.formParameters).then(response => {
+    this.loadingQuestions = this.service.getQuestions(this.formKey, this.formParameters);
+    this.loadingQuestions.then(response => {
       this.questions = response;
       this.form = this.service.toFormGroup(this.questions, this.formKey);
     });
