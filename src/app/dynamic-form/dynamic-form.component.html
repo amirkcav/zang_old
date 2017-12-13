@@ -6,13 +6,9 @@
     </div>
 
     <div *ngIf="saveButton || cancelButton" class="form-row">
-      <button *ngIf="saveButton" type="submit" [disabled]="form.invalid" class="btn btn-primary">{{saveButton}}</button>
+      <button *ngIf="saveButton" type="submit" [disabled]="form.invalid || readonly" class="btn btn-primary">{{saveButton}}</button>
       <button *ngIf="cancelButton" type="button" (click)="onCancel()" class="btn btn-secondary">{{cancelButton}}</button>
     </div>
 
   </form>
-
-  <div *ngIf="payLoad" class="form-row">
-    <strong>Saved the following values</strong><br>{{payLoad}}
-  </div>
 </div>
