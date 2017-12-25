@@ -5,18 +5,18 @@ import {
   EventEmitter,
   OnInit,
   OnChanges
-} from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { Subject } from "rxjs/Subject";
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
 
-import { QuestionBase } from "./question-base";
+import { QuestionBase } from './question-base';
 
-import { QuestionControlService } from "./question-control.service";
-import { QuestionService } from "./question.service";
+import { QuestionControlService } from './question-control.service';
+import { QuestionService } from './question.service';
 
 @Component({
-  selector: "dynamic-form",
-  templateUrl: "./dynamic-form.component.html",
+  selector: 'dynamic-form',
+  templateUrl: './dynamic-form.component.html',
   providers: [QuestionControlService, QuestionService]
 })
 export class DynamicFormComponent implements OnInit, OnChanges {
@@ -24,7 +24,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
   @Input() cancelButton: string = null;
-  @Input() saveButton: string = "שמור";
+  @Input() saveButton = 'שמור';
 
   @Output() onSaved = new EventEmitter<any>();
   @Output() onCancelled = new EventEmitter<any>();
@@ -67,7 +67,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
       this.questions = response;
       this.form = this.service.toFormGroup(this.questions, this.formKey);
       this.readonly = true;
-      for (let question of this.questions) {
+      for (const question of this.questions) {
         if (!question.readonly) {
           this.readonly = false;
           break;

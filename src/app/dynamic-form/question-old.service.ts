@@ -1,26 +1,23 @@
-import { Injectable }       from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { DropdownQuestion } from './question-dropdown';
-import { QuestionBase }     from './question-base';
-import { TextboxQuestion }  from './question-textbox';
+import { QuestionBase } from './question-base';
+import { TextboxQuestion } from './question-textbox';
 
 @Injectable()
 export class QuestionService {
-
   // Todo: get from a remote source of question metadata
   // Todo: make asynchronous
   getQuestions() {
-
-    let questions: QuestionBase<any>[] = [
-
+    const questions: QuestionBase<any>[] = [
       new DropdownQuestion({
         key: 'brave',
         label: 'Bravery Rating',
         options: [
-          {key: 'solid',  value: 'Solid'},
-          {key: 'great',  value: 'Great'},
-          {key: 'good',   value: 'Good'},
-          {key: 'unproven', value: 'Unproven'}
+          { key: 'solid', value: 'Solid' },
+          { key: 'great', value: 'Great' },
+          { key: 'good', value: 'Good' },
+          { key: 'unproven', value: 'Unproven' }
         ],
         order: 3
       }),

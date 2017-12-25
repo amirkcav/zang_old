@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormControl}        from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
-import { QuestionBase }     from './question-base';
+import { QuestionBase } from './question-base';
 
 @Component({
   selector: 'df-question',
@@ -9,24 +9,24 @@ import { QuestionBase }     from './question-base';
 })
 export class DynamicFormQuestionComponent {
   @Input() question: QuestionBase<any>;
-  
+
   @Input() form: FormGroup;
 
   @Input() validateOnBlur: boolean;
 
-  get isInvalid() { 
-    let control = this.form.controls[this.question.key];
-    if (! control) {
+  get isInvalid() {
+    const control = this.form.controls[this.question.key];
+    if (!control) {
       return false;
     }
     return control.invalid && (control.dirty || control.touched);
   }
 
-  get errors() { 
-    let control = this.form.controls[this.question.key];
-    if (! control) {
+  get errors() {
+    const control = this.form.controls[this.question.key];
+    if (!control) {
       return {};
     }
-    return control.errors || {}; 
+    return control.errors || {};
   }
 }

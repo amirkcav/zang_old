@@ -20,7 +20,7 @@
     </script>
   </head>
   <body>
-    <my-app>Loading app...</my-app>
+    <app-root>Loading app...</app-root>
   </body>
 
 </html>

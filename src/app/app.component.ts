@@ -1,29 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router }   from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
-  selector: 'my-app',
-  templateUrl: './app.component.html',
-  // template: `
-  // <div>
-  // <h2>Demo of M-based dynamic forms</h2>
-  // <dynamic-form [formKey]="'A'"></dynamic-form>
-  // <dynamic-form [formKey]="'B'"></dynamic-form>
-  // </div>
-  // `,
+  selector: 'app-root',
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSaved(formKey: string, values: any) {
-    alert("Form " + formKey + " saved: " + JSON.stringify(values));
+    alert('Form ' + formKey + ' saved: ' + JSON.stringify(values));
   }
 
   onCancelled(formKey: string) {
-    alert("Form " + formKey + " cancelled");
+    alert('Form ' + formKey + ' cancelled');
   }
 }
