@@ -8,5 +8,7 @@ export const environment = {
   dynamicFormBaseDevUrl: 'http://cache.cav.local:8080/zang/app/',
   dynamicFormQuestionsUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM',
   dynamicFormValidateUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE',
-  dynamicFormSaveUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE'
+  dynamicFormSaveUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE',
+  dynamicGridUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRID',
+  dynamicGridDataUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'
 };

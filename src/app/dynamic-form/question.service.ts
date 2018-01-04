@@ -11,6 +11,8 @@ import { DropdownQuestion } from './question-dropdown';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
 
+import { Grid } from './grid';
+
 import { FormValidationResponse } from './form-validation-response';
 
 @Injectable()
@@ -28,6 +30,12 @@ export class QuestionService {
 
   private readonly saveUrl = environment.dynamicFormSaveUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE'; // Get the session info
+
+  private readonly gridUrl = environment.dynamicGridUrl ||
+    '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRID'; // Get the session info
+
+  private readonly gridDataUrl = environment.dynamicGridDataUrl ||
+    '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'; // Get the session info
 
   constructor(private http: Http) {}
 
@@ -128,38 +136,41 @@ export class QuestionService {
     return null as QuestionBase<string>;
   }
 
-  getQuestionsOrig() {
-    const questions: QuestionBase<any>[] = [
-      new DropdownQuestion({
-        key: 'brave',
-        label: 'Bravery Rating',
-        options: [
-          { key: 'solid', value: 'Solid' },
-          { key: 'great', value: 'Great' },
-          { key: 'good', value: 'Good' },
-          { key: 'unproven', value: 'Unproven' }
-        ],
-        order: 3
-      }),
+  getGrid(
+    gridKey: string,
+    gridParameters: any
+  ): Promise<QuestionBase<any>[]> {
+    const url = this.getUrl(this.gridUrl);
+    const data = { GRID: gridKey, PARAMS: gridParameters };
 
-      new TextboxQuestion({
-        key: 'firstName',
-        label: 'First name',
-        value: 'Bombasto',
-        required: true,
-        order: 1
-      }),
-
-      new TextboxQuestion({
-        key: 'emailAddress',
-        label: 'Email',
-        type: 'email',
-        order: 2
+    return this.http
+      .post(url, JSON.stringify(data), { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        const res = response.json() as ServiceResponse;
+        if (res.status !== 'ok') {
+          return this.handleError(res);
+        }
+        const resData: any = (res.data as any) || {};
+        return new Grid(resData);
+        // return res.data as QuestionBase<any>[];
       })
-    ];
-
-    return questions.sort((a, b) => a.order - b.order);
+      .catch(this.handleError);
   }
+
+  createGrid(options: {} = {}): QuestionBase<string> {
+    // TODO: unsafe code - wshould use switch of string enum, or if/else on specific Question classes.
+    const clazz = options['class'];
+    if (clazz === 'TextboxQuestion') {
+      return new TextboxQuestion(options);
+    } else if (clazz === 'DropdownQuestion') {
+      return new DropdownQuestion(options);
+    }
+    // var instance = Object.create(window[name].prototype);
+    // instance.constructor.apply(instance, options);
+    return null as QuestionBase<string>;
+  }
+
 
   getUrl(originalUrl: string): string {
     if (isDevMode()) {

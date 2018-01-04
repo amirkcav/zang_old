@@ -1,0 +1,18 @@
+<ngx-datatable [ngBusy]="{busy: loadingPlanItems, message: 'טוען נתונים...'}" 
+  [ngClass]="material" 
+  [headerHeight]="50" 
+  [limit]="5"
+  [columnMode]="'force'" 
+  [footerHeight]="50" 
+  [rowHeight]="'auto'" 
+  [rows]="promotionPlanItems" 
+  [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}">
+  <ngx-datatable-column *ngFor="let col of grid.columns" [prop]="col.id" [name]="col.name" [sortable]="col.sortable" [draggable]="col.draggable"
+    [minWidth]="col.minWidth || 100" [headerClass]="col.headerClass || null" [cellClass]="col.cellClass || null">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+      <div style="width: 100%" (click)="cellClicked($event, col.prop, value, row)">
+        {{value}}
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
