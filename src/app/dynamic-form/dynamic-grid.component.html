@@ -5,7 +5,7 @@
   [columnMode]="'force'" 
   [footerHeight]="50" 
   [rowHeight]="'auto'" 
-  [rows]="promotionPlanItems" 
+  [rows]="data" 
   [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}">
   <ngx-datatable-column *ngFor="let col of grid.columns" [prop]="col.id" [name]="col.name" [sortable]="col.sortable" [draggable]="col.draggable"
     [minWidth]="col.minWidth || 100" [headerClass]="col.headerClass || null" [cellClass]="col.cellClass || null">

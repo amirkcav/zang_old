@@ -26,10 +26,11 @@ export class DynamicGridComponent implements OnInit, OnChanges {
 
   @Output() onClicked = new EventEmitter<any>();
 
-  grid: Grid;
+  grid: Grid = new Grid({});
   data: any[];
 
-  loadingGrid: Promise<any>;
+  loadingGrid: Promise<Grid>;
+  loadingGridData: Promise<any[]>;
 
   constructor(private service: QuestionService) {}
 
@@ -42,9 +43,16 @@ export class DynamicGridComponent implements OnInit, OnChanges {
   }
 
   initGrid(): void {
+    // load the grid definitions
     this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
     this.loadingGrid.then(response => {
       this.grid = response;
+    });
+
+    // load the grid data
+    this.loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
+    this.loadingGridData.then(response => {
+      this.data = response;
     });
   }
 

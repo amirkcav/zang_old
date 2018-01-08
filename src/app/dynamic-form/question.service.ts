@@ -139,7 +139,7 @@ export class QuestionService {
   getGrid(
     gridKey: string,
     gridParameters: any
-  ): Promise<QuestionBase<any>[]> {
+  ): Promise<Grid> {
     const url = this.getUrl(this.gridUrl);
     const data = { GRID: gridKey, PARAMS: gridParameters };
 
@@ -153,24 +153,30 @@ export class QuestionService {
         }
         const resData: any = (res.data as any) || {};
         return new Grid(resData);
-        // return res.data as QuestionBase<any>[];
       })
       .catch(this.handleError);
   }
 
-  createGrid(options: {} = {}): QuestionBase<string> {
-    // TODO: unsafe code - wshould use switch of string enum, or if/else on specific Question classes.
-    const clazz = options['class'];
-    if (clazz === 'TextboxQuestion') {
-      return new TextboxQuestion(options);
-    } else if (clazz === 'DropdownQuestion') {
-      return new DropdownQuestion(options);
-    }
-    // var instance = Object.create(window[name].prototype);
-    // instance.constructor.apply(instance, options);
-    return null as QuestionBase<string>;
-  }
+  getGridData(
+    gridKey: string,
+    gridParameters: any
+  ): Promise<any[]> {
+    const url = this.getUrl(this.gridDataUrl);
+    const data = { GRID: gridKey, PARAMS: gridParameters };
 
+    return this.http
+      .post(url, JSON.stringify(data), { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        const res = response.json() as ServiceResponse;
+        if (res.status !== 'ok') {
+          return this.handleError(res);
+        }
+        const resData: any[] = (res.data as any[]) || [];
+        return resData;
+      })
+      .catch(this.handleError);
+  }
 
   getUrl(originalUrl: string): string {
     if (isDevMode()) {
