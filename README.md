@@ -1,6 +1,6 @@
 # zang
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.3.
+Angular module with components and services for Angular development of data entry apps with MUMPS (a-la ZA) server.
 
 ## Development server
 
