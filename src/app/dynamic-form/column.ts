@@ -8,6 +8,8 @@ export class Column {
   headerClass: string;
   cellClass: string;
   minWidth: number;
+  maxWidth: number;
+  width: number;
   visible: boolean;
 
   constructor(options: {
@@ -20,6 +22,8 @@ export class Column {
     headerClass?: string,
     cellClass?: string,
     minWidth?: number,
+    maxWidth?: number,
+    width?: number,
     visible?: boolean
       }) {
     this.id = options.id;
@@ -30,7 +34,9 @@ export class Column {
     this.draggable = !!options.draggable;
     this.headerClass = options.headerClass || null;
     this.cellClass = options.cellClass || null;
-    this.minWidth = options.minWidth || null;
+    this.minWidth = options.minWidth || 80;
+    this.maxWidth = options.maxWidth || null;
+    this.width = options.width || 80;
     this.visible = options.visible === undefined ? true : options.visible;
   }
 }

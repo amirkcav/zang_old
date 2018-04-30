@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isDevMode } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
@@ -20,7 +20,7 @@ export class QuestionService {
   private readonly baseDevUrl = environment.dynamicFormBaseDevUrl ||
     'http://cache.cav.local:8080/zang/app/';
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   private readonly questionsUrl = environment.dynamicFormQuestionsUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM'; // Get the session info
@@ -37,7 +37,7 @@ export class QuestionService {
   private readonly gridDataUrl = environment.dynamicGridDataUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'; // Get the session info
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   getQuestions(
     formKey: string,
@@ -50,7 +50,7 @@ export class QuestionService {
       .post(url, JSON.stringify(data), { headers: this.headers })
       .toPromise()
       .then(response => {
-        const res = response.json() as ServiceResponse;
+        const res = response as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }
@@ -84,7 +84,7 @@ export class QuestionService {
       .post(url, JSON.stringify(data), { headers: this.headers })
       .toPromise()
       .then(response => {
-        const res = response.json() as ServiceResponse;
+        const res = response as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }
@@ -114,7 +114,7 @@ export class QuestionService {
       .post(url, JSON.stringify(data), { headers: this.headers })
       .toPromise()
       .then(response => {
-        const res = response.json() as ServiceResponse;
+        const res = response as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }
@@ -147,7 +147,7 @@ export class QuestionService {
       .post(url, JSON.stringify(data), { headers: this.headers })
       .toPromise()
       .then(response => {
-        const res = response.json() as ServiceResponse;
+        const res = response as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }
@@ -168,7 +168,7 @@ export class QuestionService {
       .post(url, JSON.stringify(data), { headers: this.headers })
       .toPromise()
       .then(response => {
-        const res = response.json() as ServiceResponse;
+        const res = response as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }

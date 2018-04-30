@@ -8,6 +8,8 @@ export class Grid {
   footerHeight: number;
   rowHeight: Function | number | undefined;
   reorderable: boolean;
+  scrollbarH: boolean;
+  scrollbarV: boolean;
   columns: Column[];
 
   constructor(options: {
@@ -18,15 +20,19 @@ export class Grid {
     footerHeight?: number;
     rowHeight?: Function | number | undefined;
     reorderable?: boolean;
+    scrollbarH?: boolean;
+    scrollbarV?: boolean;
     columns?: any[];
   }) {
-    this.class = options.class || 'bootstrap';
-    this.headerHeight = options.headerHeight || 30;
-    this.limit = options.limit;
+    this.class = options.class || 'material';
+    this.headerHeight = options.headerHeight || 50;
+    this.limit = options.limit || undefined;
     this.columnMode = options.columnMode || 'standard';
     this.footerHeight = options.footerHeight || 0;
     this.rowHeight = options.rowHeight || undefined;
     this.reorderable = !!options.reorderable;
+    this.scrollbarH = !!options.scrollbarH;
+    this.scrollbarV = !!options.scrollbarV;
 
     // Create the columns array
     if (options.columns) {

@@ -1,0 +1,214 @@
+swagger: '2.0'
+info:
+  description: API for ZA-like app for Angular
+  version: 1.0.0
+  title: ZAng API
+  contact:
+    email: uri.schor@cavsystems.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: grid
+    description: Operations available for grid
+paths:
+  /GRID:
+    post:
+      tags:
+        - grid
+      summary: Returns the grid structure
+      operationId: grid
+      description: >
+        By passing in the grid ID and parameters, you get the grid's
+        definitions, including its columns
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: gridRequest
+          description: Grid request info
+          schema:
+            $ref: '#/definitions/GridRequest'
+      responses:
+        '200':
+          description: grid definitions
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - ok
+                  - error
+                description: The success stutus of the request
+                example: ok
+              message:
+                type: string
+                description: Message to display in case of error
+                example: null
+              data:
+                $ref: '#/definitions/GridDefinitions'
+        '400':
+          description: 'invalid input, object invalid'
+  /GRIDDATA:
+    post:
+      tags:
+        - grid
+      summary: Returns the grid data
+      operationId: gridData
+      description: >
+        By passing in the grid ID and parameters, you get the grid's data, in
+        array of rows with objects that hold the rows data
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: gridRequest
+          description: Grid request info
+          schema:
+            $ref: '#/definitions/GridRequest'
+      responses:
+        '200':
+          description: >-
+            grid data - an array of rows, with one object per row. The attribute
+            names in each row should match the column IDs
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - ok
+                  - error
+                description: The success stutus of the request
+                example: ok
+              message:
+                type: string
+                description: Message to display in case of error
+                example: null
+              data:
+                type: array
+                items:
+                  type: object
+                  example:
+                    PRIC: 100
+                    NAM: 'Item #12345'
+                    ID: 12345
+        '400':
+          description: 'invalid input, object invalid'
+definitions:
+  GridRequest:
+    required:
+      - GRID
+    properties:
+      GRID:
+        type: string
+        description: The ID of the grid
+      PARAMS:
+        type: object
+        description: Optional parameters
+  GridDefinitions:
+    properties:
+      class:
+        type: string
+        description: CSS class(es) to attach to the grid
+        example: material
+        default: bootstrap
+      headerHeight:
+        type: integer
+        description: The height of the header in pixels. Pass a falsey for no header
+        default: 30
+        example: 30
+      limit:
+        type: integer
+        description: The page size to be shown
+        default: undefined
+        example: 10
+      columnMode:
+        type: string
+        description: >-
+          The mode which the columns are distributed across the table. For
+          example, flex will use flex-grow api, force will distribute
+          proportionally and standard will just distrbute based on widths
+        enum:
+          - standard
+          - flex
+          - force
+        example: standard
+      footerHeight:
+        type: integer
+        description: The height of the footer in pixels. Pass a falsey for no footer
+        example: 25
+        default: 0
+      rowHeight:
+        type: integer
+        description: The height of the row. Pass undefined for fluid heights
+        example: 20
+        default: undefined
+      reorderable:
+        type: boolean
+        description: Column re-ordering enabled/disabled
+        default: false
+        example: true
+      columns:
+        type: array
+        items:
+          $ref: '#/definitions/Column'
+  Column:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+        description: 'The key of the value, as used in the values array'
+        example: TOTP
+      name:
+        type: string
+        description: The column title (header caption)
+        example: Total Price
+      type:
+        type: string
+        description: 'The editor type, for editable column'
+      editable:
+        type: boolean
+        description: Whether the column cells are editable
+        example: true
+        default: false
+      sortable:
+        type: boolean
+        description: Whether Sorting of the row values by this column is enabled
+        example: true
+        default: false
+      draggable:
+        type: boolean
+        description: Whether the column can be dragged to re-order
+        example: true
+        default: false
+      headerClass:
+        type: string
+        description: Header CSS classes to apply to the header cell
+        example: mobile-visible
+      cellClass:
+        type: string
+        description: Cell CSS classes to apply to the body cell
+        example: mobile-visible
+      minWidth:
+        type: number
+        description: Minimum width of the column in pixels
+        example: 150
+        default: 100
+      visible:
+        type: boolean
+        description: Whether the column is visible or not
+        example: false
+        default: true
+host: virtserver.swaggerhub.com
+basePath: /CAV-Systems/zang/1.0.0
+schemes:
+  - https
+  - http
