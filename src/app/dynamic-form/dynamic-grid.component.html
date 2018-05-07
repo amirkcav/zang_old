@@ -11,15 +11,15 @@
   [rows]="data" 
   [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}">
   <ngx-datatable-column *ngFor="let col of grid.columns" 
-  [prop]="col.id" 
-  [name]="col.name" 
-  [sortable]="col.sortable" 
-  [draggable]="col.draggable"
-  [minWidth]="col.minWidth" 
-  [maxWidth]="col.maxWidth" 
-  [width]="col.width" 
-  [headerClass]="col.headerClass" 
-  [cellClass]="col.cellClass">
+    [prop]="col.id" 
+    [name]="col.name" 
+    [sortable]="col.sortable" 
+    [draggable]="col.draggable"
+    [minWidth]="col.minWidth" 
+    [maxWidth]="col.maxWidth" 
+    [width]="col.width" 
+    [headerClass]="col.headerClass" 
+    [cellClass]="col.cellClass">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
       <div style="width: 100%" (click)="cellClicked($event, col.prop, value, row)">
         {{value}}

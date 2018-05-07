@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { DropdownQuestion } from './question-dropdown';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
+import { AutoCompleteQuestion } from './question-autocomplete';
 
 import { Grid } from './grid';
 
@@ -36,6 +37,9 @@ export class QuestionService {
 
   private readonly gridDataUrl = environment.dynamicGridDataUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'; // Get the session info
+
+  private readonly autoCompleteUrl = environment.dynaimcFormAutoCompleteUrl || 
+    '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=AUTOCOMP';
 
   constructor(private http: HttpClient) {}
 
@@ -126,14 +130,22 @@ export class QuestionService {
   createQuestion(options: {} = {}): QuestionBase<string> {
     // TODO: unsafe code - wshould use switch of string enum, or if/else on specific Question classes.
     const clazz = options['class'];
-    if (clazz === 'TextboxQuestion') {
-      return new TextboxQuestion(options);
-    } else if (clazz === 'DropdownQuestion') {
-      return new DropdownQuestion(options);
+    var question;
+    switch (clazz) {
+      case 'DropdownQuestion':
+        question = new DropdownQuestion(options);  
+        break;
+      case 'AutoCompleteQuestion':
+        question = new AutoCompleteQuestion(options);  
+        break;
+      default:
+        question = new TextboxQuestion(options);
+        break;
     }
+    return question;
     // var instance = Object.create(window[name].prototype);
     // instance.constructor.apply(instance, options);
-    return null as QuestionBase<string>;
+    //return null as QuestionBase<string>;
   }
 
   getGrid(
@@ -185,6 +197,31 @@ export class QuestionService {
       );
     }
     return originalUrl;
+  }
+
+  autoCompleteSearch (
+    formKey: string,
+    field: string,
+    value: string
+  ): Promise<any[]> {
+    const url = this.getUrl(this.autoCompleteUrl);
+    const data = {
+      FORM: formKey,
+      FIELD: field,
+      VALUE: value === null ? '' : value
+    };
+
+    return this.http
+      .post(url, JSON.stringify(data), { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        const res = response as ServiceResponse;
+        if (res.status !== 'ok') {
+          return this.handleError(res);
+        }
+        return res.data['values']; 
+      })
+      .catch(this.handleError);
   }
 }
 

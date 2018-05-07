@@ -24,7 +24,7 @@ FORM     ; Generate form structure, in JSON
          . S J(I,"key")="name"
          . S J(I,"label")="Name. Can't contain 'XXX'. If it has a space character, the email address is set"
          . S J(I,"order")="1"
-         . S J(I,"value")="John Doe"
+         . S J(I,"value")="John Doe_"
          .
          . S I=I+1
          . S J(I,"class")="TextboxQuestion"

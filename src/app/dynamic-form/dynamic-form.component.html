@@ -2,7 +2,7 @@
   <form *ngIf="questions.length" (ngSubmit)="onSubmit()" [formGroup]="form">
 
     <div *ngFor="let question of questions" class="form-row">
-      <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur"></df-question>
+      <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur" [formKey]="formKey"></df-question>
     </div>
 
     <div *ngIf="saveButton || cancelButton" class="form-row">

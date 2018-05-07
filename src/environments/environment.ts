@@ -10,5 +10,6 @@ export const environment = {
   dynamicFormValidateUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE',
   dynamicFormSaveUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE',
   dynamicGridUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRID',
-  dynamicGridDataUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'
+  dynamicGridDataUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA',
+  dynaimcFormAutoCompleteUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=AUTOCOMP'
 };

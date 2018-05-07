@@ -9,19 +9,22 @@
         </a>
       </li>
       <li>
-        <a href="#" (click)="display='grid-a'">Grid </a>
+        <a href="#" (click)="display='grid-a'" [ngClass]="{ 'active': display=='grid-a' }">Grid </a>
       </li>
       <li>
-        <a href="#" (click)="display='form-a'">Form with validation on key type</a>
+        <a href="#" (click)="display='form-a'" [ngClass]="{ 'active': display=='form-a' }">Form with validation on key type</a>
       </li>
       <li>
-        <a href="#" (click)="display='form-b'">Form controls, slow load</a>
+        <a href="#" (click)="display='form-b'" [ngClass]="{ 'active': display=='form-b' }">Form controls, slow load</a>
       </li>
       <li>
-        <a href="#" (click)="display='form-c'">Form with validation on field</a>
+        <a href="#" (click)="display='form-c'" [ngClass]="{ 'active': display=='form-c' }">Form with validation on field</a>
+      </li>
+      <li>
+        <a href="#" (click)="display='form-d'" [ngClass]="{ 'active': display=='form-d' }">Form with new field types</a>
       </li>
     </ul>
-  </div>
+  </div> 
   <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
@@ -113,11 +116,18 @@
           </div>
         </div>
         <div *ngSwitchCase="'form-b'">
-
           <div class="card" style="width: 30rem;">
             <div class="card-block">
               <h4 class="card-title">Other controls</h4>
               <dynamic-form [formKey]="'B'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'form-d'">
+          <div class="card" style="width: 30rem;">
+            <div class="card-block">
+              <h4 class="card-title">Other controls</h4>
+              <dynamic-form [formKey]="'D'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
             </div>
           </div>
         </div>

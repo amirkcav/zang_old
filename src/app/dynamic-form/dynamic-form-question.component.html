@@ -1,16 +1,28 @@
 <div [formGroup]="form" class="form-group" [hidden]="!question.visible">
 	<label [attr.for]="question.key" class="center-block">{{question.label}}</label>
 
-	<div [ngSwitch]="question.controlType">
+	<div [ngSwitch]="question.controlType">			
+				
+		<div *ngSwitchCase="'textbox'">
+			<!-- <p-calendar *ngIf="question.type=='date'" [formControlName]="question.key" dateFormat="yy-mm-dd" monthNavigator="true" yearNavigator="true" 
+			yearRange="1950:{{currYear}}" [id]="question.key" [appValidateOnBlur]="validateOnBlur" [readonlyInput]="question.readonly"></p-calendar>						
 
-		<input *ngSwitchCase="'textbox'" [formControlName]="question.key"
-		[id]="question.key" [type]="question.type" class="form-control" 
-		[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null">
+			<input *ngIf="!['date'].includes(question.type)" [formControlName]="question.key"
+			[id]="question.key" [type]="question.type" class="form-control" 
+			[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> -->
 
-		<select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key"
-		[appValidateOnBlur]="validateOnBlur">
-			<option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
-		</select>
+			<input [formControlName]="question.key"
+			[id]="question.key" [type]="question.type" class="form-control" 
+			[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null">
+		</div>				
+
+		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
+			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
+			[appValidateOnBlur]="validateOnBlur" [readonly]="question.readonly"
+			[suggestions]="results" (completeMethod)="search($event)" field="value"></p-autoComplete>
+		
+		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"
+			[appValidateOnBlur]="validateOnBlur"></p-dropdown> <!--[disabled]="question.readonly"-->
 
 	</div> 
 

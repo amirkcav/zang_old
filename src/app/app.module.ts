@@ -10,6 +10,9 @@ import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import { AppComponent } from './app.component';
 import { LogHttpIntercepter } from './log-http-intercepter';
 
+import { AutoCompleteModule } from 'primeng/autocomplete'
+import { CalendarModule } from 'primeng/calendar';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -17,7 +20,7 @@ import { LogHttpIntercepter } from './log-http-intercepter';
     HttpModule,
     DynamicFormModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

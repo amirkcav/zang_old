@@ -24,6 +24,8 @@
     "@swimlane/ngx-datatable": "^11.1.7",
     "angular2-busy": "^2.0.4",
     "core-js": "^2.5.3",
+    "font-awesome": "^4.7.0",
+    "primeng": "^5.2.5",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

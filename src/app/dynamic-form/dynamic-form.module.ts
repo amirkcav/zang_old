@@ -13,6 +13,10 @@ import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 
 import { DynamicGridComponent } from './dynamic-grid.component';
 
+import { AutoCompleteModule } from 'primeng/autocomplete'
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +25,10 @@ import { DynamicGridComponent } from './dynamic-grid.component';
     HttpModule,
     BusyModule,
     BrowserAnimationsModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    AutoCompleteModule,
+    CalendarModule,
+    DropdownModule
   ],
   declarations: [
     DynamicFormComponent,
