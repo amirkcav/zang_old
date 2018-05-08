@@ -21,7 +21,7 @@
         <a href="#" (click)="display='form-c'" [ngClass]="{ 'active': display=='form-c' }">Form with validation on field</a>
       </li>
       <li>
-        <a href="#" (click)="display='form-d'" [ngClass]="{ 'active': display=='form-d' }">Form with new field types</a>
+        <a href="#" (click)="display='form-d'" [ngClass]="{ 'active': display=='form-d' }">Form controls</a>
       </li>
     </ul>
   </div> 
@@ -127,7 +127,7 @@
           <div class="card" style="width: 30rem;">
             <div class="card-block">
               <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'D'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
+              <dynamic-form [formKey]="'D'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
             </div>
           </div>
         </div>

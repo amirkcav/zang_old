@@ -20,7 +20,10 @@ export class DynamicFormQuestionComponent {
 
   autoCompleteSearch: Promise<any>;
 
-  constructor(private service: QuestionService) {}
+  currYear: number = new Date().getFullYear();
+  results: object[];
+
+  constructor(private service: QuestionService) {}  
 
   get isInvalid() {
     const control = this.form.controls[this.question.key];
@@ -36,23 +39,17 @@ export class DynamicFormQuestionComponent {
       return {};
     }
     return control.errors || {};
-  }
-
-  currYear: number = new Date().getFullYear();
-  results: object[];
+  }  
 
   search(event) {
-    var q = event.query;
-
+    const q = event.query;
     this.autoCompleteSearch = this.service.autoCompleteSearch(
       this.formKey,
       this.question.key,
       q
     );
     this.autoCompleteSearch.then(response => {
-      //this.results = this._allResults.filter(r => r['value'].toLocaleLowerCase().indexOf(q) >= 0);
-      this.results = response;
+      this.results = response ? response : [];
     });
-
   }
 }

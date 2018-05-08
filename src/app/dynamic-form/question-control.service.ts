@@ -48,7 +48,7 @@ export class QuestionControlService {
    * @param  {string} The key (identifier) of the form
    * @return {FormGroup}
    */
-  toFormGroup(questions: QuestionBase<any>[], formKey: string): FormGroup {
+  toFormGroup(questions: QuestionBase<any>[], formKey: string, validateOnBlur: Boolean): FormGroup {
     const group: any = {};
     // Observable FormValidationResponse
     const formValidationResponse = new Subject<FormValidationResponse>();
@@ -61,11 +61,19 @@ export class QuestionControlService {
         formKey,
         question.key
       );
-      const syncValidators = question.required ? [Validators.required] : [];
+      const syncValidators = []; // question.required ? [Validators.required] : [];
+      if (question.required) {
+        syncValidators.push(Validators.required);
+      }
+      if (question['type'] === 'email') {
+        syncValidators.push(Validators.email);
+      }
+
       group[question.key] = new FormControl(
         question.value || '',
-        syncValidators,
-        serverValidator
+        { validators: syncValidators,
+          asyncValidators: serverValidator,
+          updateOn: (validateOnBlur ? 'blur' : 'change') },        
       );
     });
     const formGroup = new FormGroup(group);

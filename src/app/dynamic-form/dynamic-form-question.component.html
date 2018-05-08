@@ -4,6 +4,7 @@
 	<div [ngSwitch]="question.controlType">			
 				
 		<div *ngSwitchCase="'textbox'">
+			<!-- Calendar of ngPrime -->
 			<!-- <p-calendar *ngIf="question.type=='date'" [formControlName]="question.key" dateFormat="yy-mm-dd" monthNavigator="true" yearNavigator="true" 
 			yearRange="1950:{{currYear}}" [id]="question.key" [appValidateOnBlur]="validateOnBlur" [readonlyInput]="question.readonly"></p-calendar>						
 
@@ -13,16 +14,14 @@
 
 			<input [formControlName]="question.key"
 			[id]="question.key" [type]="question.type" class="form-control" 
-			[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null">
+			[attr.readonly]="question.readonly ? '' : null">
 		</div>				
 
 		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
 			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
-			[appValidateOnBlur]="validateOnBlur" [readonly]="question.readonly"
-			[suggestions]="results" (completeMethod)="search($event)" field="value"></p-autoComplete>
+			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="search($event)" field="value"></p-autoComplete>
 		
-		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"
-			[appValidateOnBlur]="validateOnBlur"></p-dropdown> <!--[disabled]="question.readonly"-->
+		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
 
 	</div> 
 
@@ -35,6 +34,9 @@
 		</div>
 		<div *ngIf="errors.serverError">
 			{{errors.serverError.message}}
+		</div>
+		<div *ngIf="errors.email">
+			Email not valid.
 		</div>
 	</div>
 </div>

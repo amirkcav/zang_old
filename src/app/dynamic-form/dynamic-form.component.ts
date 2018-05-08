@@ -65,7 +65,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     );
     this.loadingQuestions.then(response => {
       this.questions = response;
-      this.form = this.service.toFormGroup(this.questions, this.formKey);
+      this.form = this.service.toFormGroup(this.questions, this.formKey, this.validateOnBlur);
       this.readonly = true;
       for (const question of this.questions) {
         if (!question.readonly) {
