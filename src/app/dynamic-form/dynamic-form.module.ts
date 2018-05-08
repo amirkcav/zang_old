@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+// import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BusyModule } from 'angular2-busy';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -22,7 +23,8 @@ import { DropdownModule } from 'primeng/dropdown';
     CommonModule,
     BrowserModule,
     ReactiveFormsModule,
-    HttpModule,
+    // HttpModule,
+    HttpClientModule,
     BusyModule,
     BrowserAnimationsModule,
     NgxDatatableModule,

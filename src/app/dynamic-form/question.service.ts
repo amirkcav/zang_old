@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isDevMode } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
@@ -38,7 +38,7 @@ export class QuestionService {
   private readonly gridDataUrl = environment.dynamicGridDataUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GRIDDATA'; // Get the session info
 
-  private readonly autoCompleteUrl = environment.dynaimcFormAutoCompleteUrl || 
+  private readonly autoCompleteUrl = environment.dynaimcFormAutoCompleteUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=AUTOCOMP';
 
   constructor(private http: HttpClient) {}
@@ -130,7 +130,7 @@ export class QuestionService {
   createQuestion(options: {} = {}): QuestionBase<string> {
     // TODO: unsafe code - wshould use switch of string enum, or if/else on specific Question classes.
     const clazz = options['class'];
-    var question;
+    let question;
     switch (clazz) {
       case 'DropdownQuestion':
         question = new DropdownQuestion(options);  
