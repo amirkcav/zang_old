@@ -13,10 +13,12 @@ import { DynamicFormQuestionComponent } from './dynamic-form-question.component'
 import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 
 import { DynamicGridComponent } from './dynamic-grid.component';
+import { DynamicGridBComponent } from './dynamic-grid-b.component';
 
 import { AutoCompleteModule } from 'primeng/autocomplete'
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -30,19 +32,22 @@ import { DropdownModule } from 'primeng/dropdown';
     NgxDatatableModule,
     AutoCompleteModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    TableModule
   ],
   declarations: [
     DynamicFormComponent,
     DynamicFormQuestionComponent,
     ValidateOnBlurDirective,
-    DynamicGridComponent
+    DynamicGridComponent,
+    DynamicGridBComponent
   ],
   exports: [
     DynamicFormComponent,
     DynamicFormQuestionComponent,
     ValidateOnBlurDirective,
-    DynamicGridComponent
+    DynamicGridComponent,
+    DynamicGridBComponent
   ]
 })
 export class DynamicFormModule {}
