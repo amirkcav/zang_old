@@ -1,5 +1,5 @@
 <div [formGroup]="form" class="form-group" [hidden]="!question.visible">
-	<label [attr.for]="question.key" class="center-block">{{question.label}}</label>
+	<label *ngIf="question.controlType !== 'button'" [attr.for]="question.key" class="center-block">{{question.label}}</label>
 
 	<div [ngSwitch]="question.controlType">			
 				
@@ -19,9 +19,45 @@
 
 		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
 			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
-			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="search($event)" field="value"></p-autoComplete>
+			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
 		
 		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
+
+		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">
+
+			<!-- <label>
+				<input type="checkbox" (change)="changeUseCamera($event)" [checked]="useCamera" />
+				Use camera
+			</label> -->
+
+			<!--input type file-->
+			<!-- <input type="file" class="form-control" [id]="question.key" [formControlName]="question.key" (change)="fileChange($event)" [ngClass]="{ 'has-image': question.image }" />
+			<img *ngIf="question.image" [src]="question.image" class="file-image" /> -->
+			<!--prime ng uploader-->
+			<p-fileUpload name="myfile[]" *ngIf="!useCamera" [url]="question.url" [multiple]="question.multiple"></p-fileUpload>
+			
+			<!--camera-->			
+			<!--using ngif-->
+			<div *ngIf="useCamera">
+				<video #videoElement height="250" width="333.33" *ngIf="cameraActive"></video>
+				<img *ngIf="capturedImage && !cameraActive" id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing }" class="camera-image" />
+			
+				<!--using hidden class-->
+				<!-- <video #videoElement height="250" [ngClass]="{ 'hidden': !cameraActive }"></video>
+				<img  id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing, 'hidden': !(capturedImage && !cameraActive) }" class="camera-image" /> -->
+
+				<br/>			
+				<button *ngIf="!cameraActive" (click)="play()" class="btn btn-primary">Other picture</button>
+				<button *ngIf="cameraActive && capturedImage" (click)="stop()" class="btn btn-warning">Cancel</button>
+				<button *ngIf="cameraActive" (click)="capture()" class="btn btn-info">Take picture</button>
+				<br/>
+				<canvas #canvas id="canvas" width="640" height="480" hidden></canvas>			
+			</div>
+		</div>
+
+		<img *ngSwitchCase="'image'" [src]="question.imageSrc" />
+
+		<button *ngSwitchCase="'button'" type="button" class="btn btn-primary" (click)="buttonClick($event)">{{ question.label }}</button>
 
 	</div> 
 

@@ -26,6 +26,9 @@
       <li>
         <a href="#" (click)="display='form-d'" [ngClass]="{ 'active': display=='form-d' }">Form controls</a>
       </li>
+      <li>
+        <a href="#" (click)="display='form-e'" [ngClass]="{ 'active': display=='form-e' }">Image upload</a>
+      </li>
     </ul>
   </div> 
   <!-- /#sidebar-wrapper -->
@@ -140,6 +143,14 @@
             <div class="card-block">
               <h4 class="card-title">Other controls</h4>
               <dynamic-form [formKey]="'D'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'form-e'">
+          <div class="card" style="width: 30rem;">
+            <div class="card-block">
+              <h4 class="card-title">Other controls</h4>
+              <dynamic-form [formKey]="'E'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
             </div>
           </div>
         </div>

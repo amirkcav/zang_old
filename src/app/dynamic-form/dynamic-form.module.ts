@@ -19,6 +19,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete'
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { TableModule } from 'primeng/table';
     AutoCompleteModule,
     CalendarModule,
     DropdownModule,
-    TableModule
+    TableModule,
+    FileUploadModule
   ],
   declarations: [
     DynamicFormComponent,

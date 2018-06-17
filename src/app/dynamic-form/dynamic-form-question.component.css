@@ -1,0 +1,42 @@
+#file-upload-div {
+  width: 100%;
+  text-align: center;
+}
+
+/*#file-upload-div > input {
+   width: calc(100% - 110px);
+  margin-right: 10px;
+  float: left; 
+}*/
+
+#file-upload-div img.file-image {
+  max-width: 100%;
+  /* max-height: 125px; */
+  margin-top: 10px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#file-upload-div img.camera-image {
+  /* width: 100%; */
+  object-fit: contain;
+  margin-bottom: 9px;
+  transition: 1s;  
+  background: gray;
+}
+
+@keyframes example3 { 
+  0%, 100% { box-shadow: #5e5eec 0 0 3px 1px; }
+  50% { box-shadow: #5e5eec 0 0 6px 2px; }
+}
+
+#file-upload-div video {
+  animation: example3 1s infinite;
+  transition: 1s;
+  background: gray;
+}
+
+.hidden {
+  opacity: 0;
+}

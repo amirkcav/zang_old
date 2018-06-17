@@ -15,6 +15,9 @@ import { AutoCompleteQuestion } from './question-autocomplete';
 import { Grid } from './grid';
 
 import { FormValidationResponse } from './form-validation-response';
+import { FileUploadQuestion } from './question-fileUpload';
+import { ImageQuestion } from './question-image';
+import { ButtonQuestion } from './question-button';
 
 @Injectable()
 export class QuestionService {
@@ -137,6 +140,15 @@ export class QuestionService {
         break;
       case 'AutoCompleteQuestion':
         question = new AutoCompleteQuestion(options);  
+        break;
+      case 'FileUpload':
+        question = new FileUploadQuestion(options);  
+        break;
+      case 'Image':
+        question = new ImageQuestion(options);  
+        break;
+      case 'Button':
+        question = new ButtonQuestion(options);  
         break;
       default:
         question = new TextboxQuestion(options);
