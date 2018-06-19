@@ -23,12 +23,7 @@
 		
 		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
 
-		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">
-
-			<!-- <label>
-				<input type="checkbox" (change)="changeUseCamera($event)" [checked]="useCamera" />
-				Use camera
-			</label> -->
+		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
 
 			<!--input type file-->
 			<!-- <input type="file" class="form-control" [id]="question.key" [formControlName]="question.key" (change)="fileChange($event)" [ngClass]="{ 'has-image': question.image }" />
@@ -40,8 +35,8 @@
 			<!--using ngif-->
 			<div *ngIf="useCamera">
 				<video #videoElement height="250" width="333.33" *ngIf="cameraActive"></video>
-				<img *ngIf="capturedImage && !cameraActive" id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing }" class="camera-image" />
-			
+				<canvas #canvas id="canvas" width="640" height="480" hidden *ngIf="cameraActive"></canvas>			
+				<img *ngIf="capturedImage && !cameraActive" id="captured-image" [src]="capturedImage" height="250" width="333.33" [ngClass]="{ 'capturing': capturing }" class="camera-image" />			
 				<!--using hidden class-->
 				<!-- <video #videoElement height="250" [ngClass]="{ 'hidden': !cameraActive }"></video>
 				<img  id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing, 'hidden': !(capturedImage && !cameraActive) }" class="camera-image" /> -->
@@ -51,7 +46,6 @@
 				<button *ngIf="cameraActive && capturedImage" (click)="stop()" class="btn btn-warning">Cancel</button>
 				<button *ngIf="cameraActive" (click)="capture()" class="btn btn-info">Take picture</button>
 				<br/>
-				<canvas #canvas id="canvas" width="640" height="480" hidden></canvas>			
 			</div>
 		</div>
 

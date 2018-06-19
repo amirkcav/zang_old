@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { FileUploadQuestion } from './question-fileUpload';
   styleUrls: ['./dynamic-form-question.component.css'],
   providers: [QuestionService]
 })
-export class DynamicFormQuestionComponent implements OnInit {
+export class DynamicFormQuestionComponent implements OnInit, OnDestroy {  
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
   @Input() validateOnBlur: boolean;
@@ -33,12 +33,18 @@ export class DynamicFormQuestionComponent implements OnInit {
   capturedImage: any;
   cameraActive: boolean;
 
-  constructor(private service: QuestionService) {}  
+  constructor(private service: QuestionService) { }  
 
   ngOnInit() {
-    this.useCamera = this.question.key === 'image';
+    this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
     if (this.question.controlType === 'file-upload' && this.useCamera /* && this.question['useCamera'] */) {
       this.play();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.useCamera) {
+      this.stop();
     }
   }
 
@@ -101,12 +107,12 @@ export class DynamicFormQuestionComponent implements OnInit {
     const browser = <any>navigator
     if (browser.mediaDevices && browser.mediaDevices.getUserMedia) {
       browser.mediaDevices.getUserMedia(config)
-        .then(stream => {
-          this.stream = stream;
-          const video: HTMLVideoElement = this.videoElement.nativeElement;
-          video.src = window.URL.createObjectURL(stream);
-          video.play();
-        });
+      .then(stream => {
+        this.stream = stream;
+        const video: HTMLVideoElement = this.videoElement.nativeElement;
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+      });
     } else {
       alert('Video is not supported');
     }
@@ -116,11 +122,9 @@ export class DynamicFormQuestionComponent implements OnInit {
     this.cameraActive = false;
     const stream = this.stream;
     stream.getAudioTracks().forEach(track => track.stop());
-    stream.getVideoTracks().forEach(track => track.stop());
-
-    const video: HTMLVideoElement = this.videoElement.nativeElement;
-    video.src = window.URL.createObjectURL(stream);
-    video.pause();
+    stream.getVideoTracks().forEach((track) => { 
+      track.stop()
+    });
   }
 
   public capture() {
@@ -128,16 +132,6 @@ export class DynamicFormQuestionComponent implements OnInit {
       this.capturedImage = this.canvas.nativeElement.toDataURL('image/png');
       this.cameraActive = false;
       this.stop();
-  }
-
-  changeUseCamera(event) {
-    this.useCamera = event.target.checked;
-    if (this.useCamera) {
-      this.play();
-    }
-    else if (this.cameraActive) {
-      this.stop();
-    }
   }
 
 }

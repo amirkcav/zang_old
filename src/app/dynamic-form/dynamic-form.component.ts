@@ -39,7 +39,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   constructor(private service: QuestionControlService) {}
 
   ngOnChanges() {
-    this.initForm();
+    // this.initForm();
   }
 
   ngOnInit() {

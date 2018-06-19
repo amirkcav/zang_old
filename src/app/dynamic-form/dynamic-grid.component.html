@@ -1,4 +1,4 @@
-<ngx-datatable [ngBusy]="{busy: loadingPlanItems, message: 'טוען נתונים...'}" 
+<ngx-datatable 
   [ngClass]="grid.class" 
   [headerHeight]="grid.headerHeight" 
   [limit]="grid.limit"
@@ -10,6 +10,7 @@
   [scrollbarV]="grid.scrollbarV"
   [rows]="data" 
   [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}">
+  <!--[ngBusy]="{busy: loadingPlanItems, message: 'טוען נתונים...'}" -->
   <ngx-datatable-column *ngFor="let col of grid.columns" 
     [prop]="col.id" 
     [name]="col.name" 
