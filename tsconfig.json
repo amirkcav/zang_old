@@ -15,6 +15,13 @@
     "lib": [
       "es2016",
       "dom"
-    ]
-  }
+    ],
+
+    "allowJs": true
+  },
+  "include": [
+    "./src/main.ts",
+    "./src/polyfills.ts",
+    "./public_api.ts"
+  ]
 }
