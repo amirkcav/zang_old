@@ -19,24 +19,43 @@
 }
 
 #file-upload-div img.camera-image {
-  /* width: 100%; */
+  width: 100%;
   object-fit: contain;
-  margin-bottom: 9px;
+  margin-bottom: 6px;
   transition: 1s;  
-  background: gray;
 }
 
 @keyframes example3 { 
-  0%, 100% { box-shadow: #5e5eec 0 0 3px 1px; }
-  50% { box-shadow: #5e5eec 0 0 6px 2px; }
+  0%, 100% { box-shadow: #5e5eec 0 0 10px 3px; }
+  50% { box-shadow: #5e5eec 0 0 20px 6px; }
 }
 
 #file-upload-div video {
-  animation: example3 1s infinite;
+  /* animation: example3 1s infinite; */
   transition: 1s;
-  background: gray;
+  width: 100%;
+  position: relative;
+}
+
+#file-upload-div canvas {
+  width: 100%;
 }
 
 .hidden {
   opacity: 0;
+}
+
+#video-parent {
+  background: #aaa;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+#video-parent.video-active {
+  animation: example3 1s infinite;  
+}
+
+#captured-image {
+  position: absolute;
+  left: 0;
 }

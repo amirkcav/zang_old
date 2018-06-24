@@ -30,6 +30,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   stream: MediaStream;
   @ViewChild('videoElement') videoElement: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('capturedImageElem') capturedImageElem: ElementRef;  
   capturedImage: any;
   cameraActive: boolean;
 
@@ -112,6 +113,14 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
         const video: HTMLVideoElement = this.videoElement.nativeElement;
         video.src = window.URL.createObjectURL(stream);
         video.play();
+        setTimeout(() => {
+          video.parentElement.style.height = video.clientHeight + 'px';
+          video.parentElement.style.width = video.clientWidth + 'px';
+          if (this.capturedImageElem) {
+            this.capturedImageElem.nativeElement.style.height = video.clientHeight + 'px';
+            this.capturedImageElem.nativeElement.style.width = video.clientWidth + 'px';
+          }
+        }, 500);
       });
     } else {
       alert('Video is not supported');
@@ -120,17 +129,15 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   
   stop() {
     this.cameraActive = false;
-    const stream = this.stream;
-    stream.getAudioTracks().forEach(track => track.stop());
-    stream.getVideoTracks().forEach((track) => { 
-      track.stop()
+    this.stream.getVideoTracks().forEach((track) => { 
+      track.stop();
     });
   }
 
   public capture() {
       const context = this.canvas.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0, 640, 480);
       this.capturedImage = this.canvas.nativeElement.toDataURL('image/png');
-      this.cameraActive = false;
+      // this.cameraActive = false;
       this.stop();
   }
 
