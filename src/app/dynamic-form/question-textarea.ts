@@ -1,13 +1,11 @@
 import { QuestionBase } from './question-base';
 
-export class ButtonQuestion extends QuestionBase<string> {
-  controlType = 'button';
+export class TextareaQuestion extends QuestionBase<string> {
+  controlType = 'textarea';
   type: string;
-  cssClass: string;
 
   constructor(options: {} = {}) {
     super(options);
     this.type = options['type'] || '';
-    this.cssClass = options['cssClass'] || '';
   }
 }

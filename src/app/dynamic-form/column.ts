@@ -1,5 +1,6 @@
 export class Column {
   id: string;
+  field: string;
   name: string;
   type: string;
   editable: boolean;
@@ -11,9 +12,11 @@ export class Column {
   maxWidth: number;
   width: number;
   visible: boolean;
+  buttons: string[];
 
   constructor(options: {
     id?: string,
+    field?: string,
     name?: string,
     type?: string,
     editable?: boolean,
@@ -24,9 +27,11 @@ export class Column {
     minWidth?: number,
     maxWidth?: number,
     width?: number,
-    visible?: boolean
+    visible?: boolean,
+    buttons?: string[];  
       }) {
     this.id = options.id;
+    this.field = options.field;
     this.name = options.name;
     this.type = options.type || null;
     this.editable = !!options.editable;
@@ -38,5 +43,6 @@ export class Column {
     this.maxWidth = options.maxWidth || null;
     this.width = options.width || 80;
     this.visible = options.visible === undefined ? true : options.visible;
+    this.buttons = options.buttons || [];    
   }
 }

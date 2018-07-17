@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     scrollbarV: this.gridScrollbarV
   };
 
-
   constructor() {}
 
   ngOnInit() {}
@@ -34,12 +33,16 @@ export class AppComponent implements OnInit {
     alert('Form ' + formKey + ' cancelled');
   }
 
+  onClicked(event: any) {
+
+  }
+
   updateGrid() {
     this.gridParams = {
       class: this.gridClass,
       limit: this.gridLimit,
       scrollbarH: this.gridScrollbarH,
       scrollbarV: this.gridScrollbarV
-      };
+    };
   }
 }

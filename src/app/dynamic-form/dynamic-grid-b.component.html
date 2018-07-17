@@ -1,12 +1,32 @@
-<p-table #dt [value]="data" [paginator]="true" [columns]="grid.columns" [rows]="5">    
+<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" >
+    <ng-template pTemplate="caption">
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div>
+    </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of grid.columns" >{{ col.name }}</th>
+            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'">
+                {{ col.name }}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <td pEditableColumn *ngFor="let col of grid.columns">
+            <td *ngFor="let col of grid.columns">
+                <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
+                <ng-template #buttons>
+                    <button class="btn table-button" *ngFor="let btn of col.buttons" (click)="this[btn](rowData)">{{ btn }}</button>
+                </ng-template>
+                <ng-template #cellContent>
+                    {{ rowData[col.id] }}
+                </ng-template>
+            </td>
+            <!-- inline editing -->
+            <!-- <td pEditableColumn *ngFor="let col of grid.columns">
                 <p-cellEditor>
                     <ng-template pTemplate="input">
                         <input type="text" [value]="rowData[col.id]">
@@ -15,7 +35,9 @@
                         {{ rowData[col.id] }}
                     </ng-template>
                 </p-cellEditor>
-            </td>
+            </td> -->
         </tr>
     </ng-template>
 </p-table>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>

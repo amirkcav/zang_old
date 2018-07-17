@@ -18,6 +18,7 @@ import { FormValidationResponse } from './form-validation-response';
 import { FileUploadQuestion } from './question-fileUpload';
 import { ImageQuestion } from './question-image';
 import { ButtonQuestion } from './question-button';
+import { TextareaQuestion } from './question-textarea';
 
 @Injectable()
 export class QuestionService {
@@ -149,6 +150,9 @@ export class QuestionService {
         break;
       case 'Button':
         question = new ButtonQuestion(options);  
+        break;
+      case 'TextareaQuestion':
+        question = new TextareaQuestion(options);  
         break;
       default:
         question = new TextboxQuestion(options);

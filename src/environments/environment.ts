@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  dynamicFormBaseDevUrl: 'http://cache.cav.local:8080/zang/app/', // 'https://smartsale.co.il/zang/app/'
+  dynamicFormBaseDevUrl: 'http://localhost:8080/', // 'http://cache.cav.local:8080/zang/app/', // 'https://smartsale.co.il/zang/app/'
   dynamicFormQuestionsUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=FORM',
   dynamicFormValidateUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=VALIDATE',
   dynamicFormSaveUrl: '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=SAVE',

@@ -13,14 +13,16 @@ import {
   import { Column } from './column';
   
   import { QuestionService } from './question.service';
+  import { ConfirmDialogModule } from 'primeng/confirmdialog';
+  import { ConfirmationService } from 'primeng/api';
   
   @Component({
     selector: 'dynamic-grid-b',
     templateUrl: './dynamic-grid-b.component.html',
     styleUrls: ['./dynamic-grid-b.component.css'],
-    providers: [QuestionService]
+    providers: [ QuestionService, ConfirmationService ]
   })
-  export class DynamicGridBComponent implements OnInit, OnChanges {
+  export class DynamicGridBComponent implements OnInit, OnChanges {    
     @Input() gridKey: string;
     @Input() gridParameters: any = null;
   
@@ -31,8 +33,10 @@ import {
   
     loadingGrid: Promise<Grid>;
     loadingGridData: Promise<any[]>;
+
+    rowsInPage: number;
   
-    constructor(private service: QuestionService) {}
+    constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
   
     ngOnChanges() {
       this.initGrid();
@@ -66,5 +70,20 @@ import {
   
     onClick(event) {
       this.onClicked.emit(event);
+    }
+
+    delete(id) {
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to perform this action?',
+        accept: () => {
+          const deletedRow = this.data.indexOf(id);
+          this.data.splice(deletedRow, 1);
+          
+        }
+    });
+    }
+
+    edit(id) {
+      alert(id)
     }
   }

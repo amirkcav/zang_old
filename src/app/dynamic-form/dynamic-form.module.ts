@@ -20,6 +20,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -35,7 +37,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     CalendarModule,
     DropdownModule,
     TableModule,
-    FileUploadModule
+    FileUploadModule,
+    ConfirmDialogModule,
   ],
   declarations: [
     DynamicFormComponent,

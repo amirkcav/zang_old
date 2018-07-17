@@ -17,6 +17,10 @@
 			[attr.readonly]="question.readonly ? '' : null">
 		</div>				
 
+		<div *ngSwitchCase="'textarea'">
+				<textarea [formControlName]="question.key" [id]="question.key" class="form-control" [attr.readonly]="question.readonly ? '' : null"></textarea>
+		</div>
+
 		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
 			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
 			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
@@ -51,7 +55,7 @@
 
 		<img *ngSwitchCase="'image'" [src]="question.imageSrc" />
 
-		<button *ngSwitchCase="'button'" type="button" class="btn btn-primary" (click)="buttonClick($event)">{{ question.label }}</button>
+		<button *ngSwitchCase="'button'" type="button" class="btn btn-primary" [ngClass]="'btn-' + question.cssClass" (click)="buttonClick($event)">{{ question.label }}</button>
 
 	</div> 
 
