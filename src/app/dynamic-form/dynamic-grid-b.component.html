@@ -1,4 +1,5 @@
-<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" >
+<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
+         (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)">
     <ng-template pTemplate="caption">
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -16,26 +17,15 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            <td *ngFor="let col of grid.columns">
+            <td *ngFor="let col of grid.columns"> 
                 <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
                 <ng-template #buttons>
-                    <button class="btn table-button" *ngFor="let btn of col.buttons" (click)="this[btn](rowData)">{{ btn }}</button>
+                    <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button>
                 </ng-template>
                 <ng-template #cellContent>
                     {{ rowData[col.id] }}
                 </ng-template>
             </td>
-            <!-- inline editing -->
-            <!-- <td pEditableColumn *ngFor="let col of grid.columns">
-                <p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input type="text" [value]="rowData[col.id]">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        {{ rowData[col.id] }}
-                    </ng-template>
-                </p-cellEditor>
-            </td> -->
         </tr>
     </ng-template>
 </p-table>

@@ -4,9 +4,10 @@ import {
     Output,
     EventEmitter,
     OnInit,
-    OnChanges
+    OnChanges,
+    ViewChild
   } from '@angular/core';
-  import { FormGroup } from '@angular/forms';
+  // import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
   import { Subject } from 'rxjs/Subject';
   
   import { Grid } from './grid';
@@ -15,6 +16,7 @@ import {
   import { QuestionService } from './question.service';
   import { ConfirmDialogModule } from 'primeng/confirmdialog';
   import { ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
   
   @Component({
     selector: 'dynamic-grid-b',
@@ -23,6 +25,8 @@ import {
     providers: [ QuestionService, ConfirmationService ]
   })
   export class DynamicGridBComponent implements OnInit, OnChanges {    
+    @ViewChild('dt') dt: Table
+
     @Input() gridKey: string;
     @Input() gridParameters: any = null;
   
@@ -35,6 +39,9 @@ import {
     loadingGridData: Promise<any[]>;
 
     rowsInPage: number;
+
+    editDataHolder: any[];
+    editDataIndex: number = -1;
   
     constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
   
@@ -83,7 +90,33 @@ import {
     });
     }
 
-    edit(id) {
-      alert(id)
+    editInit(event) {
+      const v = event;
+      this.editDataHolder = event.data[event.field];
+      this.editDataIndex = this.data.indexOf(event.data);
+    }
+
+    editComplete(event) {
+      const currData = event.data[event.field];
+      if (isNaN(currData)) {
+        this.data[this.editDataIndex][event.field] = this.editDataHolder;
+        // alert ?
+      }
+      else {
+        
+      }
+    }
+
+    editCancel(event) {
+      this.data[this.editDataIndex][event.field] = this.editDataHolder;
+    }
+
+    addNew(event) {
+      this.data = [{}, ...this.data ]; 
+      setTimeout(() => {
+        // first row is the headers
+        this.dt.tableViewChild.nativeElement.rows[1].cells[0].click();
+      }, 100);
+
     }
   }

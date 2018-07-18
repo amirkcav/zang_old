@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { BusyModule } from 'angular2-busy';
@@ -14,6 +14,7 @@ import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 
 import { DynamicGridComponent } from './dynamic-grid.component';
 import { DynamicGridBComponent } from './dynamic-grid-b.component';
+import { DynamicGridEditableComponent } from './dynamic-grid-editable.component';
 
 import { AutoCompleteModule } from 'primeng/autocomplete'
 import { CalendarModule } from 'primeng/calendar';
@@ -27,6 +28,7 @@ import { ConfirmationService } from 'primeng/api';
   imports: [
     CommonModule,
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     // HttpModule,
     HttpClientModule,
@@ -45,14 +47,16 @@ import { ConfirmationService } from 'primeng/api';
     DynamicFormQuestionComponent,
     ValidateOnBlurDirective,
     DynamicGridComponent,
-    DynamicGridBComponent
+    DynamicGridBComponent,
+    DynamicGridEditableComponent
   ],
   exports: [
     DynamicFormComponent,
     DynamicFormQuestionComponent,
     ValidateOnBlurDirective,
     DynamicGridComponent,
-    DynamicGridBComponent
+    DynamicGridBComponent,
+    DynamicGridEditableComponent
   ]
 })
 export class DynamicFormModule {}

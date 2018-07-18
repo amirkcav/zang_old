@@ -12,7 +12,10 @@
         <a href="#" (click)="display='grid-a'" [ngClass]="{ 'active': display=='grid-a' }">Grid </a>
       </li>
       <li>
-        <a href="#" (click)="display='grid-b'" [ngClass]="{ 'active': display=='grid-b' }">Grid B </a>
+        <a href="#" (click)="display='grid-b'" [ngClass]="{ 'active': display=='grid-b' }">Prime NG table </a>
+      </li>
+      <li>
+        <a href="#" (click)="display='grid-editable'" [ngClass]="{ 'active': display=='grid-editable' }">Table with inline editing </a>
       </li>
       <li>
         <a href="#" (click)="display='form-a'" [ngClass]="{ 'active': display=='form-a' }">Form with validation on key type</a>
@@ -110,6 +113,15 @@
             <div class="card-block">
               <h4 class="card-title">PrimeNG editable table</h4>
               <dynamic-grid-b [gridKey]="'A'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid-b>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'grid-editable'">
+          <h3>Demo of M-based dynamic PrimeNG Table</h3>                    
+          <div class="card" style="width: 40rem;">
+            <div class="card-block">
+              <h4 class="card-title">PrimeNG editable table</h4>
+              <dynamic-grid-editable [gridKey]="'EDITABLE'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid-editable>
             </div>
           </div>
         </div>

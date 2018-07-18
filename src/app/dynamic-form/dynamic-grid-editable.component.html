@@ -1,0 +1,55 @@
+<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
+         (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)" [(selection)]="selectedRow">
+    <ng-template pTemplate="caption">
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 34px"></th>
+            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'">
+                {{ col.name }}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr [pSelectableRow]="rowData">
+            <td>
+                <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+            </td>
+            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1"> 
+                <div *ngIf="col.isEditable; then editable else static"></div>
+                <ng-template #static>
+                    <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
+                    <ng-template #buttons>
+                        <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button>
+                    </ng-template>
+                    <ng-template #cellContent>
+                        {{ rowData[col.id] }}
+                    </ng-template>
+                </ng-template>
+                <ng-template #editable>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" [(ngModel)]="rowData[col.id]"><!-- [value]="rowData[col.id]" -->
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ rowData[col.id] }}
+                        </ng-template>
+                    </p-cellEditor>
+                </ng-template>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div>
+    <button class="btn btn-secondary" (click)="addNew($event)">Add</button>
+    <button *ngIf="selectedRow" class="btn btn-secondary" (click)="delete($event)">Delete</button>    
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
