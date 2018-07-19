@@ -5,7 +5,8 @@ import {
   EventEmitter,
   OnInit,
   OnChanges,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 // import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -15,13 +16,15 @@ import { Column } from './column';
 
 import { QuestionService } from './question.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 @Component({
   selector: 'dynamic-grid-editable',
   templateUrl: './dynamic-grid-editable.component.html',
-  styleUrls: [],
+  styleUrls: [ './dynamic-grid-editable.component.css' ],
+  // needed to load the css. https://github.com/angular/angular/issues/7845#issuecomment-302326549
+  // encapsulation: ViewEncapsulation.None,
   providers: [ QuestionService, ConfirmationService ]
 })
 export class DynamicGridEditableComponent implements OnInit, OnChanges {    
@@ -43,6 +46,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   editDataHolder: any;
   editDataIndex: number = -1;
   selectedRow: any[];
+  addingNewRow = false;
+
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
 
   ngOnChanges() {
@@ -86,8 +91,9 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
         const deletedRow = this.data.indexOf(this.selectedRow);
         this.data.splice(deletedRow, 1);
         this.selectedRow = null;
+        this.dt.totalRecords = this.data.length;
       }
-  });
+    });
   }
 
   editInit(event) {
@@ -112,11 +118,43 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   }
 
   addNew(event) {
-    this.data = [{}, ...this.data ]; 
+    this.data = [{ 'new-row': true }, ...this.data ]; 
+    this.addingNewRow = true;
     setTimeout(() => {
       // first row is the headers
       this.dt.tableViewChild.nativeElement.rows[1].cells[1].click();
     }, 100);
-
   }
+
+  customSort(event: SortEvent) {
+    event.data.sort((data1, data2) => {
+      // keep the new row always first.
+      if (data1['new-row']) {
+        return -1;
+      }
+      const value1 = +data1[event.field];
+      const value2 = +data2[event.field];
+      const result = value1 > value2 ? 1 : -1;
+
+      return (event.order * result);
+    });
+  }
+
+  saveNewRow(event) {
+    this.data[0]['new-row'] = false;
+    this.addingNewRow = false;
+    const enterClick = new KeyboardEvent('keydown', { 'key': '13' } );
+    // needed to set the keyCode property.
+    // from: https://stackoverflow.com/questions/31785041/javascript-trigger-specific-keyboard-keys#answer-31785376
+    Object.defineProperty(enterClick, 'keyCode', {
+      value: enterClick.key
+    });
+    this.dt.editingCell.dispatchEvent(enterClick);
+  }
+  
+  cancelNewRow(event) {
+    this.data = this.data.splice(1);
+    this.addingNewRow = false;
+  }
+
 }

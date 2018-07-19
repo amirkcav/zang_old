@@ -89,34 +89,5 @@ import { Table } from 'primeng/table';
         }
     });
     }
-
-    editInit(event) {
-      const v = event;
-      this.editDataHolder = event.data[event.field];
-      this.editDataIndex = this.data.indexOf(event.data);
-    }
-
-    editComplete(event) {
-      const currData = event.data[event.field];
-      if (isNaN(currData)) {
-        this.data[this.editDataIndex][event.field] = this.editDataHolder;
-        // alert ?
-      }
-      else {
-        
-      }
-    }
-
-    editCancel(event) {
-      this.data[this.editDataIndex][event.field] = this.editDataHolder;
-    }
-
-    addNew(event) {
-      this.data = [{}, ...this.data ]; 
-      setTimeout(() => {
-        // first row is the headers
-        this.dt.tableViewChild.nativeElement.rows[1].cells[0].click();
-      }, 100);
-
-    }
+    
   }

@@ -1,0 +1,20 @@
+/* ::ng-deep .ui-table-caption button + button {
+  margin-left: 10px;
+} */
+
+p-table button {
+  margin-bottom: 5px;
+}
+
+p-table button + button {
+  margin-left: 10px;
+}
+
+#table-filter {
+  width: 30%;
+  display: inline-block
+}
+
+.new-row {
+  background: rgba(187, 221, 255, 0.25) !important;
+}
