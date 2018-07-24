@@ -53,7 +53,12 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   isError: boolean;
   emptyObject: any = {};
 
+  timeoutHolder: any;
+
   msgs: Message[] = [];
+
+  autoCompleteSearch: Promise<any>;
+  results: object[];
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
 
@@ -110,19 +115,31 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
       this.editDataIndex = this.data.indexOf(event.data);
       this.editingCellHolder = this.dt.editingCell;
     }
-    setTimeout((obj) => {
-      this.dt.editingCell.children[0].children[0].setSelectionRange(0, 4);
-    }, 100, this);
+    clearTimeout(this.timeoutHolder);
+    // in text input set the text to be selected
+    if (!event.data[event.field].fieldType || event.data[event.field].fieldType === 'autocomplete') {
+      this.timeoutHolder = setTimeout((cell) => {
+        const input = cell.querySelector('input');
+        input.setSelectionRange(0, +input.value.length);
+      }, 100, this.dt.editingCell);
+    }
+    else {
+      this.timeoutHolder = setTimeout((cell) => {
+        cell.children[0].children[0].focus();
+      }, 100, this.dt.editingCell);
+    }
   }
 
   editComplete(event) {
     const currData = event.data[event.field];
     this.msgs.length = 0;    
-    if (isNaN(currData.value)) {
+    // validation
+    if (isNaN(currData.value) && !currData.fieldType /*default text input*/) {
       this.isError = true;
       this.msgs.push({severity: 'error', summary: 'Error Message', detail: 'Validation failed'});
       this.dt.domHandler.addClass(this.editingCellHolder, 'invalid');
       currData.invalid = true;
+      // get focus back to invalid element.
       setTimeout((ec) => {
         ec.click();
       }, 100, this.editingCellHolder);
@@ -156,8 +173,9 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
       if (data1['new-row']) {
         return -1;
       }
-      const value1 = +data1[event.field];
-      const value2 = +data2[event.field];
+      // sorting by the value property
+      const value1 = +data1[event.field].value;
+      const value2 = +data2[event.field].value;
       const result = value1 > value2 ? 1 : -1;
 
       return (event.order * result);
@@ -189,4 +207,17 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
     });
     this.emptyObject['new-row'] = true;
   }
+
+  autoCompleteChange(event) {
+    const q = event.query;
+    this.autoCompleteSearch = this.service.autoCompleteSearch(
+      'EDITABLEGRID',
+      'A',
+      q
+    );
+    this.autoCompleteSearch.then(response => {
+      this.results = response ? response : [];
+    });
+  }
+
 }
