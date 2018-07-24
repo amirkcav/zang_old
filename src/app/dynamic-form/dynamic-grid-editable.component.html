@@ -31,7 +31,7 @@
             <td>
                 <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
             </td>
-            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1"> 
+            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1" [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 
                 <div *ngIf="col.isEditable; then editable else static"></div>
                 <ng-template #static>
                     <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
@@ -39,16 +39,16 @@
                         <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button>
                     </ng-template>
                     <ng-template #cellContent>
-                        {{ rowData[col.id] }}
+                        {{ rowData[col.id]?.value }}
                     </ng-template>
                 </ng-template>
                 <ng-template #editable>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input type="text" [(ngModel)]="rowData[col.id]"><!-- [value]="rowData[col.id]" -->
+                            <input type="text" [(ngModel)]="rowData[col.id].value"><!-- [value]="rowData[col.id]?" -->
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{ rowData[col.id] }}
+                            {{ rowData[col.id]?.value }}
                         </ng-template>
                     </p-cellEditor>
                 </ng-template>
@@ -57,9 +57,6 @@
     </ng-template>
 </p-table>
 
-<!-- <div>
-    <button class="btn btn-secondary" (click)="addNew($event)">Add</button>
-    <button *ngIf="selectedRow" class="btn btn-secondary" (click)="delete($event)">Delete</button>    
-</div> -->
+<p-messages [(value)]="msgs"></p-messages>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>

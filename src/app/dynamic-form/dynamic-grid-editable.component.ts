@@ -16,8 +16,10 @@ import { Column } from './column';
 
 import { QuestionService } from './question.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, SortEvent } from 'primeng/api';
+import { ConfirmationService, SortEvent, Message } from 'primeng/api';
 import { Table } from 'primeng/table';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 @Component({
   selector: 'dynamic-grid-editable',
@@ -47,6 +49,11 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   editDataIndex: number = -1;
   selectedRow: any[];
   addingNewRow = false;
+  editingCellHolder: any;  
+  isError: boolean;
+  emptyObject: any = {};
+
+  msgs: Message[] = [];
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
 
@@ -63,6 +70,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
     this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
     this.loadingGrid.then(response => {
       this.grid = response;
+      this.setEmptyObject();
     });
 
     // load the grid data
@@ -97,31 +105,47 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   }
 
   editInit(event) {
-    const v = event;
-    this.editDataHolder = event.data[event.field];
-    this.editDataIndex = this.data.indexOf(event.data);
+    if (!this.isError) {
+      this.editDataHolder = Object.assign({}, event.data[event.field]);
+      this.editDataIndex = this.data.indexOf(event.data);
+      this.editingCellHolder = this.dt.editingCell;
+    }
+    setTimeout((obj) => {
+      this.dt.editingCell.children[0].children[0].setSelectionRange(0, 4);
+    }, 100, this);
   }
 
   editComplete(event) {
     const currData = event.data[event.field];
-    if (isNaN(currData)) {
-      this.data[this.editDataIndex][event.field] = this.editDataHolder;
-      // alert ?
+    this.msgs.length = 0;    
+    if (isNaN(currData.value)) {
+      this.isError = true;
+      this.msgs.push({severity: 'error', summary: 'Error Message', detail: 'Validation failed'});
+      this.dt.domHandler.addClass(this.editingCellHolder, 'invalid');
+      currData.invalid = true;
+      setTimeout((ec) => {
+        ec.click();
+      }, 100, this.editingCellHolder);
     }
     else {
-      
+      this.isError = false;
+      this.msgs.length = 0;
+      currData.invalid = false;
     }
   }
 
   editCancel(event) {
-    this.data[this.editDataIndex][event.field] = this.editDataHolder;
+      this.msgs.length = 0;
+      this.data[this.editDataIndex][event.field] = this.editDataHolder;
+      this.isError = false;
   }
 
   addNew(event) {
-    this.data = [{ 'new-row': true }, ...this.data ]; 
+    const obj = JSON.parse(JSON.stringify(this.emptyObject));
+    this.data = [obj, ...this.data ]; 
     this.addingNewRow = true;
     setTimeout(() => {
-      // first row is the headers
+      // first row is the headers, first col is the radio button
       this.dt.tableViewChild.nativeElement.rows[1].cells[1].click();
     }, 100);
   }
@@ -143,13 +167,15 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   saveNewRow(event) {
     this.data[0]['new-row'] = false;
     this.addingNewRow = false;
-    const enterClick = new KeyboardEvent('keydown', { 'key': '13' } );
-    // needed to set the keyCode property.
-    // from: https://stackoverflow.com/questions/31785041/javascript-trigger-specific-keyboard-keys#answer-31785376
-    Object.defineProperty(enterClick, 'keyCode', {
-      value: enterClick.key
-    });
-    this.dt.editingCell.dispatchEvent(enterClick);
+    // if a cell is being edited in the new row, complete the editing (enter click).
+    if (this.dt.editingCell && this.dt.editingCell.parentElement['rowIndex'] === 1) {
+      const enterClick = new KeyboardEvent('keydown', { 'key': '13' } );
+      // set the keyCode property. from: https://stackoverflow.com/questions/31785041/javascript-trigger-specific-keyboard-keys#answer-31785376
+      Object.defineProperty(enterClick, 'keyCode', {
+        value: enterClick.key
+      });
+      this.dt.editingCell.dispatchEvent(enterClick);
+    }
   }
   
   cancelNewRow(event) {
@@ -157,4 +183,10 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
     this.addingNewRow = false;
   }
 
+  setEmptyObject() {
+    this.grid.columns.forEach((c) => {
+      this.emptyObject[c.field] = { 'value': '' };
+    });
+    this.emptyObject['new-row'] = true;
+  }
 }

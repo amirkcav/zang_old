@@ -18,3 +18,8 @@ p-table button + button {
 .new-row {
   background: rgba(187, 221, 255, 0.25) !important;
 }
+
+td.ui-editable-column.invalid p-celleditor input {
+  border-color: red;
+  background: rgba(255,0,0,0.05);
+}
