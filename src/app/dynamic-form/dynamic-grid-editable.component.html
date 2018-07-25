@@ -29,9 +29,10 @@
     <ng-template pTemplate="body" let-rowData>
         <tr [pSelectableRow]="rowData" [ngClass]="{ 'new-row': rowData['new-row'] }">
             <td>
-                <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                <p-tableRadioButton *ngIf="!rowData['new-row']" [value]="rowData"></p-tableRadioButton>
             </td>
-            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1" [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 
+            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1" 
+                [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 
                 <p-cellEditor>
                     <ng-template pTemplate="input">
                         <ng-container [ngSwitch]="rowData[col.id].fieldType ? rowData[col.id].fieldType : ''">

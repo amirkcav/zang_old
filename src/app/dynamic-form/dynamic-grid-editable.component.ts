@@ -30,6 +30,9 @@ import {MessageModule} from 'primeng/message';
   providers: [ QuestionService, ConfirmationService ]
 })
 export class DynamicGridEditableComponent implements OnInit, OnChanges {    
+  
+  //#region Variables
+
   @ViewChild('dt') dt: Table
 
   @Input() gridKey: string;
@@ -39,26 +42,15 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
 
   grid: Grid = new Grid({});
   data: any[];
-
-  loadingGrid: Promise<Grid>;
-  loadingGridData: Promise<any[]>;
-
   rowsInPage: number;
-
-  editDataHolder: any;
-  editDataIndex: number = -1;
   selectedRow: any[];
   addingNewRow = false;
-  editingCellHolder: any;  
-  isError: boolean;
   emptyObject: any = {};
-
   timeoutHolder: any;
-
   msgs: Message[] = [];
-
-  autoCompleteSearch: Promise<any>;
   results: object[];
+
+  //#endregion Variables
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
 
@@ -67,34 +59,22 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.initGrid();
+  
   }
 
   initGrid(): void {
     // load the grid definitions
-    this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
-    this.loadingGrid.then(response => {
+    const loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
+    loadingGrid.then(response => {
       this.grid = response;
       this.setEmptyObject();
     });
 
     // load the grid data
-    this.loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
-    this.loadingGridData.then(response => {
+    const loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
+    loadingGridData.then(response => {
       this.data = response;
     });
-  }
-
-  cellClicked(event, cell, cellValue, row) {
-    this.onClicked.emit({
-      line: this.data[row.$$index],
-      row: row.$$index,
-      column: cell
-    });
-  }
-
-  onClick(event) {
-    this.onClicked.emit(event);
   }
 
   delete(event) {
@@ -102,22 +82,24 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         const deletedRow = this.data.indexOf(this.selectedRow);
-        this.data.splice(deletedRow, 1);
-        this.selectedRow = null;
-        this.dt.totalRecords = this.data.length;
+        // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
+        this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
+        setTimeout(() => {
+          this.data.splice(deletedRow, 1);
+          this.selectedRow = null;
+          this.dt.totalRecords = this.data.length;
+        }, 300);
       }
     });
   }
 
   editInit(event) {
-    if (!this.isError) {
-      this.editDataHolder = Object.assign({}, event.data[event.field]);
-      this.editDataIndex = this.data.indexOf(event.data);
-      this.editingCellHolder = this.dt.editingCell;
+    if (!event.data[event.field].invalid) {
+      event.data[event.field].valueHolder =  event.data[event.field].value;
     }
     clearTimeout(this.timeoutHolder);
     // in text input set the text to be selected
-    if (!event.data[event.field].fieldType || event.data[event.field].fieldType === 'autocomplete') {
+    if (event.data[event.field].fieldType === 'number' || event.data[event.field].fieldType === 'autocomplete') {
       this.timeoutHolder = setTimeout((cell) => {
         const input = cell.querySelector('input');
         input.setSelectionRange(0, +input.value.length);
@@ -131,30 +113,34 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   }
 
   editComplete(event) {
-    const currData = event.data[event.field];
+    const currData = Object.assign({ 'rowIndex': this.data.indexOf(event.data), 'field': event.field }, event.data[event.field]);
     this.msgs.length = 0;    
     // validation
-    if (isNaN(currData.value) && !currData.fieldType /*default text input*/) {
-      this.isError = true;
-      this.msgs.push({severity: 'error', summary: 'Error Message', detail: 'Validation failed'});
-      this.dt.domHandler.addClass(this.editingCellHolder, 'invalid');
-      currData.invalid = true;
-      // get focus back to invalid element.
-      setTimeout((ec) => {
-        ec.click();
-      }, 100, this.editingCellHolder);
-    }
-    else {
-      this.isError = false;
-      this.msgs.length = 0;
-      currData.invalid = false;
-    }
+    this.service.validateControl('EDITABLE', event.field, currData).then(response => {
+      if (response['isValid'] === 'false') {
+        // + 1 is because of the first radiobutton column
+        const cellIndex = this.grid.columns.findIndex((a) => a.id === response['field']) + 1;
+        // + 1 is because of the first row (thead)
+        const rowIndex = +response['rowIndex'] + 1;
+        const invalidCell = this.dt.tableViewChild.nativeElement.rows[rowIndex].cells[cellIndex];
+        this.msgs.push({severity: 'error', summary: 'Error Message', detail: response.message});
+        event.data[event.field].invalid = true;
+        // get focus back to invalid element.
+        setTimeout((ec) => {
+          ec.click();
+        }, 100, invalidCell);
+      }
+      else {
+        this.msgs.length = 0;
+        event.data[event.field].invalid = false;
+      }
+    });
   }
 
   editCancel(event) {
-      this.msgs.length = 0;
-      this.data[this.editDataIndex][event.field] = this.editDataHolder;
-      this.isError = false;
+    this.msgs.length = 0;
+    event.data[event.field].value = event.data[event.field].valueHolder;
+    event.data[event.field].invalid = false;
   }
 
   addNew(event) {
@@ -210,12 +196,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
 
   autoCompleteChange(event) {
     const q = event.query;
-    this.autoCompleteSearch = this.service.autoCompleteSearch(
-      'EDITABLEGRID',
-      'A',
-      q
-    );
-    this.autoCompleteSearch.then(response => {
+    const autoCompleteSearch = this.service.autoCompleteSearch('EDITABLEGRID', 'A', q);
+    autoCompleteSearch.then(response => {
       this.results = response ? response : [];
     });
   }
