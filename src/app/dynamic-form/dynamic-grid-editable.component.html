@@ -1,5 +1,5 @@
 <p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
-         (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)" [(selection)]="selectedRow" 
+         (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)" [(selection)]="selectedRows" 
          (sortFunction)="customSort($event)" [customSort]="true">
     <ng-template pTemplate="caption">
         <div>
@@ -11,7 +11,7 @@
             <div style="text-align: right" class="clearfix">        
                 <button class="btn btn-primary pull-left"  (click)="dt.exportCSV()">Export to CSV</button><!--type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV"-->                    
                 
-                <button *ngIf="selectedRow" class="btn btn-danger pull-left" (click)="delete($event)">Delete</button>    
+                <button *ngIf="selectedRows.length > 0" class="btn btn-danger pull-left" (click)="delete($event)">Delete</button>    
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
                 <input id="table-filter" type="text" class="form-control" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')">        
             </div>        
@@ -29,7 +29,7 @@
     <ng-template pTemplate="body" let-rowData>
         <tr [pSelectableRow]="rowData" [ngClass]="{ 'new-row': rowData['new-row'] }">
             <td>
-                <p-tableRadioButton *ngIf="!rowData['new-row']" [value]="rowData"></p-tableRadioButton>
+                <p-tableCheckbox *ngIf="!rowData['new-row']" [value]="rowData"></p-tableCheckbox>
             </td>
             <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1" 
                 [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 

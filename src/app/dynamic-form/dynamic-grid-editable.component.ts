@@ -43,7 +43,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
   grid: Grid = new Grid({});
   data: any[];
   rowsInPage: number;
-  selectedRow: any[];
+  selectedRows: any[] = [];
   addingNewRow = false;
   emptyObject: any = {};
   timeoutHolder: any;
@@ -81,14 +81,18 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        const deletedRow = this.data.indexOf(this.selectedRow);
-        // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
-        this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
-        setTimeout(() => {
-          this.data.splice(deletedRow, 1);
-          this.selectedRow = null;
-          this.dt.totalRecords = this.data.length;
-        }, 300);
+        this.selectedRows.forEach(row => {
+          const deletedRow = this.data.indexOf(row);
+            // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
+          this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
+          setTimeout((_row) => {
+            let _deletedRow = this.data.indexOf(_row);
+            this.data.splice(_deletedRow, 1);            
+            _deletedRow = this.selectedRows.indexOf(_row);
+            this.selectedRows.splice(_deletedRow, 1);            
+            this.dt.totalRecords = this.data.length;
+          }, 300, row);
+        });        
       }
     });
   }
