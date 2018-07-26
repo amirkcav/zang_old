@@ -79,11 +79,11 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
 
   delete(event) {
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
+      message: 'Are you sure you want to delete these row/s?',
       accept: () => {
         this.selectedRows.forEach(row => {
           const deletedRow = this.data.indexOf(row);
-            // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
+          // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
           this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
           setTimeout((_row) => {
             let _deletedRow = this.data.indexOf(_row);
@@ -109,6 +109,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
         input.setSelectionRange(0, +input.value.length);
       }, 100, this.dt.editingCell);
     }
+    // other elements (dropdown, checkbox etc) - focus.
     else {
       this.timeoutHolder = setTimeout((cell) => {
         cell.children[0].children[0].focus();

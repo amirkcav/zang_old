@@ -1,5 +1,5 @@
 <p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
-         (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)">
+         (sortFunction)="customSort($event)" [customSort]="true">
     <ng-template pTemplate="caption">
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -28,6 +28,32 @@
             </td>
         </tr>
     </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align: left;">
+            <button type="button" pButton icon="fa fa-plus" (click)="addRow()" label="Add"></button>
+        </div>
+    </ng-template>
 </p-table>
 
+<p>{{ currObject | json }}</p>
+
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
+
+<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false"><!--header="Car Details"-->
+    <div class="ui-g ui-fluid" *ngIf="objFields">
+        <div class="ui-g-12" *ngFor="let field of objFields">
+            <div class="ui-g-4">
+                <label [for]="field">{{field}}</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText class="form-control" [id]="currObject.fields[field]" [(ngModel)]="currObject.fields[field]" />
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button> -->
+            <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
