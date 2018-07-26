@@ -87,11 +87,11 @@ import {
       this.onClicked.emit(event);
     }
 
-    edit(data) {
+    edit(rowData) {
       this.dialog.header = 'Edit row';
-      const rowIndex = this.data.indexOf(data);
+      const rowIndex = this.data.indexOf(rowData);
       this.currObject.rowIndex = rowIndex;
-      this.currObject.fields = Object.assign({}, data);
+      this.currObject.fields = Object.assign({}, rowData);
       this.displayDialog = true;
     }
 
@@ -108,6 +108,20 @@ import {
           }, 300);
         }
       });
+    }
+
+    saveDynamic(data) {
+      // edit row
+      if (this.currObject.rowIndex !== undefined) {
+        this.data[this.currObject.rowIndex] = data; 
+      }
+      // new row
+      else {
+        this.data.push(data);
+      }
+      this.refreshTable();
+      this.setEmptyObject();
+      this.displayDialog = false;
     }
 
     save() {
@@ -128,12 +142,13 @@ import {
     setEmptyObject() {
       this.currObject.fields = {};
       this.grid.columns.filter((c) => c.type !== 'buttons').forEach((c) => {
-        this.currObject.fields[c.field] = '';
+        this.currObject.fields[c.field] = ' ';
       });
       this.currObject.rowIndex = undefined;
     }
     
     addRow() {
+      this.dialog.header = 'New row';
       this.displayDialog = true;
     }
 

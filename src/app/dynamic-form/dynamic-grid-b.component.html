@@ -35,12 +35,15 @@
     </ng-template>
 </p-table>
 
-<p>{{ currObject | json }}</p>
-
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
 
 <p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false"><!--header="Car Details"-->
-    <div class="ui-g ui-fluid" *ngIf="objFields">
+    
+    <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
+        cancelButton="ביטול" (onCancelled)="onCancelled('A')" [validateOnBlur]="true"></dynamic-form>
+    
+    <!-- dynamicly created form according to the grid columns -->
+    <!-- <div class="ui-g ui-fluid" *ngIf="objFields">
         <div class="ui-g-12" *ngFor="let field of objFields">
             <div class="ui-g-4">
                 <label [for]="field">{{field}}</label>
@@ -52,8 +55,8 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button> -->
             <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
         </div>
-    </p-footer>
+    </p-footer> -->
+
 </p-dialog>
