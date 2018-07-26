@@ -20,7 +20,10 @@
             <td *ngFor="let col of grid.columns"> 
                 <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
                 <ng-template #buttons>
-                    <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button>
+                    <!-- <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button> -->
+                    <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
+                        <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
+                    </a>
                 </ng-template>
                 <ng-template #cellContent>
                     {{ rowData[col.id] }}
@@ -37,10 +40,10 @@
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
 
-<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false"><!--header="Car Details"-->
+<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel($event)"><!--header="Car Details"-->
     
     <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
-        cancelButton="ביטול" (onCancelled)="onCancelled('A')" [validateOnBlur]="true"></dynamic-form>
+        cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form>
     
     <!-- dynamicly created form according to the grid columns -->
     <!-- <div class="ui-g ui-fluid" *ngIf="objFields">
