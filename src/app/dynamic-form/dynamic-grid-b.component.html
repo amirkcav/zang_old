@@ -9,9 +9,9 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'">
+            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'" [pSortableColumnDisabled]="col.type === 'buttons'">
                 {{ col.name }}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
+                <p-sortIcon [field]="col.field" *ngIf="col.type !== 'buttons'"></p-sortIcon>
             </th>
         </tr>
     </ng-template>
