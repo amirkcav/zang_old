@@ -59,3 +59,8 @@
   position: absolute;
   left: 0;
 }
+
+/* ng-deep is need to override ngprime style */
+::ng-deep .mask-input.invalid {
+  border-color: red;
+}

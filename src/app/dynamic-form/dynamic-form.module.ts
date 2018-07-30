@@ -24,6 +24,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { DialogModule } from 'primeng/dialog';
     TableModule,
     FileUploadModule,
     ConfirmDialogModule,
-    DialogModule
+    DialogModule,
+    InputMaskModule
   ],
   declarations: [
     DynamicFormComponent,

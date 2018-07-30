@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { LogHttpIntercepter } from './log-http-intercepter';
 
 import { AutoCompleteModule } from 'primeng/autocomplete'
-import { CalendarModule } from 'primeng/calendar';
+// import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [

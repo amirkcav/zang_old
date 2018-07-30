@@ -159,14 +159,28 @@ import {
     }
 
     customSort(event: SortEvent) {
-      event.data.sort((data1, data2) => {
-        // make no difference between number and number as strings
-        const value1 = +data1[event.field];
-        const value2 = +data2[event.field];
-        const result = value1 > value2 ? 1 : -1;
-  
-        return (event.order * result);
-      });
+      const column = this.grid.columns.find(function(c) { return c.id === event.field });
+
+      if (column['type'] === 'date') {
+        event.data.sort((data1, data2) => {
+          // changing dd/mm/yyyy to yyyymmdd (which is the format to sort dates).
+          const value1 = +data1[event.field].split('/').reverse().join('');
+          const value2 = +data2[event.field].split('/').reverse().join('');
+          const result = value1 > value2 ? 1 : -1;
+    
+          return (event.order * result);
+        });
+      }
+      else {
+        event.data.sort((data1, data2) => {
+          // make no difference between number and number as strings
+          const value1 = +data1[event.field];
+          const value2 = +data2[event.field];
+          const result = value1 > value2 ? 1 : -1;
+    
+          return (event.order * result);
+        });
+      }
     }
 
     cancel() {

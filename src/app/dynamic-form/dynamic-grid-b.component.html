@@ -18,16 +18,28 @@
     <ng-template pTemplate="body" let-rowData>
         <tr>
             <td *ngFor="let col of grid.columns"> 
-                <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
+                <div [ngSwitch]="col.type">
+                    <div *ngSwitchCase="'buttons'">
+                        <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
+                            <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
+                        </a>    
+                    </div>
+                    <!-- <div *ngSwitchCase="'date'">
+                        {{ rowData[col.id] | date: 'dd/MM/yyyy' }}
+                    </div> -->
+                    <div *ngSwitchDefault>
+                        {{ rowData[col.id] }}    
+                    </div>
+                </div>
+                <!-- <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
                 <ng-template #buttons>
-                    <!-- <button *ngFor="let btn of col.buttons" class="btn table-button" (click)="this[btn](rowData)">{{ btn }}</button> -->
                     <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
                         <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
                     </a>
                 </ng-template>
                 <ng-template #cellContent>
                     {{ rowData[col.id] }}
-                </ng-template>
+                </ng-template> -->
             </td>
         </tr>
     </ng-template>
