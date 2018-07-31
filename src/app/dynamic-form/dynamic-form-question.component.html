@@ -11,9 +11,13 @@
 			<p-inputMask *ngIf="question.type=='date'" mask="99/99/9999" (onBlur)="completeMask($event)" [formControlName]="question.key" 
 				[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')"></p-inputMask> <!--[style]="{ 'background': 'red' }"-->
 
-			<input *ngIf="!['date'].includes(question.type)" [formControlName]="question.key"
-			[id]="question.key" [type]="question.type" class="form-control" 
-			[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 
+			<input *ngIf="question.type=='checkbox'" [formControlName]="question.key"
+				[id]="question.key" type="checkbox" class="form-control a" 
+				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" > 
+
+			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
+				[id]="question.key" [type]="question.type" class="form-control" 
+				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 
 
 			<!-- <input [formControlName]="question.key"
 				[id]="question.key" [type]="question.type" class="form-control" 

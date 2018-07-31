@@ -68,12 +68,18 @@ export class QuestionControlService {
       if (question['type'] === 'email') {
         syncValidators.push(Validators.email);
       }
+      // string to boolean
+      else if (question['type'] === 'checkbox') {
+        question.value = question.value === 'true' ? true : false;
+      }
 
       group[question.key] = new FormControl(
-        question.value || '',
-        { validators: syncValidators,
+        question.value === null ? '' : question.value,
+        { 
+          validators: syncValidators,
           asyncValidators: serverValidator,
-          updateOn: (validateOnBlur ? 'blur' : 'change') },        
+          updateOn: (validateOnBlur ? 'blur' : 'change') 
+        },        
       );
     });
     const formGroup = new FormGroup(group);
