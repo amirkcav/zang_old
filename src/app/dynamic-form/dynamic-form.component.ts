@@ -74,5 +74,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         }
       }
     });
-  }
+  }  
+
 }

@@ -25,6 +25,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     FileUploadModule,
     ConfirmDialogModule,
     DialogModule,
-    InputMaskModule
+    InputMaskModule,
+    CheckboxModule
   ],
   declarations: [
     DynamicFormComponent,

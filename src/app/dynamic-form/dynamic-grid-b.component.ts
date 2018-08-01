@@ -167,7 +167,12 @@ import {
           const value1 = +data1[event.field].split('/').reverse().join('');
           const value2 = +data2[event.field].split('/').reverse().join('');
           const result = value1 > value2 ? 1 : -1;
-    
+          return (event.order * result);
+        });
+      }
+      if (column['type'] === 'checkbox') {
+        event.data.sort((data1, data2) => {
+          const result = data1[event.field].toString() === 'true' ? 1 : -1;
           return (event.order * result);
         });
       }
@@ -177,7 +182,6 @@ import {
           const value1 = +data1[event.field];
           const value2 = +data2[event.field];
           const result = value1 > value2 ? 1 : -1;
-    
           return (event.order * result);
         });
       }
