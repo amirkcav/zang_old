@@ -35,6 +35,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   cameraActive: boolean;
   
   dateFormat = 'dd/mm/yyyy';
+  showDatepicker = false;
 
   constructor(private service: QuestionService) { }  
 
@@ -149,9 +150,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  completeMask(event) {
+  completeMask(elem) {
     // is valid date
-    const date = event.target.value;
+    const date = elem.value; // this.form.controls[this.question.key].value; // event.target.value;
     const dateArr = date.split('/');
     const partsArr = this.dateFormat.split('/');
     const day = +dateArr[partsArr.indexOf('dd')];    
@@ -162,11 +163,25 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     // for example new Date(99,99,2000) is a valid date (resulting in 2012). checking that this is not the case.
     if (date !== '' && (isNaN(dateObj.getDate()) || dateObj.getMonth() !== month || dateObj.getFullYear() !== year)) { 
       this.question['invalid'] = true;
-      event.target.focus();
+      elem.el.nativeElement.focus();
+      console.log('invalid');
     }
     else {
       this.question['invalid'] = false;
+      this.showDatepicker = false;
+      console.log('VVV');
     }
+  }
+
+  maskFocus(event) {
+    this.showDatepicker = true;
+  }
+
+  datepickerSelect(event) {
+    const fDate = event.format('dd/mm/yyyy');
+    this.form.controls[this.question.key].setValue(fDate);
+    this.question['invalid'] = false;
+    this.showDatepicker = false;
   }
 
 }

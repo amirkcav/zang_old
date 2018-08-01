@@ -61,6 +61,10 @@
 }
 
 /* ng-deep is need to override ngprime style */
-::ng-deep .mask-input.invalid {
+::ng-deep .mask-input.invalid, ::ng-deep .mask-input.invalid:hover {
   border-color: red;
+}
+
+::ng-deep .ui-dialog .ui-dialog-content {
+  overflow: visible;
 }
