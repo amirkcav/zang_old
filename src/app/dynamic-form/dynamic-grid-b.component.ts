@@ -170,7 +170,7 @@ import {
           return (event.order * result);
         });
       }
-      if (column['type'] === 'checkbox') {
+      else if (column['type'] === 'checkbox') {
         event.data.sort((data1, data2) => {
           const result = data1[event.field].toString() === 'true' ? 1 : -1;
           return (event.order * result);
