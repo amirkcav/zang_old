@@ -12,7 +12,7 @@
 				[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')"></p-inputMask> 
 			<div *ngIf="question.type=='date' && showDatepicker" style="position: absolute;">
 					<p-calendar dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:{{currYear}}" 
-						(onSelect)="datepickerSelect($event, question.key)"></p-calendar>
+						(onSelect)="datepickerSelect($event, question.key)" [formControlName]="question.key" ></p-calendar>
 			</div>
 
 			<!--<label *ngIf="question.type=='checkbox'" [for]="question.key">
