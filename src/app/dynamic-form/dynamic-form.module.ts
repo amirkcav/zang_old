@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +26,8 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CheckboxModule } from 'primeng/checkbox';
+import { environment } from '../../environments/environment';
+// import { environment } from 'environments/environment';
 
 @NgModule({
   imports: [
@@ -65,4 +67,21 @@ import { CheckboxModule } from 'primeng/checkbox';
     DynamicGridEditableComponent
   ]
 })
-export class DynamicFormModule {}
+export class DynamicFormModule {
+
+  static forRoot(defaultPah: string): ModuleWithProviders {
+    return {
+      ngModule: DynamicFormModule,
+      providers: [
+        {provide: String, useValue: defaultPah }
+      ]
+    };
+  }
+
+  constructor(@Optional() defaultPath: string) {
+    if (defaultPath) { 
+      environment.dynamicFormBaseDevUrl = defaultPath;
+    }
+  }
+
+}
