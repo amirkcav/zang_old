@@ -7,12 +7,15 @@
 			<!-- Calendar of ngPrime -->
 			<!-- <p-calendar *ngIf="question.type=='date'" [formControlName]="question.key" dateFormat="yy-mm-dd" monthNavigator="true" yearNavigator="true" 
 			yearRange="1950:{{currYear}}" [id]="question.key" [readonlyInput]="question.readonly" (onSelect)="onBlurDateField($event)" inputStyleClass="form-control"></p-calendar>				-->
-
-			<p-inputMask #maskInput *ngIf="question.type=='date'" mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" (onFocus)="maskFocus($event)"
-				[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')"></p-inputMask> 
-			<div *ngIf="question.type=='date' && showDatepicker" style="position: absolute;">
-					<p-calendar dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:{{currYear}}" 
-						(onSelect)="datepickerSelect($event, question.key)" [formControlName]="question.key" ></p-calendar>
+			<div *ngIf="question.type=='date'" class="clearfix ui-inputgroup">
+				<!-- <p>{{ form.controls[question.key].value }}</p> -->
+				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" (onFocus)="maskFocus($event)"
+					[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')" class="pull-left _ui-inputgroup-addon"></p-inputMask> 
+				<button pButton type="button" icon="fa fa-calendar" class="pull-right" (click)="showCalendarClick($event)" tabindex="-1"></button>
+			</div>
+			<div *ngIf="question.type=='date'" style="position: absolute; z-index: 1;">
+					<p-calendar #calendar *ngIf="showDatepicker" dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:2050" 
+						(onSelect)="datepickerSelect($event, question.key)" ></p-calendar> <!--[formControlName]="question.key"-->
 			</div>
 
 			<!--<label *ngIf="question.type=='checkbox'" [for]="question.key">
@@ -23,11 +26,8 @@
 
 			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
 				[id]="question.key" [type]="question.type" class="form-control" 
-				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 			
+				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 		
 
-			<!-- <input [formControlName]="question.key"
-				[id]="question.key" [type]="question.type" class="form-control" 
-				[attr.readonly]="question.readonly ? '' : null"> -->
 		</div>				
 
 		<div *ngSwitchCase="'textarea'">

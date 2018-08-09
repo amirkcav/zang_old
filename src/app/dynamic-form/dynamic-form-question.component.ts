@@ -6,6 +6,7 @@ import { QuestionBase } from './question-base';
 //import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
 import { FileUploadQuestion } from './question-fileUpload';
+import { Calendar } from 'primeng/calendar';
 
 @Component({
   selector: 'df-question',
@@ -31,6 +32,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   @ViewChild('videoElement') videoElement: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('capturedImageElem') capturedImageElem: ElementRef;  
+  @ViewChild('calendar') calendar: Calendar;  
   capturedImage: any;
   cameraActive: boolean;
   
@@ -182,6 +184,19 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     this.form.controls[this.question.key].setValue(fDate);
     this.question['invalid'] = false;
     this.showDatepicker = false;
+  }
+
+  showCalendarClick(event) {
+    this.showDatepicker = !this.showDatepicker;
+    const dateValue = this.form.controls[this.question.key].value;
+    if (this.showDatepicker && dateValue.trim() /* initial value is " " */ ) {
+      const dateArr = dateValue.split('/');
+      const partsArr = this.dateFormat.split('/');
+      const day = +dateArr[partsArr.indexOf('dd')];    
+      const month = +dateArr[partsArr.indexOf('mm')] - 1; // month value is by index
+      const year = +dateArr[partsArr.indexOf('yyyy')];
+      this.calendar.selectDate({ year: year, month: month, day: day });
+    }
   }
 
 }

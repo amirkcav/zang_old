@@ -142,6 +142,7 @@ import {
     setEmptyObject() {
       this.currObject.fields = {};
       this.grid.columns.filter((c) => c.type !== 'buttons').forEach((c) => {
+        // the space (' ') is needed for soap ui, that doesn't know to receive empty string ('') or null;
         this.currObject.fields[c.field] = ' ';
       });
       this.currObject.rowIndex = undefined;
