@@ -8,7 +8,7 @@ export class TextboxQuestion extends QuestionBase<string> {
     super(options);
     this.type = options['type'] || '';
     if (this.type === 'number') {
-      if (this.value.trim().length === 0) {
+      if (this.value.toString().trim().length === 0) {
         this.value = null;
       }
     }
