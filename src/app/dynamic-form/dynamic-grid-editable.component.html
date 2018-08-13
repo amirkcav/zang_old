@@ -35,19 +35,23 @@
                 [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 
                 <p-cellEditor>
                     <ng-template pTemplate="input">
-                        <ng-container [ngSwitch]="rowData[col.id].fieldType ? rowData[col.id].fieldType : ''">
-                            <select *ngSwitchCase="'select'" [(ngModel)]="rowData[col.id].value">
+                        <!-- <ng-container [ngSwitch]="rowData[col.id].fieldType ? rowData[col.id].fieldType : ''"> -->
+                        <ng-container [ngSwitch]="col.type ? col.type : ''">
+                            <p-dropdown *ngSwitchCase="'select'" [options]="rowData[col.id].options" optionLabel="value" [(ngModel)]="rowData[col.id].value"></p-dropdown> <!--[disabled]="question.readonly"-->
+                            <!-- <select *ngSwitchCase="'select'" [(ngModel)]="rowData[col.id].value">
                                 <option *ngFor="let opt of rowData[col.id].options" [value]="opt">{{ opt }}</option>
-                            </select>
+                            </select> -->
                             <input *ngSwitchCase="'checkbox'" type="checkbox" style="width: auto;" [checked]="rowData[col.id].value" (change)="rowData[col.id].value = !rowData[col.id].value" >
-                            <p-autoComplete *ngSwitchCase="'autocomplete'" [inputStyleClass]="'form-control'" emptyMessage="No results"
+                            <p-autoComplete *ngSwitchCase="'autocomplete'" [inputStyleClass]="'form-control'" emptyMessage="No results" 
                                             [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value" [(ngModel)]="rowData[col.id].value"></p-autoComplete>
                             <input *ngSwitchDefault type="text" [(ngModel)]="rowData[col.id].value">
                         </ng-container>
                     </ng-template>
                     <ng-template pTemplate="output">
-                        <ng-container [ngSwitch]="rowData[col.id].fieldType ? rowData[col.id].fieldType : ''">
+                        <!-- <ng-container [ngSwitch]="rowData[col.id].fieldType ? rowData[col.id].fieldType : ''"> -->
+                        <ng-container [ngSwitch]="col.type ? col.type : ''">                            
                             <label *ngSwitchCase="'autocomplete'" class="editable-grid-label">{{ rowData[col.id]?.value.value }}</label>
+                            <label *ngSwitchCase="'select'" class="editable-grid-label">{{ rowData[col.id]?.value.value || rowData[col.id]?.value }}</label>
                             <label *ngSwitchDefault class="editable-grid-label">{{ rowData[col.id]?.value }}</label>
                         </ng-container>
                     </ng-template>

@@ -194,7 +194,13 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
 
   setEmptyObject() {
     this.grid.columns.forEach((c) => {
-      this.emptyObject[c.field] = { 'value': '' };
+      this.emptyObject[c.field] = { 'type': c.type, 'value': '' };
+      if (c.type === 'select') {
+        this.emptyObject[c.field].options = c['options'];
+      }
+      else if (c.type === 'checkbox') {
+        this.emptyObject[c.field].value = false;
+      }
     });
     this.emptyObject['new-row'] = true;
   }

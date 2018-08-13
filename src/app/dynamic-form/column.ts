@@ -14,6 +14,7 @@ export class Column {
   visible: boolean;
   buttons: string[];
   isEditable: boolean;
+  options: any[];
 
   constructor(options: {
     id?: string,
@@ -29,9 +30,10 @@ export class Column {
     maxWidth?: number,
     width?: number,
     visible?: boolean,
-    buttons?: string[];  
-    isEditable?: boolean;    
-      }) {
+    buttons?: string[],
+    isEditable?: boolean,
+    options: any[]
+  }) {
     this.id = options.id;
     this.field = options.field;
     this.name = options.name;
@@ -47,5 +49,6 @@ export class Column {
     this.visible = options.visible === undefined ? true : options.visible;
     this.buttons = options.buttons || [];    
     this.isEditable = options.isEditable;
+    this.options = options.options || [];    
   }
 }
