@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  display = 'grid-a';
+  display = 'multi-apps';
   gridClass = 'material';
   gridLimit: 5;
   gridScrollbarH = false;
@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSaved(formKey: string, values: any) {
-    alert('Form ' + formKey + ' saved: ' + JSON.stringify(values));
+  onSaved(formData: any) {
+    alert('Form ' + formData.formKey + ' saved: ' + JSON.stringify(formData.values));
   }
 
   onCancelled(formKey: string) {

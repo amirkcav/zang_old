@@ -45,6 +45,8 @@ export class QuestionService {
   private readonly autoCompleteUrl = environment.dynaimcFormAutoCompleteUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=AUTOCOMP';
 
+  private readonly getAppsUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GETAPPS';
+
   constructor(private http: HttpClient) {}
 
   getQuestions(
@@ -239,6 +241,25 @@ export class QuestionService {
       })
       .catch(this.handleError);
   }
+
+  getApps(key: string, params: any) {
+    const url = this.getUrl(this.getAppsUrl);
+    const data = { KEY: key, PARAMS: params };
+
+    return this.http
+      .post(url, JSON.stringify(data), { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        const res = response as ServiceResponse;
+        if (res.status !== 'ok') {
+          return this.handleError(res);
+        }
+        const resData: any = (res.data as any) || {};
+        return resData;
+      })
+      .catch(this.handleError);
+  }
+
 }
 
 class ServiceResponse {

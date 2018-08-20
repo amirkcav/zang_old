@@ -32,6 +32,9 @@
       <li>
         <a href="#" (click)="display='form-e'" [ngClass]="{ 'active': display=='form-e' }">Image upload</a>
       </li>
+      <li>
+        <a href="#" (click)="display='multi-apps'" [ngClass]="{ 'active': display=='multi-apps' }">Multi apps</a>
+      </li>
     </ul>
   </div> 
   <!-- /#sidebar-wrapper -->
@@ -121,7 +124,7 @@
           <div class="card" style="width: 40rem;">
             <div class="card-block">
               <h4 class="card-title">PrimeNG editable table</h4>
-              <dynamic-grid-editable [gridKey]="'EDITABLE'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid-editable>
+              <dynamic-grid-editable [gridKey]="'EDITABLE'" [gridParameters]="gridParams"></dynamic-grid-editable>
             </div>
           </div>
         </div>
@@ -130,7 +133,7 @@
           <div class="card" style="width: 30rem;">
             <div class="card-block">
               <h4 class="card-title">Form validation on changes</h4>
-              <dynamic-form [formKey]="'A'" (onSaved)="onSaved('A', $event)" cancelButton="ביטול" (onCancelled)="onCancelled('A')"></dynamic-form>
+              <dynamic-form [formKey]="'A'" (onSaved)="onSaved($event)" cancelButton="ביטול" (onCancelled)="onCancelled('A')"></dynamic-form>
             </div>
           </div>
         </div>
@@ -138,7 +141,7 @@
           <div class="card" style="width: 30rem;">
             <div class="card-block">
               <h4 class="card-title">Form validation on blur</h4>
-              <dynamic-form [formKey]="'C'" [validateOnBlur]="true" (onSaved)="onSaved('C', $event)"></dynamic-form>
+              <dynamic-form [formKey]="'C'" [validateOnBlur]="true" (onSaved)="onSaved($event)"></dynamic-form>
             </div>
           </div>
         </div>
@@ -166,6 +169,14 @@
             </div>
           </div>
         </div>
+        <div *ngSwitchCase="'multi-apps'">
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Multi apps</h4>
+                <app-dynamic-multi-apps [key]="'ABC'" [params]="" (onFormSaved)="onSaved($event)"></app-dynamic-multi-apps>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,48 @@
+<p>
+  dynamic-multi-apps works!
+</p>
+
+<div>
+  <label>
+    <input type="checkbox" name="useScroll" [checked]="useScroll" (change)="useScroll = !useScroll" />
+    Use scroll
+  </label>  
+</div>
+
+<!-- PrimeNG tabs -->
+<p-tabView #tabs *ngIf="!useScroll">
+    <p-tabPanel *ngFor="let app of data; let i = index" [header]="app.label" [selected]="i === 0">
+      
+      <dynamic-form *ngIf="app.type === 'form'" [formKey]="app.key" [formParameters]="" (onSaved)="formSaved($event)" [saveButton]="null"></dynamic-form>      
+
+      <dynamic-grid-b *ngIf="app.type === 'grid' && app.key.toLowerCase() !== 'editable'" [gridKey]="app.key" [gridParameters]=""></dynamic-grid-b>
+      
+      <dynamic-grid-editable *ngIf="app.type === 'grid' && app.key.toLowerCase() === 'editable'" [gridKey]="'EDITABLE'" [gridParameters]=""></dynamic-grid-editable>
+
+    </p-tabPanel>
+</p-tabView>
+
+<!-- Tabs with scrolling cotnent -->
+<div *ngIf="useScroll">
+  <ul id="tabs-list" class="clearfix">
+    <ng-container *ngFor="let app of data">
+      <!-- The *ngIf is to declare the "id" variable. -->
+      <li *ngIf="app.type + '-' + app.key; let id" [ngClass]="{ 'active': selectedTab === id }">
+        <a [href]="'#_' + id" (click)="selectTab($event, id)">{{ app.label }}</a>
+      </li>
+    </ng-container>
+  </ul>
+  <div id="tabs-content">
+    <div *ngFor="let app of data; let i = index" [id]="app.type + '-' + app.key" class="tab-component">
+        <h3>{{ app.label }}</h3>
+
+        <dynamic-form #app *ngIf="app.type === 'form'" [formKey]="app.key" [formParameters]="" (onSaved)="formSaved($event)" [saveButton]="null"></dynamic-form>      
+
+        <dynamic-grid-b #appA *ngIf="app.type === 'grid' && app.key.toLowerCase() !== 'editable'" [gridKey]="app.key" [gridParameters]=""></dynamic-grid-b>
+        
+        <dynamic-grid-editable #app *ngIf="app.type === 'grid' && app.key.toLowerCase() === 'editable'" [gridKey]="'EDITABLE'" [gridParameters]=""></dynamic-grid-editable>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="saveAll($event)">SAVE</button>

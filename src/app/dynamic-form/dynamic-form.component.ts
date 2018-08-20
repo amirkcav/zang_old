@@ -50,7 +50,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     this.service
       .save(this.formKey, this.formParameters, this.form.value)
       .then(response => {
-        this.onSaved.emit(response);
+        this.onSaved.emit({ formKey: this.formKey, values: response });
       });
   }
 

@@ -15,6 +15,7 @@ import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 import { DynamicGridComponent } from './dynamic-grid.component';
 import { DynamicGridBComponent } from './dynamic-grid-b.component';
 import { DynamicGridEditableComponent } from './dynamic-grid-editable.component';
+import { DynamicMultiAppsComponent } from './dynamic-multi-apps/dynamic-multi-apps.component';
 
 import { AutoCompleteModule } from 'primeng/autocomplete'
 import { CalendarModule } from 'primeng/calendar';
@@ -26,6 +27,8 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TabViewModule } from 'primeng/tabview';
+
 import { environment } from '../../environments/environment';
 // import { environment } from 'environments/environment';
 
@@ -48,7 +51,8 @@ import { environment } from '../../environments/environment';
     ConfirmDialogModule,
     DialogModule,
     InputMaskModule,
-    CheckboxModule
+    CheckboxModule,
+    TabViewModule
   ],
   declarations: [
     DynamicFormComponent,
@@ -56,7 +60,8 @@ import { environment } from '../../environments/environment';
     ValidateOnBlurDirective,
     DynamicGridComponent,
     DynamicGridBComponent,
-    DynamicGridEditableComponent
+    DynamicGridEditableComponent,
+    DynamicMultiAppsComponent
   ],
   exports: [
     DynamicFormComponent,
@@ -64,7 +69,8 @@ import { environment } from '../../environments/environment';
     ValidateOnBlurDirective,
     DynamicGridComponent,
     DynamicGridBComponent,
-    DynamicGridEditableComponent
+    DynamicGridEditableComponent,
+    DynamicMultiAppsComponent
   ]
 })
 export class DynamicFormModule {

@@ -1,0 +1,66 @@
+::ng-deep .ui-tabview .ui-tabview-panels {
+  border: 1px solid #c8c8c8;
+}
+
+::ng-deep .ui-tabview .ui-tabview-nav > li.ui-state-active {
+  font-weight: bold;
+  position: relative;
+  top: 2px;
+  border-bottom: 1px #eee solid;
+}
+
+#tabs-list {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+#tabs-list > li {
+  list-style: none;
+  float: left;
+  border: 1px solid #999;
+  border-bottom: 0;
+  transition: background-color 0.3s, transform 0.3s;
+  background: #f9f9f9;
+}
+
+#tabs-list > li.active {
+  font-weight: bold;
+  position: relative;
+  background: white;
+  border-bottom: 1px #eee solid;
+  top: 2px;
+  padding-top: 2px;
+  margin-top: -2px;
+  margin-right: 2px;
+  transform: scale(1.1);
+  transform-origin: bottom left;
+}
+
+#tabs-list > li:not(.active):hover {
+  background: #eee;
+}
+
+#tabs-list > li > a {
+  padding: 7px 15px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+#tabs-list > li.active > a{
+  color: #007bff;
+}
+
+#tabs-content {
+  padding: 10px;
+  border: 1px solid #999;
+  max-height: 400px;
+  overflow: auto;
+  margin-bottom: 30px;
+  scroll-behavior: smooth;
+  transition: 0.3s;
+}
+
+#tabs-content .tab-component {
+  margin-bottom: 25px;
+  padding-top: 25px;
+}

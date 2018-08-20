@@ -113,11 +113,11 @@ import {
     saveDynamic(data) {
       // edit row
       if (this.currObject.rowIndex !== undefined) {
-        this.data[this.currObject.rowIndex] = data; 
+        this.data[this.currObject.rowIndex] = data.values; 
       }
       // new row
       else {
-        this.data.push(data);
+        this.data.push(data.values);
       }
       this.refreshTable();
       this.setEmptyObject();

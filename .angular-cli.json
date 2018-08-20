@@ -26,7 +26,7 @@
         "../node_modules/font-awesome/css/font-awesome.min.css"
       ],
       "scripts": [
-        "app/date.format.js"
+        "assets/animatedScrollTo.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
