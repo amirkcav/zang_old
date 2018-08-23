@@ -18,6 +18,7 @@ import {
   import { ConfirmationService, SortEvent } from 'primeng/api';
   import { Table } from 'primeng/table';
   import { Dialog } from 'primeng/dialog';
+  import { ISetValue, Field } from '../interfaces';
   
   @Component({
     selector: 'dynamic-grid-b',
@@ -25,7 +26,7 @@ import {
     styleUrls: ['./dynamic-grid-b.component.css'],
     providers: [ QuestionService, ConfirmationService ]
   })
-  export class DynamicGridBComponent implements OnInit, OnChanges {    
+  export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {    
     @ViewChild('dt') dt: Table
     @ViewChild('dialog') dialog: Dialog
     
@@ -191,6 +192,10 @@ import {
     cancel() {
       this.displayDialog = false;
       this.setEmptyObject();      
+    }
+
+    setValue(field: Field, value: any) {
+      this.data[field.line][field.field] = value;
     }
 
   }

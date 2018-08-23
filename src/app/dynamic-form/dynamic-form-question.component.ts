@@ -39,6 +39,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   dateFormat = 'dd/mm/yyyy';
   showDatepicker = false;
 
+  closeDatepickerOnSelect = true;
+  selectedDate: any;
+
   constructor(private service: QuestionService) { }  
 
   ngOnInit() {
@@ -183,7 +186,12 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     const fDate = event.format('dd/mm/yyyy');
     this.form.controls[this.question.key].setValue(fDate);
     this.question['invalid'] = false;
-    this.showDatepicker = false;
+    if (this.closeDatepickerOnSelect) {
+      this.showDatepicker = false;
+    }
+    else {
+      this.closeDatepickerOnSelect = true;
+    }
   }
 
   showCalendarClick(event) {
@@ -195,7 +203,11 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       const day = +dateArr[partsArr.indexOf('dd')];    
       const month = +dateArr[partsArr.indexOf('mm')] - 1; // month value is by index
       const year = +dateArr[partsArr.indexOf('yyyy')];
-      this.calendar.selectDate({ year: year, month: month, day: day });
+      this.selectedDate = new Date(year, month, day);
+      setTimeout(() => {
+        this.closeDatepickerOnSelect = false;
+        this.calendar.selectDate({ year: year, month: month, day: day });
+      }, 50);
     }
   }
 
