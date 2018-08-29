@@ -37,10 +37,13 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   @Input() gridKey: string;
   @Input() gridParameters: any = null;
 
+  @Input() data: any;  
+
   @Output() onClicked = new EventEmitter<any>();
 
   grid: Grid = new Grid({});
-  data: any[];
+  // values: any[];
+  // data: any[];
   rowsInPage: number;
   selectedRows: any[] = [];
   addingNewRow = false;
@@ -49,16 +52,26 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   msgs: Message[] = [];
   results: object[];
 
+  order = 1;
+  prevSortColumn: string;
+
   //#endregion Variables
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
 
   ngOnChanges() {
-    this.initGrid();
+    if (!this.data) {
+      this.initGrid();
+    }
+    else {
+      this.setEmptyObject();
+      // this.grid = this.data;
+      // this.data.values = this.data.values;
+    }
   }
 
   ngOnInit() {
-  
+    const tt = 543;
   }
 
   initGrid(): void {
@@ -81,15 +94,15 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
       message: 'Are you sure you want to delete these row/s?',
       accept: () => {
         this.selectedRows.forEach(row => {
-          const deletedRow = this.data.indexOf(row);
-          // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
+          const deletedRow = this.data.values.indexOf(row);
+          // - this.dt.first is for after the first page, because this.data.values contains all rows, and tableElement.rows contains only the visible rows.
           this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
           setTimeout((_row) => {
-            let _deletedRow = this.data.indexOf(_row);
-            this.data.splice(_deletedRow, 1);            
+            let _deletedRow = this.data.values.indexOf(_row);
+            this.data.values.splice(_deletedRow, 1);            
             _deletedRow = this.selectedRows.indexOf(_row);
             this.selectedRows.splice(_deletedRow, 1);            
-            this.dt.totalRecords = this.data.length;
+            this.dt.totalRecords = this.data.values.length;
           }, 300, row);
         });        
       }
@@ -117,7 +130,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   }
 
   editComplete(event) {
-    const currData = Object.assign({ 'rowIndex': this.data.indexOf(event.data), 'field': event.field }, event.data[event.field]);
+    const currData = Object.assign({ 'rowIndex': this.data.values.indexOf(event.data), 'field': event.field }, event.data[event.field]);
     this.msgs.length = 0;    
     // validation
     this.service.validateControl('EDITABLE', event.field, currData).then(response => {
@@ -149,7 +162,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
 
   addNew(event) {
     const obj = JSON.parse(JSON.stringify(this.emptyObject));
-    this.data = [obj, ...this.data ]; 
+    this.data.values = [obj, ...this.data.values ]; 
     this.addingNewRow = true;
     setTimeout(() => {
       // first row is the headers, first col is the radio button
@@ -157,23 +170,38 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
     }, 100);
   }
 
-  customSort(event: SortEvent) {
-    event.data.sort((data1, data2) => {
+  customSort(columnId, columnType /*event: SortEvent*/) {
+    // when sorting new column, start ascending.
+    if (this.prevSortColumn !== columnId) {
+      this.order = 1;
+    }
+    this.data.values.sort((data1, data2) => {
       // keep the new row always first.
       if (data1['new-row']) {
         return -1;
       }
       // sorting by the value property
-      const value1 = +data1[event.field].value;
-      const value2 = +data2[event.field].value;
-      const result = value1 > value2 ? 1 : -1;
-
-      return (event.order * result);
+      let value1;
+      let value2;
+      if (columnType === 'number') {
+        value1 = +data1[columnId].value;
+        value2 = +data2[columnId].value;
+      }
+      else {
+        value1 = data1[columnId].value.toLowerCase();
+        value2 = data2[columnId].value.toLowerCase();
+      }
+      let result = value1 > value2 ? 1 : -1;
+      result = result * this.order;
+      return result;
     });
+
+    this.order = this.order * -1;
+    this.prevSortColumn = columnId;
   }
 
   saveNewRow(event) {
-    this.data[0]['new-row'] = false;
+    this.data.values[0]['new-row'] = false;
     this.addingNewRow = false;
     // if a cell is being edited in the new row, complete the editing (enter click).
     if (this.dt.editingCell && this.dt.editingCell.parentElement['rowIndex'] === 1) {
@@ -187,18 +215,18 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   }
   
   cancelNewRow(event) {
-    this.data = this.data.splice(1);
+    this.data.values = this.data.values.splice(1);
     this.addingNewRow = false;
   }
 
   setEmptyObject() {
-    this.grid.columns.forEach((c) => {
-      this.emptyObject[c.field] = { 'type': c.type, 'value': '' };
+    this.data.headers.forEach((c) => {
+      this.emptyObject[c.id] = { 'type': c.type, 'value': '' };
       if (c.type === 'select') {
-        this.emptyObject[c.field].options = c['options'];
+        this.emptyObject[c.id].options = c['options'];
       }
       else if (c.type === 'checkbox') {
-        this.emptyObject[c.field].value = false;
+        this.emptyObject[c.id].value = false;
       }
     });
     this.emptyObject['new-row'] = true;
@@ -215,12 +243,12 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   setValue(field: Field, value: any) {
       const col = this.grid.columns.filter((c) => c.id === field.field);
       //if (col['type'] === '') {}
-      this.data[field.line][field.field].value = value;
-      this.data[field.line][field.field].valueHolder = value;
-      // const currValue = Object.assign({}, this.data[field.line][field.field]);
+      this.data.values[field.line][field.field].value = value;
+      this.data.values[field.line][field.field].valueHolder = value;
+      // const currValue = Object.assign({}, this.data.values[field.line][field.field]);
       // currValue.value = value;
       // currValue.valueHolder = value;
-      // this.data[field.line][field.field] = currValue;    
+      // this.data.values[field.line][field.field] = currValue;    
   }
 
 }

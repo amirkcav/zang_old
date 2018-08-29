@@ -10,9 +10,9 @@
 
       <dynamic-form *ngIf="pm.type == 'form'" [formKey]="pm.id" [data]="pm" [saveButton]="null"></dynamic-form>
 
-      <dynamic-grid-b *ngIf="pm.type == 'grid' && !pm.inlineEditing"></dynamic-grid-b>
+      <dynamic-grid-b *ngIf="pm.type == 'grid' && !pm.inlineEditing" [gridKey]="pm.id" [data]="pm"></dynamic-grid-b>
 
-      <dynamic-grid-editable *ngIf="pm.type == 'grid' && pm.inlineEditing"></dynamic-grid-editable>
+      <dynamic-grid-editable *ngIf="pm.type == 'grid' && pm.inlineEditing" [gridKey]="pm.id" [data]="pm"></dynamic-grid-editable>
   </div>
 
   </div>

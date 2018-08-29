@@ -32,11 +32,13 @@ import {
     
     @Input() gridKey: string;
     @Input() gridParameters: any = null;
-  
+
+    @Input() data: any;
+
     @Output() onClicked = new EventEmitter<any>();
   
     grid: Grid = new Grid({});
-    data: any[];
+    // data: any[];
   
     loadingGrid: Promise<Grid>;
     loadingGridData: Promise<any[]>;
@@ -53,7 +55,13 @@ import {
     constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
   
     ngOnChanges() {
-      this.initGrid();
+      if (!this.data) {
+        this.initGrid();
+      }
+      else {
+        this.setEmptyObject();
+        this.objFields = Object.keys(this.currObject.fields);
+      }
     }
   
     ngOnInit() {
@@ -90,21 +98,21 @@ import {
 
     edit(rowData) {
       this.dialog.header = 'Edit row';
-      const rowIndex = this.data.indexOf(rowData);
+      const rowIndex = this.data.values.indexOf(rowData);
       this.currObject.rowIndex = rowIndex;
-      this.currObject.fields = Object.assign({}, rowData);
+      this.currObject.fields = JSON.parse(JSON.stringify(rowData)); // Object.assign({}, rowData);
       this.displayDialog = true;
     }
 
-    delete(data) {
+    remove(data) {
       this.confirmationService.confirm({
         message: 'Are you sure that you want to perform this action?',
         accept: () => {
-          const deletedRow = this.data.indexOf(data);
+          const deletedRow = this.data.values.indexOf(data);
           // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
           this.dt.domHandler.fadeOut(this.dt.tableViewChild.nativeElement.rows[deletedRow + 1 - this.dt.first], 300);
           setTimeout(() => {
-            this.data.splice(deletedRow, 1);            
+            this.data.values.splice(deletedRow, 1);            
             this.refreshTable();
           }, 300);
         }
@@ -129,11 +137,11 @@ import {
       const obj = Object.assign({}, this.currObject);
       // edit row
       if (this.currObject.rowIndex !== undefined) {
-        this.data[this.currObject.rowIndex] = obj.fields;
+        this.data.values[this.currObject.rowIndex] = obj.fields;
       }
       // new row
       else {
-        this.data.push(obj.fields);
+        this.data.values.push(obj.fields);
       }
       this.refreshTable();
       this.setEmptyObject();
@@ -142,9 +150,9 @@ import {
 
     setEmptyObject() {
       this.currObject.fields = {};
-      this.grid.columns.filter((c) => c.type !== 'buttons').forEach((c) => {
+      this.data.headers.filter((c) => c.type !== 'buttons').forEach((c) => {
         // the space (' ') is needed for soap ui, that doesn't know to receive empty string ('') or null;
-        this.currObject.fields[c.field] = ' ';
+        this.currObject.fields[c.id] = { 'value': ' ' };
       });
       this.currObject.rowIndex = undefined;
     }
@@ -161,28 +169,37 @@ import {
     }
 
     customSort(event: SortEvent) {
-      const column = this.grid.columns.find(function(c) { return c.id === event.field });
+      const column = this.data.headers.find(function(c) { return c.id === event.field });
 
       if (column['type'] === 'date') {
         event.data.sort((data1, data2) => {
           // changing dd/mm/yyyy to yyyymmdd (which is the format to sort dates).
-          const value1 = +data1[event.field].split('/').reverse().join('');
-          const value2 = +data2[event.field].split('/').reverse().join('');
+          const value1 = +data1[event.field].value.split('/').reverse().join('');
+          const value2 = +data2[event.field].value.split('/').reverse().join('');
           const result = value1 > value2 ? 1 : -1;
           return (event.order * result);
         });
       }
       else if (column['type'] === 'checkbox') {
         event.data.sort((data1, data2) => {
-          const result = data1[event.field].toString() === 'true' ? 1 : -1;
+          const result = data1[event.field].value.toString() === 'true' ? 1 : -1;
+          return (event.order * result);
+        });
+      }
+      else if (column['type'] === 'number') {
+        event.data.sort((data1, data2) => {
+          // make no difference between number and number as strings
+          const value1 = +data1[event.field].value;
+          const value2 = +data2[event.field].value;
+          const result = value1 > value2 ? 1 : -1;
           return (event.order * result);
         });
       }
       else {
         event.data.sort((data1, data2) => {
           // make no difference between number and number as strings
-          const value1 = +data1[event.field];
-          const value2 = +data2[event.field];
+          const value1 = data1[event.field].value.toLowerCase();
+          const value2 = data2[event.field].value.toLowerCase();
           const result = value1 > value2 ? 1 : -1;
           return (event.order * result);
         });

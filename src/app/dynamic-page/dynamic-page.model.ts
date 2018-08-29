@@ -26,7 +26,14 @@ export class PMRow {
     this.id = id;
     this.pms = new Array<PM>();
     pms.forEach(pm => {
-      this.pms.push(new PM(pm.id, pm.title, pm.type, pm.width, pm.fieldRows));
+      const newPm = new PM(pm.id, pm.title, pm.type, pm.width, pm.fieldRows);
+      if (pm.type === 'grid') {
+        newPm.headers = pm.headers;
+        newPm.values = pm.values;
+        newPm.inlineEditing = pm.inlineEditing;
+        newPm.checkboxColumn = pm.checkboxColumn;
+      }
+      this.pms.push(newPm);
     });
   }
 }
@@ -36,7 +43,13 @@ export class PM {
   title: string;
   type: string;
   width: number;
+  // form properties
   fieldRows: any[];
+  // grid properties
+  headers: any[];
+  values: any[];
+  inlineEditing: boolean;
+  checkboxColumn: boolean;
   
   constructor(id, title, type, width, fieldRows) {
     this.id = id;

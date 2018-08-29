@@ -1,6 +1,6 @@
-<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
+<p-table #dt [value]="data.values" [columns]="data.headers" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
          (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)" [(selection)]="selectedRows" 
-         (sortFunction)="customSort($event)" [customSort]="true">
+         > <!--[customSort]="true" (sortFunction)="customSort($event)"-->
     <ng-template pTemplate="caption">
         <div>
             <div class="clearfix">
@@ -14,24 +14,24 @@
                 <button *ngIf="selectedRows.length > 0" class="btn btn-danger pull-left" (click)="delete($event)">Delete</button>    
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
                 <input id="table-filter" type="text" class="form-control" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')">        
-            </div>        
+            </div>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 34px"></th>
-            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'">
-                {{ col.name }}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
+            <th *ngFor="let col of data.headers" [pSortableColumn]="col.id" [style.width]="col.width + '%'" (click)="customSort(col.id, col.type)">
+                {{ col.title }}
+                <p-sortIcon [field]="col.id"></p-sortIcon>
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
         <tr [pSelectableRow]="rowData" [ngClass]="{ 'new-row': rowData['new-row'] }">
-            <td>
+            <td *ngIf="data.checkboxColumn">
                 <p-tableCheckbox *ngIf="!rowData['new-row']" [value]="rowData"></p-tableCheckbox>
             </td>
-            <td *ngFor="let col of grid.columns" [pEditableColumn]="rowData" [pEditableColumnField]="col.field" tabindex="-1" 
+            <td *ngFor="let col of data.headers" [pEditableColumn]="rowData" [pEditableColumnField]="col.id" tabindex="-1" 
                 [ngClass]="{ 'invalid': rowData[col.id]?.invalid }"> 
                 <p-cellEditor>
                     <ng-template pTemplate="input">
@@ -44,6 +44,7 @@
                             <input *ngSwitchCase="'checkbox'" type="checkbox" style="width: auto;" [checked]="rowData[col.id].value" (change)="rowData[col.id].value = !rowData[col.id].value" >
                             <p-autoComplete *ngSwitchCase="'autocomplete'" [inputStyleClass]="'form-control'" emptyMessage="No results" 
                                             [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value" [(ngModel)]="rowData[col.id].value"></p-autoComplete>
+                            <input *ngSwitchCase="'number'" type="number" [(ngModel)]="rowData[col.id].value">
                             <input *ngSwitchDefault type="text" [(ngModel)]="rowData[col.id].value">
                         </ng-container>
                     </ng-template>
