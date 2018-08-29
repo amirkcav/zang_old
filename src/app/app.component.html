@@ -1,7 +1,31 @@
-<div id="wrapper" class="toggled">
+<div id="wrapper" class="_toggled">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">New Application</a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Sidebar -->
-  <div id="sidebar-wrapper">
+  <!-- <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
       <li class="sidebar-brand">
         <a href="#">
@@ -34,9 +58,12 @@
       </li>
       <li>
         <a href="#" (click)="display='multi-apps'" [ngClass]="{ 'active': display=='multi-apps' }">Multi apps</a>
+      </li> 
+      <li>
+        <a href="#" (click)="display='app'" [ngClass]="{ 'active': display=='app' }">New App</a>
       </li>
     </ul>
-  </div> 
+  </div>  -->
   <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
@@ -114,7 +141,7 @@
           <h3>Demo of M-based dynamic PrimeNG Table</h3>                    
           <div class="card" style="width: 40rem;">
             <div class="card-block">
-              <h4 class="card-title">PrimeNG editable table</h4>
+              <h4 class="card-title">PrimeNG table</h4>
               <dynamic-grid-b [gridKey]="'A'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid-b>
             </div>
           </div>
@@ -170,13 +197,20 @@
           </div>
         </div>
         <div *ngSwitchCase="'multi-apps'">
-            <div class="card">
-              <div class="card-block">
-                <h4 class="card-title">Multi apps</h4>
-                <app-dynamic-multi-apps [key]="'ABC'" [params]="" (onFormSaved)="onSaved($event)"></app-dynamic-multi-apps>
-              </div>
+          <div class="card">
+            <div class="card-block">
+              <h4 class="card-title">Multi apps</h4>
+              <app-dynamic-multi-apps [key]="'ABC'" [params]="" (onFormSaved)="onSaved($event)"></app-dynamic-multi-apps>
             </div>
           </div>
+        </div>
+
+        <div *ngSwitchCase="'app'">
+          
+          <dynamic-app></dynamic-app>
+          
+        </div>
+
       </div>
     </div>
   </div>

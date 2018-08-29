@@ -19,6 +19,7 @@ import { FileUploadQuestion } from './question-fileUpload';
 import { ImageQuestion } from './question-image';
 import { ButtonQuestion } from './question-button';
 import { TextareaQuestion } from './question-textarea';
+import { App } from '../dynamic-app/dynamic-app.model';
 
 @Injectable()
 export class QuestionService {
@@ -45,7 +46,9 @@ export class QuestionService {
   private readonly autoCompleteUrl = environment.dynaimcFormAutoCompleteUrl ||
     '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=AUTOCOMP';
 
-  private readonly getAppsUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GETAPPS';
+  private readonly getPmsUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GETPMS';    
+  
+  private readonly getAppUrl = '../mcall?_NS=USER&_ROUTINE=ZANGDEMO&_LABEL=GETAPP';
 
   constructor(private http: HttpClient) {}
 
@@ -166,6 +169,39 @@ export class QuestionService {
     //return null as QuestionBase<string>;
   }
 
+  createQuestionNEW(options: {} = {}): QuestionBase<string> {
+    // TODO: unsafe code - wshould use switch of string enum, or if/else on specific Question classes.
+    // const clazz = options['class'];
+    let question;
+    switch (options['type']) {
+      case 'dropdown':
+        question = new DropdownQuestion(options);  
+        break;
+      case 'autocomplete':
+        question = new AutoCompleteQuestion(options);  
+        break;
+      case 'FileUpload':
+        question = new FileUploadQuestion(options);  
+        break;
+      case 'Image':
+        question = new ImageQuestion(options);  
+        break;
+      case 'Button':
+        question = new ButtonQuestion(options);  
+        break;
+      case 'textarea':
+        question = new TextareaQuestion(options);  
+        break;
+      default:
+        question = new TextboxQuestion(options);
+        break;
+    }
+    return question;
+    // var instance = Object.create(window[name].prototype);
+    // instance.constructor.apply(instance, options);
+    //return null as QuestionBase<string>;
+  }
+
   getGrid(
     gridKey: string,
     gridParameters: any
@@ -242,8 +278,8 @@ export class QuestionService {
       .catch(this.handleError);
   }
 
-  getApps(key: string, params: any) {
-    const url = this.getUrl(this.getAppsUrl);
+  getPms(key: string, params: any) {
+    const url = this.getUrl(this.getPmsUrl);
     const data = { KEY: key, PARAMS: params };
 
     return this.http
@@ -256,6 +292,26 @@ export class QuestionService {
         }
         const resData: any = (res.data as any) || {};
         return resData;
+      })
+      .catch(this.handleError);
+  }
+
+
+  getApp(id: string, params: any) {
+    const url = this.getUrl(this.getAppUrl);
+    const data = { KEY: id, PARAMS: params };
+
+    return this.http
+      .post(url, JSON.stringify(data), { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        const res = response as ServiceResponse;
+        // if (res.status !== 'ok') {
+        //   return this.handleError(res);
+        // }
+        const resData: App = res['ap'];
+        const a = new App(resData.id, resData.job, resData.title, resData.icon, resData.pages);        
+        return a; //resData
       })
       .catch(this.handleError);
   }

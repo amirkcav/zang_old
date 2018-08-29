@@ -27,10 +27,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() cancelButton: string = null;
   @Input() saveButton = 'שמור';
 
+  @Input() data: any;
+
   @Output() onSaved = new EventEmitter<any>();
   @Output() onCancelled = new EventEmitter<any>();
 
   questions: QuestionBase<any>[] = [];
+  fieldRows = [];
   form: FormGroup;
 
   loadingQuestions: Promise<any>;
@@ -40,7 +43,14 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   constructor(private service: QuestionControlService) {}
 
   ngOnChanges() {
-    this.initForm();
+    if (!this.data) {
+      this.initForm();
+    }
+    else {
+      const flattendFields = this.service.getQuestionsClasses(this.data.fieldRows);
+      this.fieldRows = this.data.fieldRows;
+      this.form = this.service.toFormGroupNEW(flattendFields, this.formKey, this.validateOnBlur);      
+    }
   }
 
   ngOnInit() {

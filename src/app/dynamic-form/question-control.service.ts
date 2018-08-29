@@ -90,6 +90,77 @@ export class QuestionControlService {
       }
     });
     return formGroup;
+  }  
+
+  toFormGroupNEW(questions: QuestionBase<any>[], formKey: string, validateOnBlur: Boolean): FormGroup {
+    
+    // // get the fields (questions) from the fieldRows.
+    // let _questions = [];
+    // questions.forEach((q) => {
+    //   _questions = _questions.concat(q['fields']);
+    // });
+   
+    const group: any = {};
+    // Observable FormValidationResponse
+    const formValidationResponse = new Subject<FormValidationResponse>();
+
+    const formValidationResponse$ = formValidationResponse.asObservable();
+
+    questions.forEach(_question => {
+      const question = this.service.createQuestionNEW(_question);
+      const serverValidator = this.serverValidator(
+        formValidationResponse,
+        formKey,
+        question.id
+      );
+      const syncValidators = []; // question.required ? [Validators.required] : [];
+      if (question.required) {
+        syncValidators.push(Validators.required);
+      }
+      if (question['type'] === 'email') {
+        syncValidators.push(Validators.email);
+      }
+      // string to boolean
+      else if (question['type'] === 'checkbox') {
+        // 27.8.18
+        // question.value = question.value === 'true' ? true : false;
+      }
+
+      group[question.id] = new FormControl(
+        question.value === null ? '' : question.value,
+        { 
+          validators: syncValidators,
+          asyncValidators: serverValidator,
+          updateOn: (validateOnBlur ? 'blur' : 'change') 
+        },        
+      );
+    });
+    const formGroup = new FormGroup(group);
+    formValidationResponse$.subscribe(data => {
+      // console.log('Received validation response ' + data);
+      if (data.values) {
+        formGroup.patchValue(data.values);
+      }
+    });
+    return formGroup;
+  }
+
+  getQuestionsClasses(questions: any[]): QuestionBase<any>[] {
+    // get the fields (questions) from the fieldRows.
+    const questionsClasses = [];
+    questions.forEach((q) => {
+      if (!q.questions) {
+        q.questions = [];
+      }
+      q['fields'].forEach((f) => {
+        // creating the question object from each field and adding it to the field row and to an array of all questions (disregarding rows) for the FormGroup
+        const question = this.service.createQuestionNEW(f);
+        q.questions.push(question);
+        questionsClasses.push(question);
+      });
+    });
+    
+    return questionsClasses;
   }
 
   /**

@@ -1,0 +1,20 @@
+<h3 class="page-title">{{ data.title }}</h3>
+
+<div *ngFor="let row of data.pmRows" class="pm-row ui-g">
+  
+  <!-- pms -->
+  <div *ngFor="let pm of row.pms" [ngClass]="getWidthClass(pm.width)">
+  
+    <div class="pm-div">
+      <h5>{{ pm.title }}</h5>
+
+      <dynamic-form *ngIf="pm.type == 'form'" [formKey]="pm.id" [data]="pm" [saveButton]="null"></dynamic-form>
+
+      <dynamic-grid-b *ngIf="pm.type == 'grid' && !pm.inlineEditing"></dynamic-grid-b>
+
+      <dynamic-grid-editable *ngIf="pm.type == 'grid' && pm.inlineEditing"></dynamic-grid-editable>
+  </div>
+
+  </div>
+
+</div>

@@ -1,12 +1,13 @@
 <div [formGroup]="form" class="form-group" [hidden]="!question.visible">
-	<label *ngIf="question.controlType !== 'button'" [attr.for]="question.key" class="center-block">{{question.label}}</label>
+
+	<label *ngIf="question.controlType !== 'button'" [attr.for]="question.key || question.id" class="center-block">{{question.label}}</label>
 
 	<div [ngSwitch]="question.controlType">			
 				
 		<div *ngSwitchCase="'textbox'">
 			
 			<div *ngIf="question.type=='date'" class="clearfix ui-inputgroup">
-				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" 
+				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key || question.id" 
 					[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')" class="pull-left _ui-inputgroup-addon"></p-inputMask> 
 				<button pButton type="button" icon="fa fa-calendar" class="pull-right" (click)="showCalendarClick($event)" tabindex="-1"></button>
 			</div>
@@ -19,23 +20,23 @@
 				 <input [formControlName]="question.key" [id]="question.key" type="checkbox"  
 					[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" >
 				</label>	  -->
-			<p-checkbox *ngIf="question.type=='checkbox'" [formControl]="form.controls[question.key]" binary="true" [id]="question.key"></p-checkbox>
+			<p-checkbox *ngIf="question.type=='checkbox'" [formControl]="form.controls[question.key || question.id]" binary="true" [id]="question.key || question.id"></p-checkbox>
 
-			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
-				[id]="question.key" [type]="question.type" class="form-control" 
+			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key || question.id"
+				[id]="question.key || question.id" [type]="question.type" class="form-control" 
 				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 		
 
 		</div>				
 
 		<div *ngSwitchCase="'textarea'">
-				<textarea [formControlName]="question.key" [id]="question.key" class="form-control" [attr.readonly]="question.readonly ? '' : null"></textarea>
+				<textarea [formControlName]="question.key || question.id" [id]="question.key || question.id" class="form-control" [attr.readonly]="question.readonly ? '' : null"></textarea>
 		</div>
 
-		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
-			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
+		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key || question.id" 
+			[id]="question.key || question.id" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
 			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
 		
-		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
+		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key || question.id" [formControlName]="question.key || question.id" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
 
 		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
 
@@ -83,4 +84,5 @@
 			Email not valid.
 		</div>
 	</div>
+
 </div>

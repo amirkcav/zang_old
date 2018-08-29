@@ -65,7 +65,7 @@ export class DynamicMultiAppsComponent implements OnInit, AfterViewInit {
   }
 
   initApps(): void {
-    this.service.getApps(this.key, this.params).then(response => {
+    this.service.getPms(this.key, this.params).then(response => {
       this.data  = response;
       this.selectedTab = response[0].type + '-' + response[0].key;
     });

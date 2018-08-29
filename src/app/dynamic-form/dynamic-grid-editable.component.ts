@@ -26,8 +26,6 @@ import { ISetValue, Field } from '../interfaces';
   selector: 'dynamic-grid-editable',
   templateUrl: './dynamic-grid-editable.component.html',
   styleUrls: [ './dynamic-grid-editable.component.css' ],
-  // needed to load the css. https://github.com/angular/angular/issues/7845#issuecomment-302326549
-  // encapsulation: ViewEncapsulation.None,
   providers: [ QuestionService, ConfirmationService ]
 })
 export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValue {    

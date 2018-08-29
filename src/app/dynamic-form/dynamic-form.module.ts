@@ -30,6 +30,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
 
 import { environment } from '../../environments/environment';
+import { DynamicAppComponent } from '../dynamic-app/dynamic-app.component';
+import { DynamicPageComponent } from '../dynamic-page/dynamic-page.component';
 // import { environment } from 'environments/environment';
 
 @NgModule({
@@ -61,7 +63,9 @@ import { environment } from '../../environments/environment';
     DynamicGridComponent,
     DynamicGridBComponent,
     DynamicGridEditableComponent,
-    DynamicMultiAppsComponent
+    DynamicMultiAppsComponent,
+    DynamicAppComponent,
+    DynamicPageComponent
   ],
   exports: [
     DynamicFormComponent,
@@ -70,7 +74,8 @@ import { environment } from '../../environments/environment';
     DynamicGridComponent,
     DynamicGridBComponent,
     DynamicGridEditableComponent,
-    DynamicMultiAppsComponent
+    DynamicMultiAppsComponent,
+    DynamicAppComponent
   ]
 })
 export class DynamicFormModule {

@@ -45,7 +45,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   constructor(private service: QuestionService) { }  
 
   ngOnInit() {
-    this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
+    this.useCamera = this.question.controlType === 'file-upload' && this.question.id === 'image';
     if (this.question.controlType === 'file-upload' && this.useCamera /* && this.question['useCamera'] */) {
       this.play();
     }
@@ -58,7 +58,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   }
 
   get isInvalid() {
-    const control = this.form.controls[this.question.key];
+    const control = this.form.controls[this.question.id];
     if (!control) {
       return false;
     }
@@ -66,7 +66,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   }
 
   get errors() {
-    const control = this.form.controls[this.question.key];
+    const control = this.form.controls[this.question.id];
     if (!control) {
       return {};  
     }
@@ -77,7 +77,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     const q = event.query;
     this.autoCompleteSearch = this.service.autoCompleteSearch(
       this.formKey,
-      this.question.key,
+      this.question.id,
       q
     );
     this.autoCompleteSearch.then(response => {
@@ -184,7 +184,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
 
   datepickerSelect(event) {
     const fDate = event.format('dd/mm/yyyy');
-    this.form.controls[this.question.key].setValue(fDate);
+    this.form.controls[this.question.id].setValue(fDate);
     this.question['invalid'] = false;
     if (this.closeDatepickerOnSelect) {
       this.showDatepicker = false;
@@ -196,7 +196,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
 
   showCalendarClick(event) {
     this.showDatepicker = !this.showDatepicker;
-    const dateValue = this.form.controls[this.question.key].value;
+    const dateValue = this.form.controls[this.question.id].value;
     if (this.showDatepicker && dateValue.trim() /* initial value is " " */ ) {
       const dateArr = dateValue.split('/');
       const partsArr = this.dateFormat.split('/');

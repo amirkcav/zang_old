@@ -1,12 +1,15 @@
 <!-- <p>{{ form.value | json }}</p> -->
 
 <div class="container" [ngBusy]="{busy: loadingQuestions, message: 'טוען נתונים...'}" >
-  <form *ngIf="questions.length" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <form *ngIf="fieldRows.length" (ngSubmit)="onSubmit()" [formGroup]="form"> <!-- questions.length -->
 
-    <div *ngFor="let question of questions" class="form-row">
-      <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur" [formKey]="formKey"></df-question>
+    <div *ngFor="let fieldRow of fieldRows" class="form-row"> <!--questions-->
+      <ng-container *ngFor="let question of fieldRow.questions" >
+        <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur" [formKey]="formKey" 
+                     [ngClass]="question.widthClass()"></df-question>
+      </ng-container>
     </div>
-
+    
     <div *ngIf="saveButton || cancelButton" class="form-row">
       <button *ngIf="saveButton" type="submit" [disabled]="form.invalid || readonly" class="btn btn-primary">{{saveButton}}</button>
       <button *ngIf="cancelButton" type="button" (click)="onCancel()" class="btn btn-secondary">{{cancelButton}}</button>
