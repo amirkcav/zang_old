@@ -1,11 +1,11 @@
-import { ISetValue } from '../interfaces';
+import { IDynamicComponent } from '../interfaces';
 
 export class Page {
   id: string;
   title: string;
   disabled: boolean;        
   pmRows: PMRow[];
-  components: { [id: number]: ISetValue } = {};
+  components: { [id: number]: IDynamicComponent } = {};
 
   constructor(id?, title?, disabled?, pmRows?) {
     this.id = id;

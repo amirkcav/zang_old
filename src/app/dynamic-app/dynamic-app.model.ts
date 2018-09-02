@@ -1,4 +1,5 @@
 import { Page } from '../dynamic-page/dynamic-page.model'
+import { IDynamicComponent } from '../interfaces';
 
 export class App {
   id: string;
@@ -6,6 +7,7 @@ export class App {
   title: string;
   icon: string;
   pages: Page[];
+  components: { [id: number]: IDynamicComponent } = {};
 
   constructor(id?, job?, title?, icon?, pages?) {
     this.id = id;

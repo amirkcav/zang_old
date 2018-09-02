@@ -20,7 +20,7 @@ import { ConfirmationService, SortEvent, Message } from 'primeng/api';
 import { Table } from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
-import { ISetValue, Field } from '../interfaces';
+import { IDynamicComponent, Field } from '../interfaces';
 
 @Component({
   selector: 'dynamic-grid-editable',
@@ -28,7 +28,7 @@ import { ISetValue, Field } from '../interfaces';
   styleUrls: [ './dynamic-grid-editable.component.css' ],
   providers: [ QuestionService, ConfirmationService ]
 })
-export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValue {    
+export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamicComponent {    
   
   //#region Variables
 
@@ -55,6 +55,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   order = 1;
   prevSortColumn: string;
 
+  dataHolder: any;
+
   //#endregion Variables
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
@@ -65,6 +67,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
     }
     else {
       this.setEmptyObject();
+      this.dataHolder = JSON.parse(JSON.stringify(this.data));
       // this.grid = this.data;
       // this.data.values = this.data.values;
     }
@@ -249,6 +252,10 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
       // currValue.value = value;
       // currValue.valueHolder = value;
       // this.data.values[field.line][field.field] = currValue;    
+  }
+
+  cancelChanges(): void {
+    this.data = JSON.parse(JSON.stringify(this.dataHolder));
   }
 
 }

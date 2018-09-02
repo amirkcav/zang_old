@@ -18,7 +18,7 @@ import {
   import { ConfirmationService, SortEvent } from 'primeng/api';
   import { Table } from 'primeng/table';
   import { Dialog } from 'primeng/dialog';
-  import { ISetValue, Field } from '../interfaces';
+  import { IDynamicComponent, Field } from '../interfaces';
   
   @Component({
     selector: 'dynamic-grid-b',
@@ -26,7 +26,7 @@ import {
     styleUrls: ['./dynamic-grid-b.component.css'],
     providers: [ QuestionService, ConfirmationService ]
   })
-  export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {    
+  export class DynamicGridBComponent implements OnInit, OnChanges, IDynamicComponent {    
     @ViewChild('dt') dt: Table
     @ViewChild('dialog') dialog: Dialog
     
@@ -52,6 +52,8 @@ import {
     objFields: string[] = [];
     displayDialog = false;
 
+    dataHolder: any;
+
     constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
   
     ngOnChanges() {
@@ -61,6 +63,7 @@ import {
       else {
         this.setEmptyObject();
         this.objFields = Object.keys(this.currObject.fields);
+        this.dataHolder = JSON.parse(JSON.stringify(this.data));
       }
     }
   
@@ -106,7 +109,8 @@ import {
 
     remove(data) {
       this.confirmationService.confirm({
-        message: 'Are you sure that you want to perform this action?',
+        message: 'Are you sure that you want to delete this row?',
+        // rejectButtonStyleClass: 'fdsa',
         accept: () => {
           const deletedRow = this.data.values.indexOf(data);
           // - this.dt.first is for after the first page, because this.data contains all rows, and tableElement.rows contains only the visible rows.
@@ -141,6 +145,8 @@ import {
       }
       // new row
       else {
+        const buttons = this.data.headers.find((h) => h.id === 'buttons').buttons;
+        obj.fields.buttons = buttons;
         this.data.values.push(obj.fields);
       }
       this.refreshTable();
@@ -213,6 +219,10 @@ import {
 
     setValue(field: Field, value: any) {
       this.data[field.line][field.field] = value;
+    }
+
+    cancelChanges(): void {
+      this.data = JSON.parse(JSON.stringify(this.dataHolder));
     }
 
   }

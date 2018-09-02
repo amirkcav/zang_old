@@ -13,14 +13,14 @@ import { QuestionBase } from './question-base';
 
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
-import { ISetValue, Field } from '../interfaces';
+import { IDynamicComponent, Field } from '../interfaces';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   providers: [QuestionControlService, QuestionService]
 })
-export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
+export class DynamicFormComponent implements OnInit, OnChanges, IDynamicComponent {  
   @Input() formKey: string;
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
@@ -40,6 +40,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   readonly: boolean;
 
+  formValueHolder: any;
+
   constructor(private service: QuestionControlService) {}
 
   ngOnChanges() {
@@ -50,6 +52,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       const flattendFields = this.service.getQuestionsClasses(this.data.fieldRows);
       this.fieldRows = this.data.fieldRows;
       this.form = this.service.toFormGroupNEW(flattendFields, this.formKey, this.validateOnBlur);      
+      this.formValueHolder = this.form.value;
     }
   }
 
@@ -89,6 +92,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   setValue(field: Field, value: any) {
     this.form.controls[field.field].setValue(value);
+  }
+
+  cancelChanges(): void {
+    this.form.reset(this.formValueHolder);    
   }
 
 }

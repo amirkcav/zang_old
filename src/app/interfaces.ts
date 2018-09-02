@@ -9,6 +9,7 @@ export class Field {
   }
 }
 
-export interface ISetValue {
+export interface IDynamicComponent {
   setValue(field: Field, value: any): void;
+  cancelChanges(): void;
 }

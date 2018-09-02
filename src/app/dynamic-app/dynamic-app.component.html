@@ -14,8 +14,10 @@
     </div>
   </div>
 
-  <div class="form-row">
-      <button type="button" (click)="onSave()" class="btn btn-primary">Save</button>
-      <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancel</button>
+  <div class="form-row app-actions">
+      <button pButton type="button" (click)="onSave()" class="ui-button ui-button-text-only ui-button-primary" label="Save"></button>
+      <button pButton type="button" (click)="onCancel()" class="ui-button ui-button-text-only ui-button-secondary" label="Cancel"></button>
     </div>
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" rejectButtonStyleClass="ui-button-secondary" width="425"></p-confirmDialog>
