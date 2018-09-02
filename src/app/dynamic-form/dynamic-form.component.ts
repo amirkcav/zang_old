@@ -14,6 +14,7 @@ import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
 import { IDynamicComponent, Field } from '../interfaces';
+import { PM } from '../dynamic-page/dynamic-page.model';
 
 @Component({
   selector: 'dynamic-form',
@@ -27,7 +28,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, IDynamicComponen
   @Input() cancelButton: string = null;
   @Input() saveButton = 'שמור';
 
-  @Input() data: any;
+  @Input() data: PM;
 
   @Output() onSaved = new EventEmitter<any>();
   @Output() onCancelled = new EventEmitter<any>();

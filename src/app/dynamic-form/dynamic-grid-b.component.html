@@ -44,16 +44,16 @@
     <!-- <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
         cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form> -->
     
-    <!-- <dynamic-form [formKey]="data.id" [data]="data.headers" (onSaved)="saveDynamic($event)" ></dynamic-form> -->
+    <dynamic-form #form [formKey]="formData.id" [data]="formData" (onSaved)="saveDynamic($event)" ></dynamic-form>
 
     <!-- dynamicly created form according to the grid columns -->
-    <div class="ui-g ui-fluid" *ngIf="objFields">
+    <!-- <div class="ui-g ui-fluid" *ngIf="objFields">
         <div class="ui-g-12" *ngFor="let field of objFields">
             <div class="ui-g-4">
                 <label [for]="field">{{field}}</label>
             </div>
             <div class="ui-g-8">
-                <input pInputText class="form-control" [id]="currObject.fields[field]" [(ngModel)]="currObject.fields[field].value" />
+                <input pInputText class="form-control" [id]="field" [(ngModel)]="currObject.fields[field].value" />
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
             <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
         </div>
-    </p-footer>
+    </p-footer> -->
 
 </p-dialog>
 

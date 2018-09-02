@@ -51,12 +51,12 @@ export class PM {
   inlineEditing: boolean;
   checkboxColumn: boolean;
   
-  constructor(id, title, type, width, fieldRows) {
+  constructor(id?, title?, type?, width?, fieldRows?) {
     this.id = id;
     this.title = title;
     this.type = type;
     this.width = width;
-    this.fieldRows = fieldRows;
+    this.fieldRows = fieldRows ? fieldRows : new Array<any>();
   }
 
   widthClass() {

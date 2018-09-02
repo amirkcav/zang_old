@@ -19,6 +19,8 @@ import {
   import { Table } from 'primeng/table';
   import { Dialog } from 'primeng/dialog';
   import { IDynamicComponent, Field } from '../interfaces';
+  import { PM } from '../dynamic-page/dynamic-page.model';
+import { DynamicFormComponent } from './dynamic-form.component';
   
   @Component({
     selector: 'dynamic-grid-b',
@@ -29,11 +31,12 @@ import {
   export class DynamicGridBComponent implements OnInit, OnChanges, IDynamicComponent {    
     @ViewChild('dt') dt: Table
     @ViewChild('dialog') dialog: Dialog
+    @ViewChild('form') form: DynamicFormComponent
     
     @Input() gridKey: string;
     @Input() gridParameters: any = null;
 
-    @Input() data: any;
+    @Input() data: PM;
 
     @Output() onClicked = new EventEmitter<any>();
   
@@ -54,6 +57,8 @@ import {
 
     dataHolder: any;
 
+    formData: PM;
+
     constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
   
     ngOnChanges() {
@@ -64,6 +69,7 @@ import {
         this.setEmptyObject();
         this.objFields = Object.keys(this.currObject.fields);
         this.dataHolder = JSON.parse(JSON.stringify(this.data));
+        this.setFormData();
       }
     }
   
@@ -104,6 +110,14 @@ import {
       const rowIndex = this.data.values.indexOf(rowData);
       this.currObject.rowIndex = rowIndex;
       this.currObject.fields = JSON.parse(JSON.stringify(rowData)); // Object.assign({}, rowData);
+      
+      this.form.form.reset({
+        'age': this.currObject.fields.age.value,
+        'name': this.currObject.fields.name.value,
+        'date': this.currObject.fields.date.value,
+        'city': this.currObject.fields.city.value
+      });      
+
       this.displayDialog = true;
     }
 
@@ -126,15 +140,20 @@ import {
     saveDynamic(data) {
       // edit row
       if (this.currObject.rowIndex !== undefined) {
-        this.data[this.currObject.rowIndex] = data.values; 
+        const buttons = this.data.values[this.currObject.rowIndex].buttons;
+        data.values.buttons = buttons;
+        this.data.values[this.currObject.rowIndex] = data.values; 
       }
       // new row
       else {
-        this.data.push(data.values);
+        const buttons = this.data.headers.find((h) => h.id === 'buttons').buttons;
+        data.values.buttons = buttons;
+        this.data.values.push(data.values);
       }
       this.refreshTable();
       this.setEmptyObject();
       this.displayDialog = false;
+      this.form.form.reset();
     }
 
     save() {
@@ -170,7 +189,7 @@ import {
 
     refreshTable() {
       // needed to update the number of pages etc.
-      this.dt.totalRecords = this.data.length;
+      this.dt.totalRecords = this.data.values.length;
       this.dt.sortSingle();
     }
 
@@ -225,4 +244,16 @@ import {
       this.data = JSON.parse(JSON.stringify(this.dataHolder));
     }
 
+    setFormData() {
+      this.formData = new PM('form-' + this.data.id, 'TITLE', 'form');
+      let num = 1;
+      this.data.headers.filter((f) => f.type !== 'buttons').forEach((h) => {
+        const field = { 'id': h.id, 'label': h.title, 'type': h.type };
+        if (h.type === 'dropdown') {
+          field['options'] = h.options;
+        }
+        this.formData.fieldRows.push({ 'id': num, 'fields': [ field ] });
+        num++;
+      });
+    }
   }
