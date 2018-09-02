@@ -43,12 +43,8 @@ export class DynamicAppComponent implements OnInit {
     const parentOffset = (document.querySelector('#tabs-content') as HTMLElement).offsetTop;
     const tabOffset = (document.querySelector('#' + tabId) as HTMLElement).offsetTop;
     this.isUserScroll = false;
-    const animationDuration = 500;
-    this.anim.animatedScrollTo(document.querySelector('#tabs-content'), tabOffset - parentOffset, animationDuration);
-    // The animation finishes a little more than 2 * animationDuration.
-    setTimeout(() => {
-      this.isUserScroll = true;
-    }, animationDuration * 2.2);
+    const _this = this;
+    this.anim.animatedScrollTo(document.querySelector('#tabs-content'), tabOffset - parentOffset, 500, function() { _this.isUserScroll = true; });    
     this.selectedTab = tabId;
   }
 
@@ -79,6 +75,8 @@ export class DynamicAppComponent implements OnInit {
       // positive value is when scrolling down.
       const scrollDirection = this.prevScrollPosition < event.target.scrollTop;
       this.data.pages.forEach((p) => {
+        // more exact calculation take into consideration the parent (scroll "owner") height.
+        // when scrolling down, 100px before the page reaches the top, when scrolling down 100px before the page top is shown.
         if ((scrollDirection && p['offset'] <  event.target.scrollTop + 100) || 
             (!scrollDirection && p['offset'] - p['height'] <  event.target.scrollTop - 100)) {
           const tabId = this.pageIdPrefix + p.id;

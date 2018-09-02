@@ -41,7 +41,7 @@
 }
 
 #tabs-list > li.active + li {
-  margin-left: 10px;
+  margin-left: 0.5%; /*10px;*/
 }
 
 #tabs-list > li:not(.active):hover {
@@ -69,7 +69,10 @@
   background: #fafafa;
 }
 
-#tabs-content .tab-component {
+#tabs-content .tab-component:not(:last-child) {
   margin-bottom: 25px;
-  /* padding-top: 25px; */
+}
+
+.app-actions button + button {
+  margin-left: 10px;
 }
