@@ -1,6 +1,6 @@
 <!-- <p>{{ form.value | json }}</p> -->
 
-<div class="container" [ngBusy]="{busy: loadingQuestions, message: 'טוען נתונים...'}" >
+<div class="container" [ngBusy]="{busy: loadingQuestions, message: 'טוען נתונים...'}">
   <form *ngIf="fieldRows.length" (ngSubmit)="onSubmit()" [formGroup]="form"> <!-- questions.length -->
 
     <div *ngFor="let fieldRow of fieldRows" class="form-row"> <!--questions-->
