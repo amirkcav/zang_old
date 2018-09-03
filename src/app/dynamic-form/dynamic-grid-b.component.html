@@ -3,7 +3,7 @@
     <ng-template pTemplate="caption">
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
+            <input id="table-filter" type="text" pInputText placeholder="Global Filter" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')">
             <button type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
         </div>
     </ng-template>
@@ -20,7 +20,6 @@
             <td *ngFor="let col of data.headers"> 
                 <div [ngSwitch]="col.type">
                     <div *ngSwitchCase="'buttons'">
-                        <!-- {{rowData.buttons.length }} -->
                         <a href="javascript:;" *ngFor="let btn of rowData.buttons" class="row-button" (click)="this[btn](rowData)">
                             <i [ngClass]="'fa fa-' + btn" style="margin:4px 4px 0 0"></i>
                         </a>

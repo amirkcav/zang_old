@@ -57,6 +57,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
 
   dataHolder: any;
 
+  valueHolder: any;
+
   //#endregion Variables
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
@@ -114,7 +116,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
 
   editInit(event) {
     if (!event.data[event.field].invalid) {
-      event.data[event.field].valueHolder =  event.data[event.field].value;
+      //event.data[event.field].valueHolder =  event.data[event.field].value;
+      this.valueHolder = event.data[event.field].value;
     }
     clearTimeout(this.timeoutHolder);
     // in text input set the text to be selected
@@ -159,7 +162,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
 
   editCancel(event) {
     this.msgs.length = 0;
-    event.data[event.field].value = event.data[event.field].valueHolder;
+    event.data[event.field].value = this.valueHolder; // event.data[event.field].valueHolder;
     event.data[event.field].invalid = false;
   }
 
@@ -248,6 +251,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
       //if (col['type'] === '') {}
       this.data.values[field.line][field.field].value = value;
       this.data.values[field.line][field.field].valueHolder = value;
+      
       // const currValue = Object.assign({}, this.data.values[field.line][field.field]);
       // currValue.value = value;
       // currValue.valueHolder = value;

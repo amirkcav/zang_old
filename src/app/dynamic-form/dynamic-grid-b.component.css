@@ -5,3 +5,8 @@
 .row-button {
   color: #333;
 }
+
+#table-filter {
+  width: 30%;
+  display: inline-block;
+}
