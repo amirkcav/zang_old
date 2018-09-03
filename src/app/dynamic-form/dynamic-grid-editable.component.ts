@@ -69,9 +69,11 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
     }
     else {
       this.setEmptyObject();
-      this.dataHolder = JSON.parse(JSON.stringify(this.data));
-      // this.grid = this.data;
-      // this.data.values = this.data.values;
+      this.dataHolder = JSON.parse(JSON.stringify(this.data));      
+      // the field property is needed for the grid export.
+      this.data.headers.forEach(h => {
+        h.field = h.id;
+      });
     }
   }
 
@@ -251,7 +253,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
       //if (col['type'] === '') {}
       this.data.values[field.line][field.field].value = value;
       this.data.values[field.line][field.field].valueHolder = value;
-      
+
       // const currValue = Object.assign({}, this.data.values[field.line][field.field]);
       // currValue.value = value;
       // currValue.valueHolder = value;
@@ -260,6 +262,10 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
 
   cancelChanges(): void {
     this.data = JSON.parse(JSON.stringify(this.dataHolder));
+  }
+
+  export(event) {
+    return event.data.value;
   }
 
 }

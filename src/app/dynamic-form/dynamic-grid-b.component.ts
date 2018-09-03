@@ -70,6 +70,13 @@ import { DynamicFormComponent } from './dynamic-form.component';
         this.objFields = Object.keys(this.currObject.fields);
         this.dataHolder = JSON.parse(JSON.stringify(this.data));
         this.setFormData();
+        // the field property is needed for the grid export.
+        this.data.headers.forEach(h => {
+          h.field = h.id;
+          if (h.type === 'buttons') {
+            h.exportable = false;
+          }
+        });
       }
     }
   
@@ -256,4 +263,9 @@ import { DynamicFormComponent } from './dynamic-form.component';
         num++;
       });
     }
+
+    export(event) {
+      return event.data.value;
+    }
+    
   }

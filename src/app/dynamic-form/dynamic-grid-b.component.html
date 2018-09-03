@@ -1,5 +1,5 @@
 <p-table #dt [value]="data.values" [columns]="data.headers" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
-         (sortFunction)="customSort($event)" [customSort]="true">
+         (sortFunction)="customSort($event)" [customSort]="true" [exportFunction]="export">
     <ng-template pTemplate="caption">
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
