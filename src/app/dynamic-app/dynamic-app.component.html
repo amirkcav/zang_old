@@ -21,3 +21,35 @@
 </div>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" rejectButtonStyleClass="ui-button-secondary" width="425"></p-confirmDialog>
+
+
+
+<div style="margin-top: 25px;">
+
+  <div class="form-group" style="float: left; margin-right: 20px;">
+    <label>Page</label>
+    <select (change)="change($event.target.value)">
+      <option *ngFor="let p of data?.pages" [value]="p.id">{{ p.id }}</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="float: left; margin-right: 20px;">
+    <label>PM</label>
+    <select (input)="changePm($event.target.value)">
+      <option *ngFor="let c of componentsKeys" [value]="c">{{ c }}</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="float: left; margin-right: 20px;">
+    <label>Field</label>
+    <select (input)="changeField($event.target.value)">
+      <option *ngFor="let f of fieldsKeys" [value]="f">{{ f }}</option>
+    </select>
+  </div>
+
+  <input #value [ngModel]="field.value" />
+
+  <button (click)="setValue(value.value)">Set Value</button>
+
+
+</div>

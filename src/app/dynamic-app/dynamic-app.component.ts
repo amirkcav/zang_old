@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { App } from './dynamic-app.model' 
 import { QuestionService } from '../dynamic-form/question.service';
 import { ConfirmationService } from 'primeng/api';
+import { Field } from '../interfaces';
 
 // The animObj is declared in assets/animatedScrollTo.js. 
 // watch https://www.thepolyglotdeveloper.com/2016/01/include-external-javascript-libraries-in-an-angular-2-typescript-project/
@@ -27,6 +28,11 @@ export class DynamicAppComponent implements OnInit {
 
   // because id of element can't start with a number.
   pageIdPrefix = 'page-';
+
+  components: any;
+  componentsKeys: string[];
+  fieldsKeys: string[];
+  field = new Field();
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) { }
 
@@ -100,6 +106,30 @@ export class DynamicAppComponent implements OnInit {
         p['height'] = height + +elemStyle['margin-bottom'].replace('px', '');
       }
     });  
+  }
+
+
+  change(pageId) {
+    const page = this.data.pages.find((p) => +p.id === +pageId);
+    this.components = page.components;
+    this.componentsKeys = Object.keys(this.components);
+    this.changePm(this.componentsKeys[0]);
+  }
+
+  changePm(pmId) {
+    this.field.pm = pmId;
+    const component = this.components[pmId];
+    const fields = component.form.value;
+    this.fieldsKeys = Object.keys(fields);
+    this.changeField(this.fieldsKeys[0]);
+  }
+
+  changeField(fieldId) {
+    this.field.field = fieldId; 
+  }
+
+  setValue(value) {
+    this.components[this.field.pm].setValue(this.field, value);
   }
 
 }
