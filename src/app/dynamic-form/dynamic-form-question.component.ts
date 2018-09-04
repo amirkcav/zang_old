@@ -174,7 +174,6 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     else {
       this.question['invalid'] = false;
       this.showDatepicker = false;
-      console.log('VVV');
     }
   }
 

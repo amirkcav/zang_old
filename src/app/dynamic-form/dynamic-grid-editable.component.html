@@ -26,7 +26,7 @@
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" [ngClass]="{ 'new-row': rowData['new-row'] }">            
             <td *ngIf="data.checkboxColumn">
                 <p-tableCheckbox *ngIf="!rowData['new-row']" [value]="rowData"></p-tableCheckbox>
@@ -36,15 +36,14 @@
                 <p-cellEditor>
                     <ng-template pTemplate="input">
                         <ng-container [ngSwitch]="col.type ? col.type : ''">
-                            <p-dropdown *ngSwitchCase="'dropdown'" [options]="col.options" optionLabel="value" [(ngModel)]="rowData[col.id]"></p-dropdown> 
-                            <!-- <p-dropdown *ngSwitchCase="'select'" [options]="rowData[col.id].options" optionLabel="value" [(ngModel)]="rowData[col.id].value"></p-dropdown> [disabled]="question.readonly" -->
-                            <!-- <select *ngSwitchCase="'select'" [(ngModel)]="rowData[col.id].value">
-                                <option *ngFor="let opt of rowData[col.id].options" [value]="opt">{{ opt }}</option>
-                            </select> -->
-                            <input *ngSwitchCase="'checkbox'" type="checkbox" style="width: auto;" [checked]="rowData[col.id].value" (change)="rowData[col.id].value = !rowData[col.id].value" >
+                            <p-dropdown *ngSwitchCase="'dropdown'" [options]="col.options" optionLabel="value" [(ngModel)]="rowData[col.id]"></p-dropdown>                             
+                            <p-checkbox *ngSwitchCase="'checkbox'" [(ngModel)]="rowData[col.id].value" binary="true"></p-checkbox>
                             <p-autoComplete *ngSwitchCase="'autocomplete'" [inputStyleClass]="'form-control'" emptyMessage="No results" 
                                             [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value" [(ngModel)]="rowData[col.id].value"></p-autoComplete>
                             <input *ngSwitchCase="'number'" type="number" [(ngModel)]="rowData[col.id].value">
+                            <p-inputMask *ngSwitchCase="'date'" #maskInput size="8" mask="99/99/9999" (onComplete)="completeMask(maskInput, rowIndex, col.id)" [(ngModel)]="rowData[col.id].value"
+                                         [placeholder]="dateFormat" [slotChar]="dateFormat" class="mask-input"></p-inputMask> 
+                                         <!-- + (question.invalid ? 'invalid' : '')-->
                             <input *ngSwitchDefault type="text" [(ngModel)]="rowData[col.id].value">
                         </ng-container>
                     </ng-template>

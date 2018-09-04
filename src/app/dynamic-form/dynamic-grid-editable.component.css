@@ -27,3 +27,8 @@ td.ui-editable-column.invalid p-celleditor input {
 .editable-grid-label {
   margin-bottom: 0;
 }
+
+::ng-deep td.invalid .mask-input input {
+  /* border: 1px solid red; */
+  box-shadow: 0px 0px 5px red;
+}

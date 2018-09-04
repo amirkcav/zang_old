@@ -59,6 +59,8 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
 
   valueHolder: any;
 
+  dateFormat = 'dd/mm/yyyy';
+
   //#endregion Variables
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
@@ -122,17 +124,17 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
       this.valueHolder = event.data[event.field].value;
     }
     clearTimeout(this.timeoutHolder);
-    // in text input set the text to be selected
-    if (event.data[event.field].fieldType === 'number' || event.data[event.field].fieldType === 'autocomplete') {
+    // in text input set the text to be selected. in other elements (dropdown, checkbox etc) - focus.
+    const header = this.data.headers.find((h) => h.id === event.field);
+    if (['dropdown', 'checkbox'].indexOf(header.type) >= 0) {
+      this.timeoutHolder = setTimeout((cell) => {
+        cell.children[0].children[0].focus();
+      }, 100, this.dt.editingCell);
+    }
+    else {
       this.timeoutHolder = setTimeout((cell) => {
         const input = cell.querySelector('input');
         input.setSelectionRange(0, +input.value.length);
-      }, 100, this.dt.editingCell);
-    }
-    // other elements (dropdown, checkbox etc) - focus.
-    else {
-      this.timeoutHolder = setTimeout((cell) => {
-        cell.children[0].children[0].focus();
       }, 100, this.dt.editingCell);
     }
   }
@@ -268,4 +270,25 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
     return event.data.value;
   }
 
+  completeMask(elem, rowIndex, fieldId) {
+    // is valid date
+    const date = elem.value; // this.form.controls[this.question.key].value; // event.target.value;
+    const dateArr = date.split('/');
+    const partsArr = this.dateFormat.split('/');
+    const day = +dateArr[partsArr.indexOf('dd')];    
+    const month = +dateArr[partsArr.indexOf('mm')] - 1; // month value is by index
+    const year = +dateArr[partsArr.indexOf('yyyy')];
+    const dateObj = new Date(year, month, day);
+    // if you set days to more than 30 it gets to the next month. same for month (more than 11). 
+    // for example new Date(99,99,2000) is a valid date (resulting in 2012). checking that this is not the case.
+    if (date !== '' && (isNaN(dateObj.getDate()) || dateObj.getMonth() !== month || dateObj.getFullYear() !== year)) { 
+      this.data.values[rowIndex][fieldId]['invalid'] = true;
+      elem.el.nativeElement.focus();
+      console.log('invalid');
+    }
+    else {
+      this.data.values[rowIndex][fieldId]['invalid'] = false;
+    }
+  }
+  
 }
