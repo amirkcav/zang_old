@@ -28,7 +28,8 @@
 
   <div class="form-group" style="float: left; margin-right: 20px;">
     <label>Page</label>
-    <select (change)="change($event.target.value)">
+    <select (change)="changePage($event.target.value)">
+      <option value="">Select Page</option>
       <option *ngFor="let p of data?.pages" [value]="p.id">{{ p.id }}</option>
     </select>
   </div>
@@ -37,6 +38,13 @@
     <label>PM</label>
     <select (input)="changePm($event.target.value)">
       <option *ngFor="let c of componentsKeys" [value]="c">{{ c }}</option>
+    </select>
+  </div>
+  
+  <div *ngIf="!isForm" class="form-group" style="float: left; margin-right: 20px;">
+    <label>Line</label>
+    <select (input)="changeLine($event.target.value)">
+      <option *ngFor="let c of getArray(lines); let i = index" [value]="i">{{ i + 1 }}</option>
     </select>
   </div>
 

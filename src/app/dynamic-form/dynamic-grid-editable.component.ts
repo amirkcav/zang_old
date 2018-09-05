@@ -251,8 +251,11 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
   }
 
   setValue(field: Field, value: any) {
-      const col = this.grid.columns.filter((c) => c.id === field.field);
-      //if (col['type'] === '') {}
+      const col = this.data.headers.find((c) => c.id === field.field);
+      if (col['type'] === 'checkbox') {
+        value = value !== 'false';
+      }
+
       this.data.values[field.line][field.field].value = value;
       this.data.values[field.line][field.field].valueHolder = value;
 
@@ -279,7 +282,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, IDynamic
     const month = +dateArr[partsArr.indexOf('mm')] - 1; // month value is by index
     const year = +dateArr[partsArr.indexOf('yyyy')];
     const dateObj = new Date(year, month, day);
-    // if you set days to more than 30 it gets to the next month. same for month (more than 11). 
+    // if you set days to more than 30 it gets to the next month. same for month (more than 11. zero based). 
     // for example new Date(99,99,2000) is a valid date (resulting in 2012). checking that this is not the case.
     if (date !== '' && (isNaN(dateObj.getDate()) || dateObj.getMonth() !== month || dateObj.getFullYear() !== year)) { 
       this.data.values[rowIndex][fieldId]['invalid'] = true;

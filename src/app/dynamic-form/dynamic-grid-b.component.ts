@@ -85,19 +85,19 @@ import { DynamicFormComponent } from './dynamic-form.component';
     }
   
     initGrid(): void {
-      // load the grid definitions
-      this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
-      this.loadingGrid.then(response => {
-        this.grid = response;
-        this.setEmptyObject();
-        this.objFields = Object.keys(this.currObject.fields);
-      });
+      // // load the grid definitions
+      // this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
+      // this.loadingGrid.then(response => {
+      //   this.grid = response;
+      //   this.setEmptyObject();
+      //   this.objFields = Object.keys(this.currObject.fields);
+      // });
   
-      // load the grid data
-      this.loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
-      this.loadingGridData.then(response => {
-        this.data = response;
-      });
+      // // load the grid data
+      // this.loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
+      // this.loadingGridData.then(response => {
+      //   this.data = response;
+      // });
     }
   
     cellClicked(event, cell, cellValue, row) {
@@ -118,12 +118,19 @@ import { DynamicFormComponent } from './dynamic-form.component';
       this.currObject.rowIndex = rowIndex;
       this.currObject.fields = JSON.parse(JSON.stringify(rowData)); // Object.assign({}, rowData);
       
-      this.form.form.reset({
-        'age': this.currObject.fields.age.value,
-        'name': this.currObject.fields.name.value,
-        'date': this.currObject.fields.date.value,
-        'city': this.currObject.fields.city.value
-      });      
+      const dataObject = {};
+      Object.keys(this.currObject.fields).forEach(f => {
+        const col = this.data.headers.find((h) => h.id === f);
+        let val;
+        if (col.type === 'dropdown') {
+          val = rowData[f];
+        }
+        else {
+          val = rowData[f].value;
+        }
+        dataObject[f] = val;
+      });
+      this.form.form.reset(dataObject);      
 
       this.displayDialog = true;
     }
@@ -244,7 +251,11 @@ import { DynamicFormComponent } from './dynamic-form.component';
     }
 
     setValue(field: Field, value: any) {
-      this.data[field.line][field.field] = value;
+      const col = this.data.headers.find((c) => c.id === field.field);
+      if (col['type'] === 'checkbox') {
+        value = value !== 'false';
+      }
+      this.data.values[field.line][field.field].value = value;
     }
 
     cancelChanges(): void {

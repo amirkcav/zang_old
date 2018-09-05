@@ -43,6 +43,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, IDynamicComponen
 
   formValueHolder: any;
 
+  flattendFields: QuestionBase<any>[];
+
   constructor(private service: QuestionControlService) {}
 
   ngOnChanges() {
@@ -50,9 +52,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, IDynamicComponen
       this.initForm();
     }
     else {
-      const flattendFields = this.service.getQuestionsClasses(this.data.fieldRows);
+      this.flattendFields = this.service.getQuestionsClasses(this.data.fieldRows);
       this.fieldRows = this.data.fieldRows;
-      this.form = this.service.toFormGroupNEW(flattendFields, this.formKey, this.validateOnBlur);      
+      this.form = this.service.toFormGroupNEW(this.flattendFields, this.formKey, this.validateOnBlur);      
       this.formValueHolder = this.form.value;
     }
   }
@@ -92,6 +94,16 @@ export class DynamicFormComponent implements OnInit, OnChanges, IDynamicComponen
   }
 
   setValue(field: Field, value: any) {
+    const question = this.flattendFields.find((f) => f.id.toString() === field.field.toString());
+    if (question['type'] === 'checkbox') {
+      value = value.toLowerCase() !== 'false';
+    }
+    else if (question.controlType === 'dropdown') {
+      const valueOption = question['options'].find((o) => o.id.toString() === value.toString() || o.value.toString() === value.toString());
+      if (valueOption) {
+        value = valueOption;
+      }
+    }
     this.form.controls[field.field].setValue(value);
   }
 

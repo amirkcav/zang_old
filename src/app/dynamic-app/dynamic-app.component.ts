@@ -3,6 +3,7 @@ import { App } from './dynamic-app.model'
 import { QuestionService } from '../dynamic-form/question.service';
 import { ConfirmationService } from 'primeng/api';
 import { Field } from '../interfaces';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 
 // The animObj is declared in assets/animatedScrollTo.js. 
 // watch https://www.thepolyglotdeveloper.com/2016/01/include-external-javascript-libraries-in-an-angular-2-typescript-project/
@@ -33,6 +34,8 @@ export class DynamicAppComponent implements OnInit {
   componentsKeys: string[];
   fieldsKeys: string[];
   field = new Field();
+  isForm: boolean;
+  lines: number;
 
   constructor(private service: QuestionService, private confirmationService: ConfirmationService) { }
 
@@ -41,6 +44,8 @@ export class DynamicAppComponent implements OnInit {
       this.data = <App>response;
       this.dataHolder = JSON.parse(JSON.stringify(this.data));
       this.selectedTab = this.pageIdPrefix + this.data.pages[0].id;
+
+      // this.changePage(this.data.pages[0].id);
     });
   }
 
@@ -109,8 +114,8 @@ export class DynamicAppComponent implements OnInit {
   }
 
 
-  change(pageId) {
-    const page = this.data.pages.find((p) => +p.id === +pageId);
+  changePage(pageId) {
+    const page = this.data.pages.find((p) => p.id.toString() === pageId.toString());
     this.components = page.components;
     this.componentsKeys = Object.keys(this.components);
     this.changePm(this.componentsKeys[0]);
@@ -119,17 +124,41 @@ export class DynamicAppComponent implements OnInit {
   changePm(pmId) {
     this.field.pm = pmId;
     const component = this.components[pmId];
-    const fields = component.form.value;
-    this.fieldsKeys = Object.keys(fields);
-    this.changeField(this.fieldsKeys[0]);
+    if (component instanceof DynamicFormComponent) {
+      this.isForm = true;
+      const fields = component.form.value;
+      this.fieldsKeys = Object.keys(fields);
+      this.changeField(this.fieldsKeys[0]);
+    }
+    else {
+      this.isForm = false;
+      this.lines = component.data.values.length;
+      this.field.line = 0;
+      const fields = component.data.headers.reduce((a, b) => { 
+        if (b.id !== 'buttons') {
+          a.push(b.id); 
+        }
+        return a;
+      }, []);
+      this.fieldsKeys = fields;
+      this.field.field = fields[0];
+    }
   }
 
   changeField(fieldId) {
     this.field.field = fieldId; 
   }
 
+  changeLine(line) {
+    this.field.line = line;
+  }
+
   setValue(value) {
     this.components[this.field.pm].setValue(this.field, value);
+  }
+
+  getArray(size: number): any[] {
+    return [...Array(size)];
   }
 
 }
