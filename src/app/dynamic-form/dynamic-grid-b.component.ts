@@ -20,7 +20,8 @@ import {
   import { Dialog } from 'primeng/dialog';
   import { IDynamicComponent, Field } from '../interfaces';
   import { PM } from '../dynamic-page/dynamic-page.model';
-import { DynamicFormComponent } from './dynamic-form.component';
+  import { DynamicFormComponent } from './dynamic-form.component';
+  import Utils from 'shared/utils';
   
   @Component({
     selector: 'dynamic-grid-b',
@@ -152,17 +153,25 @@ import { DynamicFormComponent } from './dynamic-form.component';
     }
 
     saveDynamic(data) {
+
+      /*** currently the new data is taken from the client form (this.form.form.value) and not from the server (data.values). ***/
+
+      const valueObj = Utils.wrapValues(this.form.form.value);
       // edit row
       if (this.currObject.rowIndex !== undefined) {
+        // keep the buttons definition of current row.
         const buttons = this.data.values[this.currObject.rowIndex].buttons;
-        data.values.buttons = buttons;
-        this.data.values[this.currObject.rowIndex] = data.values; 
+        // data.values.buttons = buttons;
+        valueObj.buttons = buttons;
+        this.data.values[this.currObject.rowIndex] = valueObj; // data.values; 
       }
       // new row
       else {
+        // deafult buttons value is in the header.
         const buttons = this.data.headers.find((h) => h.id === 'buttons').buttons;
-        data.values.buttons = buttons;
-        this.data.values.push(data.values);
+        //data.values.buttons = buttons;
+        valueObj.buttons = buttons;
+        this.data.values.push(valueObj); // data.values
       }
       this.refreshTable();
       this.setEmptyObject();
