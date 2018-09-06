@@ -24,7 +24,9 @@
 
 
 
-<div style="margin-top: 25px;">
+<div style="margin-top: 50px; padding: 25px; border: 1px solid #999; border-radius: 10px;">
+
+  <h3 style="margin-bottom: 10px;">Set Value</h3>
 
   <div class="form-group" style="float: left; margin-right: 20px;">
     <label>Page</label>
@@ -55,9 +57,11 @@
     </select>
   </div>
 
-  <input #value [ngModel]="field.value" />
+  <div class="form-group" style="float: left; margin-right: 20px;">
+    <label>Value</label>
+    <input #value [ngModel]="field.value" placeholder="Value" />
+  </div>  
 
   <button (click)="setValue(value.value)">Set Value</button>
-
 
 </div>

@@ -36,7 +36,8 @@
 			[id]="question.key || question.id" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
 			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
 		
-		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key || question.id" [formControlName]="question.key || question.id" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
+		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key || question.id" [formControlName]="question.key || question.id" 
+								optionLabel="value" [style]="{'min-width':'1px'}"></p-dropdown> <!--without the "min-width" the component is rendered too small (the actual value doesn't matter) -->
 
 		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
 
