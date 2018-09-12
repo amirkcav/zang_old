@@ -12,10 +12,9 @@ import { DynamicFormComponent } from './dynamic-form.component';
 import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
 import { ValidateOnBlurDirective } from './validate-on-blur.directive';
 
-import { DynamicGridComponent } from './dynamic-grid.component';
-import { DynamicGridBComponent } from './dynamic-grid-b.component';
-import { DynamicGridEditableComponent } from './dynamic-grid-editable.component';
-import { DynamicMultiAppsComponent } from './dynamic-multi-apps/dynamic-multi-apps.component';
+import { DynamicGridComponent } from 'app/dynamic-grid/dynamic-grid.component';
+import { DynamicGridEditableComponent } from 'app/dynamic-grid-editable/dynamic-grid-editable.component'
+import { DynamicMultiAppsComponent } from 'app/dynamic-multi-apps/dynamic-multi-apps.component';
 
 import { AutoCompleteModule } from 'primeng/autocomplete'
 import { CalendarModule } from 'primeng/calendar';
@@ -30,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
 
 import { environment } from '../../environments/environment';
+import { DynamicGridBComponent } from 'app/dynamic-grid-b/dynamic-grid-b.component';
 // import { environment } from 'environments/environment';
 
 @NgModule({

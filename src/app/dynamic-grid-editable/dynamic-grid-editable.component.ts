@@ -11,16 +11,16 @@ import {
 // import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
-import { Grid } from './grid';
-import { Column } from './column';
+import { Grid } from 'app/dynamic-form/grid';
+import { Column } from 'app/dynamic-form/column';
 
-import { QuestionService } from './question.service';
+import { QuestionService } from 'app/dynamic-form/question.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, SortEvent, Message } from 'primeng/api';
 import { Table } from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
-import { ISetValue, Field } from './inetrfaces';
+import { ISetValue, Field } from 'app/inetrfaces';
 
 @Component({
   selector: 'dynamic-grid-editable',

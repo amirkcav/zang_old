@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DynamicGridComponent } from 'app/dynamic-form/dynamic-grid.component';
+import { DynamicGridComponent } from 'app/dynamic-grid/dynamic-grid.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({

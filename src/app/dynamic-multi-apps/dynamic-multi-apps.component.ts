@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
 import { QuestionService } from 'app/dynamic-form/question.service';
 import { TabView } from 'primeng/tabview';
-import { DynamicFormComponent } from '../dynamic-form.component';
-import { DynamicGridBComponent } from '../dynamic-grid-b.component';
-import { DynamicGridEditableComponent } from '../dynamic-grid-editable.component';
+import { DynamicFormComponent } from 'app/dynamic-form/dynamic-form.component';
+import { DynamicGridBComponent } from 'app/dynamic-grid-b/dynamic-grid-b.component';
+import { DynamicGridEditableComponent } from 'app/dynamic-grid-editable/dynamic-grid-editable.component';
 
 // The animObj is declared in assets/animatedScrollTo.js. 
 // watch https://www.thepolyglotdeveloper.com/2016/01/include-external-javascript-libraries-in-an-angular-2-typescript-project/
@@ -121,24 +121,24 @@ export class DynamicMultiAppsComponent implements OnInit, AfterViewInit {
       }
       // { scrollDirection = true } is when scrolling down.
       const scrollDirection = this.prevScrollPosition < event.target.scrollTop;
-      const scrollUpHelper = [];
+      const tabsAbovePosition = [];
       Object.keys(this.appsObj).forEach((p) => {
         const obj = this.appsObj[p];
         // more exact calculation take into consideration the parent (scroll "owner") height.
         // when scrolling down, 100px before the page header reaches the top, when scrolling up 100px before the page header is shown.
-        if ((scrollDirection && obj['offset'] <  event.target.scrollTop + 100 && obj['offset'] > this.currTabOffset)) {
+        if (scrollDirection && obj['offset'] <  event.target.scrollTop + 100 && obj['offset'] > this.currTabOffset) {
           this.currTabOffset = obj['offset'];
           const tabId = obj.formKey ? `form-${obj.formKey}` : `grid-${obj.gridKey}`;          
           this.selectedTab = tabId;
         }
         // on scroll down, getting the tabs that are above the current scroll position.
         else if (!scrollDirection && obj['offset'] - obj['height'] <  event.target.scrollTop - 100) {
-          scrollUpHelper.push(obj);
+          tabsAbovePosition.push(obj);
         }
       });
       // getting the button most tab of the tabs above the current scroll position.
       if (!scrollDirection) {
-        const tab = scrollUpHelper.reduce((a, b) => a.offset > b.offset ? a : b);
+        const tab = tabsAbovePosition.reduce((a, b) => a.offset > b.offset ? a : b);
         this.currTabOffset = tab.offset;
         const tabId = tab.formKey ? `form-${tab.formKey}` : `grid-${tab.gridKey}`;          
         this.selectedTab = tabId;

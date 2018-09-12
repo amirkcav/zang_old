@@ -13,7 +13,7 @@ import { QuestionBase } from './question-base';
 
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
-import { ISetValue, Field } from './inetrfaces';
+import { ISetValue, Field } from 'app/inetrfaces';
 
 @Component({
   selector: 'dynamic-form',

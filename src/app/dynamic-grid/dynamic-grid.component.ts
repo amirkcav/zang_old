@@ -9,10 +9,10 @@ import {
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
-import { Grid } from './grid';
-import { Column } from './column';
+import { Grid } from 'app/dynamic-form/grid';
+import { Column } from 'app/dynamic-form/column';
 
-import { QuestionService } from './question.service';
+import { QuestionService } from 'app/dynamic-form/question.service';
 
 @Component({
   selector: 'dynamic-grid',
