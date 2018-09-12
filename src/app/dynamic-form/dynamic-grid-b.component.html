@@ -1,10 +1,18 @@
 <p-table #dt [value]="data.values" [columns]="data.headers" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
          (sortFunction)="customSort($event)" [customSort]="true" [exportFunction]="export">
     <ng-template pTemplate="caption">
-        <div style="text-align: right">        
+        <!-- <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
             <input id="table-filter" type="text" pInputText placeholder="Global Filter" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')">
             <button type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div> -->
+        <div class="clearfix">
+            <button class="btn btn-info pull-left" (click)="addRow()">Add</button>
+        </div>
+        <div style="text-align: right" class="clearfix">        
+            <button class="btn btn-primary pull-left" (click)="dt.exportCSV()">Export to CSV</button><!--type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV"-->                    
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input id="table-filter" type="text" class="form-control" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"/>        
         </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -31,17 +39,14 @@
             </td>
         </tr>
     </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
+    <!-- <ng-template pTemplate="summary" let-rowData>
         <div style="text-align: left;">
             <button type="button" pButton icon="fa fa-plus" (click)="addRow()" label="Add"></button>
         </div>
-    </ng-template>
+    </ng-template> -->
 </p-table>
 
 <p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel($event)"><!--header="Car Details"-->
-    
-    <!-- <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
-        cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form> -->
     
     <dynamic-form #form [formKey]="formData.id" [data]="formData" (onSaved)="saveDynamic($event)" ></dynamic-form>
 

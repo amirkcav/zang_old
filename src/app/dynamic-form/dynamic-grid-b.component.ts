@@ -272,7 +272,7 @@ import {
     }
 
     setFormData() {
-      this.formData = new PM('form-' + this.data.id, 'TITLE', 'form');
+      this.formData = new PM(`form-${this.data.id}`, 'TITLE', 'form');
       let num = 1;
       this.data.headers.filter((f) => f.type !== 'buttons').forEach((h) => {
         const field = { 'id': h.id, 'label': h.title, 'type': h.type };

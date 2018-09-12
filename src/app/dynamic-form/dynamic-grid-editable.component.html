@@ -43,7 +43,6 @@
                             <input *ngSwitchCase="'number'" type="number" [(ngModel)]="rowData[col.id].value">
                             <p-inputMask *ngSwitchCase="'date'" #maskInput size="8" mask="99/99/9999" (onComplete)="completeMask(maskInput, rowIndex, col.id)" [(ngModel)]="rowData[col.id].value"
                                          [placeholder]="dateFormat" [slotChar]="dateFormat" class="mask-input"></p-inputMask> 
-                                         <!-- + (question.invalid ? 'invalid' : '')-->
                             <input *ngSwitchDefault type="text" [(ngModel)]="rowData[col.id].value">
                         </ng-container>
                     </ng-template>
