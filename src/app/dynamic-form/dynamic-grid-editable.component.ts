@@ -20,6 +20,7 @@ import { ConfirmationService, SortEvent, Message } from 'primeng/api';
 import { Table } from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import { ISetValue, Field } from './inetrfaces';
 
 @Component({
   selector: 'dynamic-grid-editable',
@@ -29,7 +30,7 @@ import {MessageModule} from 'primeng/message';
   // encapsulation: ViewEncapsulation.None,
   providers: [ QuestionService, ConfirmationService ]
 })
-export class DynamicGridEditableComponent implements OnInit, OnChanges {    
+export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValue {    
   
   //#region Variables
 
@@ -211,6 +212,27 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges {
     autoCompleteSearch.then(response => {
       this.results = response ? response : [];
     });
+  }
+
+  setValue(field: Field, value: any) {
+      const col = this.grid.columns.filter((c) => c.id === field.field);
+      //if (col['type'] === '') {}
+      this.data[field.line][field.field].value = value;
+      this.data[field.line][field.field].valueHolder = value;
+      // const currValue = Object.assign({}, this.data[field.line][field.field]);
+      // currValue.value = value;
+      // currValue.valueHolder = value;
+      // this.data[field.line][field.field] = currValue;    
+  }
+
+  export(event) {    
+    // "this" is the Table object of PrimeNG, not the component.
+    const col = this['columns'].find((c) => c.id === event['field'].toString());
+    let val = event.data.value;
+    if (col.type === 'autocomplete') {
+      val = event.data.value.value;
+    }
+    return val;
   }
 
 }

@@ -28,21 +28,33 @@
     <ng-container *ngFor="let app of data">
       <!-- The *ngIf is to declare the "id" variable. -->
       <li *ngIf="app.type + '-' + app.key; let id" [ngClass]="{ 'active': selectedTab === id }">
-        <a [href]="'#_' + id" (click)="selectTab($event, id)">{{ app.label }}</a>
+        <a [href]="'#'" (click)="selectTab($event, id)">{{ app.label }}</a>
       </li>
     </ng-container>
   </ul>
-  <div id="tabs-content">
+  <div id="tabs-content" (scroll)="scroll($event)">
     <div *ngFor="let app of data; let i = index" [id]="app.type + '-' + app.key" class="tab-component">
         <h3>{{ app.label }}</h3>
 
-        <dynamic-form #app *ngIf="app.type === 'form'" [formKey]="app.key" [formParameters]="" (onSaved)="formSaved($event)" [saveButton]="null"></dynamic-form>      
+        <dynamic-form class="a" *ngIf="app.type === 'form'" [formKey]="app.key" [formParameters]="" (onSaved)="formSaved($event)" [saveButton]="null"></dynamic-form>      
 
-        <dynamic-grid-b #appA *ngIf="app.type === 'grid' && app.key.toLowerCase() !== 'editable'" [gridKey]="app.key" [gridParameters]=""></dynamic-grid-b>
+        <dynamic-grid-b *ngIf="app.type === 'grid' && app.key.toLowerCase() !== 'editable'" [gridKey]="app.key" [gridParameters]=""></dynamic-grid-b>
         
-        <dynamic-grid-editable #app *ngIf="app.type === 'grid' && app.key.toLowerCase() === 'editable'" [gridKey]="'EDITABLE'" [gridParameters]=""></dynamic-grid-editable>
+        <dynamic-grid-editable *ngIf="app.type === 'grid' && app.key.toLowerCase() === 'editable'" [gridKey]="'EDITABLE'" [gridParameters]=""></dynamic-grid-editable>
     </div>
   </div>
 </div>
 
 <button class="btn btn-primary" (click)="saveAll($event)">SAVE</button>
+
+
+<div style="margin-top: 10px; padding: 10px;">
+  PM <input [(ngModel)]="field.pm" />
+  Line <input [(ngModel)]="field.line" />
+  Field <input [(ngModel)]="field.field" />
+  Value <input #value />
+  <button (click)="updateField(value.value)">Update</button>
+</div>
+
+
+

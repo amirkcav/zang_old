@@ -1,6 +1,6 @@
 <p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
          (onEditInit)="editInit($event)" (onEditComplete)="editComplete($event)" (onEditCancel)="editCancel($event)" [(selection)]="selectedRows" 
-         (sortFunction)="customSort($event)" [customSort]="true">
+         (sortFunction)="customSort($event)" [customSort]="true" [exportFunction]="export">
     <ng-template pTemplate="caption">
         <div>
             <div class="clearfix">
@@ -41,6 +41,7 @@
                             <!-- <select *ngSwitchCase="'select'" [(ngModel)]="rowData[col.id].value">
                                 <option *ngFor="let opt of rowData[col.id].options" [value]="opt">{{ opt }}</option>
                             </select> -->
+                            <p *ngSwitchCase="'checkbox'">{{rowData[col.id].value}}</p>
                             <input *ngSwitchCase="'checkbox'" type="checkbox" style="width: auto;" [checked]="rowData[col.id].value" (change)="rowData[col.id].value = !rowData[col.id].value" >
                             <p-autoComplete *ngSwitchCase="'autocomplete'" [inputStyleClass]="'form-control'" emptyMessage="No results" 
                                             [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value" [(ngModel)]="rowData[col.id].value"></p-autoComplete>

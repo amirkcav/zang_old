@@ -4,18 +4,15 @@
 	<div [ngSwitch]="question.controlType">			
 				
 		<div *ngSwitchCase="'textbox'">
-			<!-- Calendar of ngPrime -->
-			<!-- <p-calendar *ngIf="question.type=='date'" [formControlName]="question.key" dateFormat="yy-mm-dd" monthNavigator="true" yearNavigator="true" 
-			yearRange="1950:{{currYear}}" [id]="question.key" [readonlyInput]="question.readonly" (onSelect)="onBlurDateField($event)" inputStyleClass="form-control"></p-calendar>				-->
+			
 			<div *ngIf="question.type=='date'" class="clearfix ui-inputgroup">
-				<!-- <p>{{ form.controls[question.key].value }}</p> -->
-				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" (onFocus)="maskFocus($event)"
+				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" 
 					[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')" class="pull-left _ui-inputgroup-addon"></p-inputMask> 
 				<button pButton type="button" icon="fa fa-calendar" class="pull-right" (click)="showCalendarClick($event)" tabindex="-1"></button>
 			</div>
 			<div *ngIf="question.type=='date'" style="position: absolute; z-index: 1;">
 					<p-calendar #calendar *ngIf="showDatepicker" dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:2050" 
-						(onSelect)="datepickerSelect($event, question.key)" ></p-calendar> <!--[formControlName]="question.key"-->
+						(onSelect)="datepickerSelect($event)" [defaultDate]="selectedDate"></p-calendar> <!--[formControlName]="question.key"-->
 			</div>
 
 			<!--<label *ngIf="question.type=='checkbox'" [for]="question.key">

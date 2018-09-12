@@ -13,13 +13,14 @@ import { QuestionBase } from './question-base';
 
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
+import { ISetValue, Field } from './inetrfaces';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   providers: [QuestionControlService, QuestionService]
 })
-export class DynamicFormComponent implements OnInit, OnChanges {
+export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;
   @Input() validateOnBlur: boolean;
   @Input() formParameters: any = null;
@@ -74,6 +75,10 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         }
       }
     });
-  }  
+  }
+
+  setValue(field: Field, value: any) {
+    this.form.controls[field.field].setValue(value);
+  }
 
 }
