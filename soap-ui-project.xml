@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="7229180b-8684-4adb-99b5-f7ae99b025a2" activeEnvironment="Default" name="Project 1" resourceRoot="" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:restMockService id="49d6fb96-dd89-427e-a3fa-d06e2e2603f5" port="8080" path="/" host="fedorapc.cav.local" name="ZANG REST MockService"><con:settings/><con:properties/><con:restMockAction name="mcall" method="POST" resourcePath="/mcall" id="efa4586b-3af3-49cf-ac86-17a7c04d089d"><con:settings/><con:defaultResponse>FORMA</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>def queryString = mockRequest.getRequest().getQueryString()
+<con:soapui-project id="7229180b-8684-4adb-99b5-f7ae99b025a2" activeEnvironment="Default" name="Dynamic App" resourceRoot="" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:restMockService id="49d6fb96-dd89-427e-a3fa-d06e2e2603f5" port="8080" path="/" host="fedorapc.cav.local" name="ZANG REST MockService"><con:settings/><con:properties/><con:restMockAction name="mcall" method="POST" resourcePath="/mcall" id="efa4586b-3af3-49cf-ac86-17a7c04d089d"><con:settings/><con:defaultResponse>FORMA</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>def queryString = mockRequest.getRequest().getQueryString()
 def label = queryString.split('_LABEL=')[1].split('&amp;')[0]
 
 def requestBody = mockRequest.getRequestContent()
@@ -19,7 +19,7 @@ else if (label == 'SAVE') {
 	//name = req['FORM']
 	return 'SAVE'
 }
-else if (label = 'GETAPP') {
+else if (label == 'GETAPP') {
 	name = req['KEY']
 }
 
@@ -378,8 +378,9 @@ context.value5 = arr[9];
 def jsonSlurper = new groovy.json.JsonSlurper()
 def req = jsonSlurper.parseText(requestBody);
 
-// log.info req
-</con:script><con:responseContent>{"data": { 
+log.info req
+
+//context.value1 = groovy.json.JsonOutput.toJson(req.VALUES);</con:script><con:responseContent>{"data": { 
   
 },
 "message":null,"status":"ok"}
