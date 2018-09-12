@@ -61,7 +61,7 @@
 #tabs-content {
   padding: 10px;
   border: 1px solid #999;
-  max-height: 400px;
+  max-height: 300px;
   overflow: auto;
   margin-bottom: 30px;
   scroll-behavior: smooth;

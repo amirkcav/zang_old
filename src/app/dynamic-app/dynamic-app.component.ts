@@ -26,6 +26,7 @@ export class DynamicAppComponent implements OnInit {
   isFirstScroll = true;
   isUserScroll = true;
   prevScrollPosition = 0;
+  currTabOffset = 0;
 
   // because id of element can't start with a number.
   pageIdPrefix = 'page-';
@@ -52,7 +53,7 @@ export class DynamicAppComponent implements OnInit {
   selectTab(event: any, tabId: string) {
     // code is needed (not using scrollIntoView()) so that the scrolling would be animated.
     const parentOffset = (document.querySelector('#tabs-content') as HTMLElement).offsetTop;
-    const tabOffset = (document.querySelector('#' + tabId) as HTMLElement).offsetTop;
+    const tabOffset = (document.querySelector(`#${tabId}`) as HTMLElement).offsetTop;
     this.isUserScroll = false;
     const _this = this;
     this.anim.animatedScrollTo(document.querySelector('#tabs-content'), tabOffset - parentOffset, 500, function() { _this.isUserScroll = true; });    
@@ -85,23 +86,35 @@ export class DynamicAppComponent implements OnInit {
       }
       // positive value is when scrolling down.
       const scrollDirection = this.prevScrollPosition < event.target.scrollTop;
+      const tabsAbovePosition = [];
       this.data.pages.forEach((p) => {
         // more exact calculation take into consideration the parent (scroll "owner") height.
-        // when scrolling down, 100px before the page reaches the top, when scrolling down 100px before the page top is shown.
-        if ((scrollDirection && p['offset'] <  event.target.scrollTop + 100) || 
-            (!scrollDirection && p['offset'] - p['height'] <  event.target.scrollTop - 100)) {
+        // when scrolling down, 100px before the page header reaches the top, when scrolling up 100px before the page header is shown.
+        if (scrollDirection && p['offset'] <  event.target.scrollTop + 100 && p['offset'] > this.currTabOffset) {
+          this.currTabOffset = p['offset'];
           const tabId = this.pageIdPrefix + p.id;
           this.selectedTab = tabId;
         }
+        // on scroll down, getting the tabs that are above the current scroll position.
+        else if (!scrollDirection && p['offset'] - p['height'] <  event.target.scrollTop - 100) {
+          tabsAbovePosition.push(p);
+        }
       });
+      // getting the button most tab of the tabs above the current scroll position.
+      if (!scrollDirection) {
+        const tab = tabsAbovePosition.reduce((a, b) => a.offset > b.offset ? a : b);
+        this.currTabOffset = tab.offset;
+        const tabId = this.pageIdPrefix + tab.id; //tab.formKey ? `form-${tab.formKey}` : `grid-${tab.gridKey}`;          
+        this.selectedTab = tabId;
+      }
+      this.prevScrollPosition = event.target.scrollTop;      
     }
-    this.prevScrollPosition = event.target.scrollTop;
   }
 
   setPagesOffest() {
     const parentOffset = (document.querySelector('#tabs-content') as HTMLElement).offsetTop;    
     this.data.pages.forEach((p) => {
-      const elem = document.querySelector('#' + this.pageIdPrefix + p.id) as HTMLElement;
+      const elem = document.querySelector(`#${this.pageIdPrefix + p.id}`) as HTMLElement;
       if (elem) {
         const offset = elem.offsetTop - parentOffset;
         const height = elem.offsetHeight;
@@ -112,7 +125,6 @@ export class DynamicAppComponent implements OnInit {
       }
     });  
   }
-
 
   changePage(pageId) {
     const page = this.data.pages.find((p) => p.id.toString() === pageId.toString());
