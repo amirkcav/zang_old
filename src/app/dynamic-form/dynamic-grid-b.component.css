@@ -7,7 +7,7 @@
 }
 
 #table-filter {
-  width: 30%;
+  width: calc(100% - 25px);
   display: inline-block;
 }
 

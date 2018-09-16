@@ -1,6 +1,6 @@
 <h1 class="app-title">{{ data?.title }}</h1>
 
-<div>
+<div [attr.direction]="data?.isRtl ? 'rtl' : 'ltr'" class="app-content" [ngClass]="{ 'rtl ui-rtl': data?.isRtl }">
   <ul id="tabs-list" class="clearfix">
     <ng-container *ngFor="let page of data?.pages">
       <li [ngClass]="{ 'active': selectedTab === pageIdPrefix + page.id }">

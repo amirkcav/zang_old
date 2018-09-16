@@ -7,11 +7,11 @@ p-table button {
 }
 
 p-table button + button {
-  margin-left: 10px;
+  margin: 0 10px;
 }
 
 #table-filter {
-  width: 30%;
+  width: calc(100% - 25px);
   display: inline-block
 }
 

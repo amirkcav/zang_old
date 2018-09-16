@@ -44,9 +44,8 @@ export class DynamicAppComponent implements OnInit {
     this.service.getApp('A', '').then((response) => {
       this.data = <App>response;
       this.dataHolder = JSON.parse(JSON.stringify(this.data));
+      // first tab is active by default
       this.selectedTab = this.pageIdPrefix + this.data.pages[0].id;
-
-      // this.changePage(this.data.pages[0].id);
     });
   }
 

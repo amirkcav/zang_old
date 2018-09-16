@@ -12,8 +12,10 @@
                 <button class="btn btn-primary pull-left"  (click)="dt.exportCSV()">Export to CSV</button><!--type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV"-->                    
                 
                 <button *ngIf="selectedRows.length > 0" class="btn btn-danger pull-left" (click)="delete($event)">Delete</button>    
-                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input id="table-filter" type="text" class="form-control" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"/>        
+                <div class="pull-right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input id="table-filter" type="text" class="form-control" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"/>        
+                </div>
             </div>
         </div>
     </ng-template>
