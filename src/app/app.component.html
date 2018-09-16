@@ -3,7 +3,10 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">New Application</a>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
+      <div class="navbar-nav ml-auto ui-rtl" direction="rtl">
+        <p-menubar [model]="menuItems" [autoDisplay]="false"></p-menubar>
+      </div>
+      <!-- <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             <a class="nav-link" href="#">Home
@@ -20,198 +23,16 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </nav>
-
-  <!-- Sidebar -->
-  <!-- <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a href="#">
-          ZAng Demo
-        </a>
-      </li>
-      <li>
-        <a href="#" (click)="display='grid-a'" [ngClass]="{ 'active': display=='grid-a' }">Grid </a>
-      </li>
-      <li>
-        <a href="#" (click)="display='grid-b'" [ngClass]="{ 'active': display=='grid-b' }">Prime NG table </a>
-      </li>
-      <li>
-        <a href="#" (click)="display='grid-editable'" [ngClass]="{ 'active': display=='grid-editable' }">Table with inline editing </a>
-      </li>
-      <li>
-        <a href="#" (click)="display='form-a'" [ngClass]="{ 'active': display=='form-a' }">Form with validation on key type</a>
-      </li>
-      <li>
-        <a href="#" (click)="display='form-b'" [ngClass]="{ 'active': display=='form-b' }">Form controls, slow load</a>
-      </li>
-      <li>
-        <a href="#" (click)="display='form-c'" [ngClass]="{ 'active': display=='form-c' }">Form with validation on field</a>
-      </li>
-      <li>
-        <a href="#" (click)="display='form-d'" [ngClass]="{ 'active': display=='form-d' }">Form controls</a>
-      </li>
-      <li>
-        <a href="#" (click)="display='form-e'" [ngClass]="{ 'active': display=='form-e' }">Image upload</a>
-      </li>
-      <li>
-        <a href="#" (click)="display='multi-apps'" [ngClass]="{ 'active': display=='multi-apps' }">Multi apps</a>
-      </li> 
-      <li>
-        <a href="#" (click)="display='app'" [ngClass]="{ 'active': display=='app' }">New App</a>
-      </li>
-    </ul>
-  </div>  -->
-  <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
   <div id="page-content-wrapper">
     <div class="container-fluid">
-      <div [ngSwitch]="display">
-        <div *ngSwitchCase="'grid-a'">
-          <h3>Demo of M-based dynamic Grid</h3>
-          <div>This is a demo of a server based dynamic grid. The grid definition is loaded by a call to the GRID label, and the
-            data is loaded by a call to the GRIDDATA label (open Dev. Tools to see the HTTP calls). </div>
-          <br>
-          <form>
-            <div class="form-row">
-              <div class="form-group col-md-4">
-                <label for="inputLimit">limit</label>
-                <select id="inputLimit" name="inputLimit" class="form-control" [(ngModel)]="gridLimit" (change)="updateGrid()" aria-describedby="limitHelpInline">
-                  <option selected>5</option>
-                  <option>10</option>
-                  <option>20</option>
-                  <option></option>
-                </select>
-                <small id="limitHelpInline" class="text-muted">
-                  The limit of displayed lines
-                </small>
-              </div>
-              <div class="form-group col-md-4">
-                <label for="inputClass">class</label>
-                <select id="inputClass" name="inputClass" class="form-control" [(ngModel)]="gridClass" (change)="updateGrid()" aria-describedby="classHelpInline">
-                  <option selected>material</option>
-                  <option>bootstrap</option>
-                </select>
-                <small id="classHelpInline" class="text-muted">
-                    The CSS class of the grid
-                  </small>
-                </div>
-              <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridScrollbarH" name="gridScrollbarH" [(ngModel)]="gridScrollbarH" (change)="updateGrid()">
-                  <label class="form-check-label" for="gridScrollbarH">
-                    Horizontal Scrollbar
-                  </label>
-                </div>
-              </div>
-              <div class="form-group col-md-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridScrollbarV" name="gridScrollbarV" [(ngModel)]="gridScrollbarV" (change)="updateGrid()">
-                  <label class="form-check-label" for="gridScrollbarV">
-                    Vertical Scrollbar
-                  </label>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" [(ngModel)]="someCheckbox" (change)="updateGrid()">
-            <label class="form-check-label" for="defaultCheck1">
-              Default checkbox
-            </label>
-          </div>
-          <div class="card" style="width: 40rem;">
-            <div class="card-block">
-              <h4 class="card-title">Basic grid</h4>
-              <dynamic-grid [gridKey]="'A'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'grid-b'">
-          <h3>Demo of M-based dynamic PrimeNG Table</h3>                    
-          <div class="card" style="width: 40rem;">
-            <div class="card-block">
-              <h4 class="card-title">PrimeNG table</h4>
-              <dynamic-grid-b [gridKey]="'A'" [gridParameters]="gridParams" (onClicked)="onClicked($event)"></dynamic-grid-b>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'grid-editable'">
-          <h3>Demo of M-based dynamic PrimeNG Table</h3>                    
-          <div class="card" style="width: 40rem;">
-            <div class="card-block">
-              <h4 class="card-title">PrimeNG editable table</h4>
-              <dynamic-grid-editable [gridKey]="'EDITABLE'" [gridParameters]="gridParams"></dynamic-grid-editable>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'form-a'">
-          <h2>Demo of M-based dynamic forms</h2>
-          <div class="card" style="width: 30rem;">
-            <div class="card-block">
-              <h4 class="card-title">Form validation on changes</h4>
-              <dynamic-form [formKey]="'A'" (onSaved)="onSaved($event)" cancelButton="ביטול" (onCancelled)="onCancelled('A')"></dynamic-form>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'form-c'">
-          <div class="card" style="width: 30rem;">
-            <div class="card-block">
-              <h4 class="card-title">Form validation on blur</h4>
-              <dynamic-form [formKey]="'C'" [validateOnBlur]="true" (onSaved)="onSaved($event)"></dynamic-form>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'form-b'">
-          <div class="card" style="width: 30rem;">
-            <div class="card-block">
-              <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'B'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'form-d'">
-          <div class="card" style="width: 30rem;">
-            <div class="card-block">
-              <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'D'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'form-e'">
-          <div class="card" style="width: 30rem;">
-            <div class="card-block">
-              <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'E'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
-            </div>
-          </div>
-        </div>
-        <div *ngSwitchCase="'multi-apps'">
-          <div class="card">
-            <div class="card-block">
-              <h4 class="card-title">Multi apps</h4>
-              <app-dynamic-multi-apps [key]="'ABC'" [params]="" (onFormSaved)="onSaved($event)"></app-dynamic-multi-apps>
-            </div>
-          </div>
-        </div>
-
-        <div *ngSwitchCase="'app'">
           
-          <dynamic-app></dynamic-app>
+      <dynamic-app></dynamic-app>
           
-        </div>
-
-      </div>
     </div>
   </div>
   <!-- /#page-content-wrapper -->

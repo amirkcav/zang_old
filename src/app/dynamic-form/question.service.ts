@@ -20,6 +20,7 @@ import { ImageQuestion } from './question-image';
 import { ButtonQuestion } from './question-button';
 import { TextareaQuestion } from './question-textarea';
 import { App } from '../dynamic-app/dynamic-app.model';
+import { MenuItem } from 'primeng/api';
 
 @Injectable()
 export class QuestionService {
@@ -310,10 +311,19 @@ export class QuestionService {
         //   return this.handleError(res);
         // }
         const resData: App = res['ap'];
-        const a = new App(resData.id, resData.job, resData.title, resData.icon, resData.pages);        
+        const a = new App(resData.id, resData.job, resData.title, resData.icon, resData.pages, resData.isRtl);        
         return a; //resData
       })
       .catch(this.handleError);
+  }
+
+  loadMenuJson(): Promise<any> {
+    return this.http
+      .get('../assets/menu-items.json', { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        return response;
+      });
   }
 
 }

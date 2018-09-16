@@ -2,3 +2,27 @@
   padding: 0;
   margin-top: 65px;
 }
+
+::ng-deep .ui-menubar {
+  background: transparent;
+  border: none;
+}
+
+::ng-deep .ui-menubar-root-list > .ui-menuitem > .ui-menuitem-link {
+  color: white;
+  transition: 0.2s;
+}
+
+::ng-deep .ui-menubar .ui-submenu-list {
+  background: white;
+}
+
+::ng-deep .ui-menubar .ui-menuitem > .ui-menuitem-link:hover,
+::ng-deep .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+  background-color: #eaeaea;
+  color: #222222;
+}
+
+::ng-deep .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link:not(:hover) {
+  background-color: white;
+}
