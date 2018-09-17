@@ -11,10 +11,11 @@ import { AppComponent } from './app.component';
 import { LogHttpIntercepter } from './log-http-intercepter';
 
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { MenubarModule } from 'primeng/menubar';
 // import { DynamicAppComponent } from './dynamic-app/dynamic-app.component';
 // import { DynamicPageComponent } from './dynamic-page/dynamic-page.component';
 // import { CalendarModule } from 'primeng/calendar';
+import { MenubarRtlModule } from './menubar-rtl/menubar-rtl.component';
+import { MenubarModule } from 'primeng/components/menubar/menubar';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { MenubarModule } from 'primeng/menubar';
     DynamicFormModule,
     HttpClientModule,
     FormsModule,
-    MenubarModule
+    MenubarModule,
+    MenubarRtlModule
   ],
   declarations: [AppComponent], //, DynamicAppComponent, DynamicPageComponent
   bootstrap: [AppComponent],

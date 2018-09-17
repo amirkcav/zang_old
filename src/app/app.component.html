@@ -1,10 +1,11 @@
 <div id="wrapper" class="_toggled">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
+    <div class="container" [ngStyle]="{ 'direction': isRtl ? 'rtl' : 'ltr' }">
       <a class="navbar-brand" href="#">New Application</a>
-      <div class="navbar-nav ml-auto ui-rtl" direction="rtl">
-        <p-menubar [model]="menuItems" [autoDisplay]="false"></p-menubar>
+      <div class="navbar-nav" [ngClass]="{ 'mr-auto': isRtl, 'ml-auto': !isRtl }">
+        <p-menubar-rtl [model]="menuItems" [autoDisplay]="false" [isRtl]="isRtl"></p-menubar-rtl>
+        <!-- <p-menubar [model]="menuItems" [autoDisplay]="false"></p-menubar> -->
       </div>
       <!-- <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">

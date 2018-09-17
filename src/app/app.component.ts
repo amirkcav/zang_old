@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
     scrollbarV: this.gridScrollbarV
   };
 
+  isRtl = true;
+
   constructor(private service: QuestionService) {}
 
   ngOnInit() {
