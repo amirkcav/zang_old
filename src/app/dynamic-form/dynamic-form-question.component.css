@@ -65,6 +65,10 @@
   border-color: red;
 }
 
+.mask-input.invalid, .mask-input.invalid:hover {
+  border-color: red;
+}
+
 ::ng-deep .ui-dialog .ui-dialog-content {
   overflow: visible;
 }

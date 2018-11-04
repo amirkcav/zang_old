@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
-import { QuestionService } from 'app/dynamic-form/question.service';
+import { QuestionService } from '../dynamic-form/question.service';
 import { TabView } from 'primeng/tabview';
-import { DynamicFormComponent } from 'app/dynamic-form/dynamic-form.component';
-import { DynamicGridBComponent } from 'app/dynamic-grid-b/dynamic-grid-b.component';
-import { DynamicGridEditableComponent } from 'app/dynamic-grid-editable/dynamic-grid-editable.component';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
+import { DynamicGridBComponent } from '../dynamic-grid-b/dynamic-grid-b.component';
+import { DynamicGridEditableComponent } from '../dynamic-grid-editable/dynamic-grid-editable.component';
 
 // The animObj is declared in assets/animatedScrollTo.js. 
 // watch https://www.thepolyglotdeveloper.com/2016/01/include-external-javascript-libraries-in-an-angular-2-typescript-project/

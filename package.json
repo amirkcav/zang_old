@@ -1,11 +1,11 @@
 {
   "name": "amirkcav_zang",
-  "version": "0.0.13",
+  "version": "0.0.39",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --extract-css",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,7 +21,6 @@
     "@angular/platform-browser-dynamic": "^5.2.2",
     "@angular/router": "^5.2.2",
     "@swimlane/ngx-datatable": "^11.1.7",
-    "angular2-busy": "^2.0.4",
     "core-js": "^2.5.3",
     "font-awesome": "^4.7.0",
     "primeng": "^5.2.5",
@@ -47,5 +46,19 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "2.4.2"
-  }
+  },
+  "description": "Angular module with components and services for Angular development of data entry apps with MUMPS (a-la ZA) server.",
+  "main": "karma.conf.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitcav/zang.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/gitcav/zang/issues"
+  },
+  "homepage": "https://github.com/gitcav/zang#readme"
 }

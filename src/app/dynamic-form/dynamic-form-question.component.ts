@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
@@ -13,6 +13,7 @@ import { Calendar } from 'primeng/calendar';
   templateUrl: './dynamic-form-question.component.html',
   styleUrls: ['./dynamic-form-question.component.css'],
   providers: [QuestionService],
+  encapsulation: ViewEncapsulation.None
 })
 export class DynamicFormQuestionComponent implements OnInit, OnDestroy {  
   @Input() question: QuestionBase<any>;
@@ -26,8 +27,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   currYear: number = new Date().getFullYear();
   results: object[];
 
-  useCamera = true;
   // camera
+  useCamera = false;
   stream: MediaStream;
   @ViewChild('videoElement') videoElement: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
@@ -45,9 +46,10 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   constructor(private service: QuestionService) { }  
 
   ngOnInit() {
-    this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
-    if (this.question.controlType === 'file-upload' && this.useCamera /* && this.question['useCamera'] */) {
+    // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
+    if (this.question.controlType === 'file-upload' && this.question['useCamera']) {
       this.play();
+      this.useCamera = true;
     }
   }
 

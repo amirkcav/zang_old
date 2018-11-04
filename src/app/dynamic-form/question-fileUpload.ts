@@ -5,10 +5,12 @@ export class FileUploadQuestion extends QuestionBase<string> {
   image: any;
   url: string;
   multiple: boolean;
+  useCamera: boolean;
 
   constructor(options: {} = {}) {    
     super(options);
     this.url = options['url'] ? options['url'] : '';
     this.multiple = options['multiple'];
+    this.useCamera = options['useCamera'];
   }
 }

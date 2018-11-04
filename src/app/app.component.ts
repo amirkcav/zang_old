@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  display = 'multi-apps';
+  display = 'form-e';
   gridClass = 'material';
   gridLimit: 5;
   gridScrollbarH = false;

@@ -10,15 +10,15 @@ import {
   // import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
   import { Subject } from 'rxjs/Subject';
   
-  import { QuestionService } from 'app/dynamic-form/question.service';
-  import { Grid } from 'app/dynamic-form/grid';
-  import { Column } from 'app/dynamic-form/column';
+  import { QuestionService } from '../dynamic-form/question.service';
+  import { Grid } from '../dynamic-form/grid';
+  import { Column } from '../dynamic-form/column';
 
   import { ConfirmDialogModule } from 'primeng/confirmdialog';
   import { ConfirmationService, SortEvent } from 'primeng/api';
   import { Table } from 'primeng/table';
   import { Dialog } from 'primeng/dialog';
-  import { ISetValue, Field } from 'app/inetrfaces';
+  import { ISetValue, Field } from '../inetrfaces';
   
   
   @Component({

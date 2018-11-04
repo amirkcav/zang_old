@@ -52,7 +52,7 @@
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
 
-<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel($event)"><!--header="Car Details"-->
+<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel()"><!--header="Car Details"-->
     
     <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
         cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form>

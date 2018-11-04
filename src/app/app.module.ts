@@ -18,7 +18,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete'
     BrowserModule,
     ReactiveFormsModule,
     // HttpModule,
-    DynamicFormModule,
+    DynamicFormModule.forRoot(),
     HttpClientModule,
     FormsModule,
   ],

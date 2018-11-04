@@ -65,8 +65,9 @@ export class QuestionService {
           return this.handleError(res);
         }
         const resData: any[] = (res.data as any[]) || [];
-        return resData.map(item => this.createQuestion(item));
-        // return res.data as QuestionBase<any>[];
+        // return resData.map(item => this.createQuestion(item));
+        resData['questions'] = resData['questions'].map(item => this.createQuestion(item));
+        return resData;
       })
       .catch(this.handleError);
   }
@@ -117,6 +118,7 @@ export class QuestionService {
     const data = {
       FORM: formKey,
       FIELD: field,
+      VARCODE: field,
       VALUE: value === null ? '' : value
     };
 
@@ -211,7 +213,7 @@ export class QuestionService {
   getUrl(originalUrl: string): string {
     if (isDevMode()) {
       return (
-        this.baseDevUrl + originalUrl + '&JB=123456&_USERNAME=1&_PASSWORD=1'
+        this.baseDevUrl + originalUrl + '&JB=123456&' + environment.usernamePassword 
       );
     }
     return originalUrl;

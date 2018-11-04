@@ -13,7 +13,7 @@ import { QuestionBase } from './question-base';
 
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
-import { ISetValue, Field } from 'app/inetrfaces';
+import { ISetValue, Field } from '../inetrfaces';
 
 @Component({
   selector: 'dynamic-form',
@@ -26,12 +26,14 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formParameters: any = null;
   @Input() cancelButton: string = null;
   @Input() saveButton = 'שמור';
+  @Input() isRtl = false;
 
   @Output() onSaved = new EventEmitter<any>();
   @Output() onCancelled = new EventEmitter<any>();
 
   questions: QuestionBase<any>[] = [];
   form: FormGroup;
+  formTitle: string;
 
   loadingQuestions: Promise<any>;
 
@@ -61,12 +63,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   initForm(): void {
     this.loadingQuestions = this.service.getQuestions(
-      this.formKey,
+      this.formKey,  
       this.formParameters
     );
     this.loadingQuestions.then(response => {
-      this.questions = response;
+      this.questions = response.questions;
       this.form = this.service.toFormGroup(this.questions, this.formKey, this.validateOnBlur);
+      this.formTitle = response.formTitle;
       this.readonly = true;
       for (const question of this.questions) {
         if (!question.readonly) {

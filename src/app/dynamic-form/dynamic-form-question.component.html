@@ -23,7 +23,7 @@
 
 			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
 				[id]="question.key" [type]="question.type" class="form-control" 
-				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null"> 		
+				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" [attr.tabindex]="question.readonly ? -1 : null"> 		
 
 		</div>				
 
@@ -35,7 +35,7 @@
 			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
 			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
 		
-		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value"></p-dropdown> <!--[disabled]="question.readonly"-->
+		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value" [filter]="true"></p-dropdown> <!--[disabled]="question.readonly"-->
 
 		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
 

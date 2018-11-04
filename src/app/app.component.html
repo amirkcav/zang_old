@@ -21,7 +21,7 @@
         <a href="#" (click)="display='form-a'" [ngClass]="{ 'active': display=='form-a' }">Form with validation on key type</a>
       </li>
       <li>
-        <a href="#" (click)="display='form-b'" [ngClass]="{ 'active': display=='form-b' }">Form controls, slow load</a>
+        <a href="#" (click)="display='form-b'" [ngClass]="{ 'active': display=='form-b' }">Form controls, slow load + RTL</a>
       </li>
       <li>
         <a href="#" (click)="display='form-c'" [ngClass]="{ 'active': display=='form-c' }">Form with validation on field</a>
@@ -148,8 +148,8 @@
         <div *ngSwitchCase="'form-b'">
           <div class="card" style="width: 30rem;">
             <div class="card-block">
-              <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'B'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
+              <h4 class="card-title"></h4>
+              <dynamic-form [formKey]="'B'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null" [isRtl]="true"></dynamic-form>
             </div>
           </div>
         </div>
