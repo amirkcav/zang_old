@@ -155,7 +155,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   }
 
   public capture() {
-    const context = this.canvas.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0, 640, 480);
+    const context = this.canvas.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0, this.canvasWidth, this.canvasHeight);
     this.capturedImage = this.canvas.nativeElement.toDataURL('image/png');
     this.stop();
 
