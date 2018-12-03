@@ -1,77 +1,84 @@
-<p-table #dt [value]="data" [columns]="grid.columns" [paginator]="true" [rows]="rowsInPage ? rowsInPage : 5" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
-         (sortFunction)="customSort($event)" [customSort]="true">
-    <ng-template pTemplate="caption">
-        <div style="text-align: right">        
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
-            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th *ngFor="let col of grid.columns" [pSortableColumn]="col.id" [style.width]="col.width + '%'" [pSortableColumnDisabled]="col.type === 'buttons'">
-                {{ col.name }}
-                <p-sortIcon [field]="col.field" *ngIf="col.type !== 'buttons'"></p-sortIcon>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData>
-        <tr>
-            <td *ngFor="let col of grid.columns"> 
-                <div [ngSwitch]="col.type">
-                    <div *ngSwitchCase="'buttons'">
+<div [ngClass]="{'ui-rtl rtl-elem': isRtl}" [ngBusy]="{busy: loadingGridData, message: 'טוען נתונים...'}">
+    <div *ngIf="grid.title">
+        <h2 style="margin-bottom: 10px;">{{ grid.title }}</h2>
+    </div>
+
+    <p-table #dt [value]="data" [columns]="(grid.columns)" [paginator]="true" [rows]="rowsInPage ? rowsInPage : defaultRowsInPage" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
+            (sortFunction)="customSort($event)" [customSort]="true">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">        
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
+                <button type="button" pButton class="table-download-button" icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of (grid.columns)" [pSortableColumn]="col.id" [style.width]="col.width + '%'" [pSortableColumnDisabled]="col.type === 'buttons'">
+                    {{ col.name }}
+                    <p-sortIcon [field]="col.field" *ngIf="col.type !== 'buttons'"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr (click)="onRowClick(rowIndex)">
+                <td *ngFor="let col of (grid.columns)"> 
+                    <div [ngSwitch]="col.type">
+                        <div *ngSwitchCase="'buttons'">
+                            <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
+                                <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
+                            </a>    
+                        </div>
+                        <!-- <div *ngSwitchCase="'date'">
+                            {{ rowData[col.id] | date: 'dd/MM/yyyy' }}
+                        </div> -->
+                        <div *ngSwitchDefault>
+                            {{ rowData[col.id] }}    
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
+                    <ng-template #buttons>
                         <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
                             <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
-                        </a>    
-                    </div>
-                    <!-- <div *ngSwitchCase="'date'">
-                        {{ rowData[col.id] | date: 'dd/MM/yyyy' }}
-                    </div> -->
-                    <div *ngSwitchDefault>
-                        {{ rowData[col.id] }}    
-                    </div>
+                        </a>
+                    </ng-template>
+                    <ng-template #cellContent>
+                        {{ rowData[col.id] }}
+                    </ng-template> -->
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" let-rowData *ngIf="allowAddRow">
+            <div style="text-align: left;">
+                <button type="button" pButton icon="fa fa-plus" (click)="addRow()" label="Add"></button>
+            </div>
+        </ng-template>
+    </p-table>
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
+
+    <p-dialog #dialog *ngIf="allowAddRow" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel()"><!--header="Car Details"-->
+        
+        <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
+            cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form>
+        
+        <!-- dynamicly created form according to the grid columns -->
+        <!-- <div class="ui-g ui-fluid" *ngIf="objFields">
+            <div class="ui-g-12" *ngFor="let field of objFields">
+                <div class="ui-g-4">
+                    <label [for]="field">{{field}}</label>
                 </div>
-                <!-- <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>
-                <ng-template #buttons>
-                    <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
-                        <i [ngClass]="'fa fa-' + (btn.icon ? btn.icon : btn.type)" style="margin:4px 4px 0 0"></i>
-                    </a>
-                </ng-template>
-                <ng-template #cellContent>
-                    {{ rowData[col.id] }}
-                </ng-template> -->
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
-        <div style="text-align: left;">
-            <button type="button" pButton icon="fa fa-plus" (click)="addRow()" label="Add"></button>
-        </div>
-    </ng-template>
-</p-table>
-
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
-
-<p-dialog #dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="400" [draggable]="false" [resizable]="false" (onHide)="cancel()"><!--header="Car Details"-->
-    
-    <dynamic-form *ngIf="currObject.fields" [formKey]="'GRIDB'" [formParameters]="currObject.fields" (onSaved)="saveDynamic($event)" 
-        cancelButton="ביטול" (onCancelled)="cancel()" [validateOnBlur]="true"></dynamic-form>
-    
-    <!-- dynamicly created form according to the grid columns -->
-    <!-- <div class="ui-g ui-fluid" *ngIf="objFields">
-        <div class="ui-g-12" *ngFor="let field of objFields">
-            <div class="ui-g-4">
-                <label [for]="field">{{field}}</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText class="form-control" [id]="currObject.fields[field]" [(ngModel)]="currObject.fields[field]" />
+                <div class="ui-g-8">
+                    <input pInputText class="form-control" [id]="currObject.fields[field]" [(ngModel)]="currObject.fields[field]" />
+                </div>
             </div>
         </div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
-        </div>
-    </p-footer> -->
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+            </div>
+        </p-footer> -->
 
-</p-dialog>
+    </p-dialog>
+
+</div>

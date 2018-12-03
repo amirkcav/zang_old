@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   onClicked(event: any) {
-
+    alert(JSON.stringify(event));
   }
 
   updateGrid() {

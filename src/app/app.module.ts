@@ -10,19 +10,25 @@ import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import { AppComponent } from './app.component';
 import { LogHttpIntercepter } from './log-http-intercepter';
 
-import { AutoCompleteModule } from 'primeng/autocomplete'
+import { AutoCompleteModule } from 'primeng/autocomplete';
+// import { DynamicAppComponent } from './dynamic-app/dynamic-app.component';
+// import { DynamicPageComponent } from './dynamic-page/dynamic-page.component';
 // import { CalendarModule } from 'primeng/calendar';
+// import { MenubarRtlModule } from './menubar-rtl/menubar-rtl.component';
+// import { MenubarModule } from 'primeng/components/menubar/menubar';
 
 @NgModule({
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     // HttpModule,
-    DynamicFormModule.forRoot(),
+    DynamicFormModule,
     HttpClientModule,
     FormsModule,
+    // MenubarModule,
+    // MenubarRtlModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent], //, DynamicAppComponent, DynamicPageComponent
   bootstrap: [AppComponent],
   providers: [
     {

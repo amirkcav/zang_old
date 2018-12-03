@@ -3,8 +3,10 @@
 @import '~@swimlane/ngx-datatable/release/assets/icons.css'; */
 
 @import './app/dynamic-form/dynamic-form-question.component.css';
+@import './app/dynamic-grid-b/dynamic-grid-b.component.css';
 @import "../node_modules/primeng/resources/themes/omega/theme.css";
 @import "../node_modules/primeng/resources/primeng.min.css";
+
 
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
@@ -179,4 +181,13 @@
   color: #fff;
   background: rgba(255, 255, 255, 0.2);
   text-shadow: #000 0px 0px 10px;
+}
+
+.buttons-row button + button {
+  margin-left: 15px;
+}
+
+.ui-rtl .buttons-row button + button {
+  margin-right: 15px;
+  margin-left: 0;
 }

@@ -148,7 +148,7 @@
         <div *ngSwitchCase="'form-b'">
           <div class="card" style="width: 30rem;">
             <div class="card-block">
-              <h4 class="card-title"></h4>
+              <h4 class="card-title" style="text-align: right;">RTL Form</h4>
               <dynamic-form [formKey]="'B'" [validateOnBlur]="true" [formParameters]="'test'" [saveButton]="null" [isRtl]="true"></dynamic-form>
             </div>
           </div>
@@ -165,7 +165,7 @@
           <div class="card" style="width: 30rem;">
             <div class="card-block">
               <h4 class="card-title">Other controls</h4>
-              <dynamic-form [formKey]="'E'" [formParameters]="'test'" [saveButton]="null"></dynamic-form>
+              <dynamic-form [formKey]="'E'" [formParameters]="'test'" [saveButton]="'שמור'"></dynamic-form>
             </div>
           </div>
         </div>

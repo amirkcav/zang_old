@@ -11,6 +11,7 @@ export class Grid {
   scrollbarH: boolean;
   scrollbarV: boolean;
   columns: Column[];
+  title: string;
 
   constructor(options: {
     class?: string;
@@ -33,11 +34,13 @@ export class Grid {
     this.reorderable = !!options.reorderable;
     this.scrollbarH = !!options.scrollbarH;
     this.scrollbarV = !!options.scrollbarV;
+    this.title = options['gridTitle'];
 
     // Create the columns array
     if (options.columns) {
       this.columns = options.columns.map(column => new Column(column));
-    } else {
+    } 
+    else {
       this.columns = [] as Column[];
     }
   }

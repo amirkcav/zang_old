@@ -33,6 +33,8 @@ import {
     
     @Input() gridKey: string;
     @Input() gridParameters: any = null;
+    @Input() isRtl = false;
+    @Input() allowAddRow = true;
   
     @Output() onClicked = new EventEmitter<any>();
   
@@ -43,6 +45,7 @@ import {
     loadingGridData: Promise<any[]>;
 
     rowsInPage: number;
+    defaultRowsInPage = 10;
 
     editDataHolder: any[];
     editDataIndex: number = -1;
@@ -179,11 +182,22 @@ import {
           return (event.order * result);
         });
       }
-      else {
+      else if (column['type'] === 'number') {
         event.data.sort((data1, data2) => {
           // make no difference between number and number as strings
           const value1 = +data1[event.field];
           const value2 = +data2[event.field];
+          const result = value1 > value2 ? 1 : -1;
+          return (event.order * result);
+        });
+      }
+      else {
+        event.data.sort((data1, data2) => {
+          // make no difference between number and number as strings
+          // const value1 = data1[event.field].value.toLowerCase();
+          // const value2 = data2[event.field].value.toLowerCase();
+          const value1 = data1[event.field].toString().toLowerCase();
+          const value2 = data2[event.field].toString().toLowerCase();
           const result = value1 > value2 ? 1 : -1;
           return (event.order * result);
         });
@@ -197,6 +211,10 @@ import {
 
     setValue(field: Field, value: any) {
       this.data[field.line][field.field] = value;
+    }
+
+    onRowClick(event) {
+      this.onClicked.emit(event);      
     }
 
   }

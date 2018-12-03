@@ -83,14 +83,15 @@ export class QuestionControlService {
       );
     });
     const formGroup = new FormGroup(group);
-    formValidationResponse$.subscribe(data => {
+    //formValidationResponse$.subscribe(data => {
+    formValidationResponse$.toPromise().then(data => {
       // console.log('Received validation response ' + data);
       if (data.values) {
         formGroup.patchValue(data.values);
       }
     });
     return formGroup;
-  }
+  }  
 
   /**
    * Validator factory method, which create a server validator for a given field

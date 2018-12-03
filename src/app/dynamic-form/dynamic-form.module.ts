@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-// import { BusyModule } from 'angular2-busy';
+import { BusyModule } from 'angular2-busy';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -40,7 +40,7 @@ import { DynamicGridBComponent } from '../dynamic-grid-b/dynamic-grid-b.componen
     ReactiveFormsModule,
     // HttpModule,
     HttpClientModule,
-    // BusyModule,
+    BusyModule,
     BrowserAnimationsModule,
     NgxDatatableModule,
     AutoCompleteModule,
@@ -80,7 +80,11 @@ export class DynamicFormModule {
       environment.dynamicFormBaseDevUrl = environmentParam.dynamicFormBaseDevUrl;    
       environment.dynamicFormQuestionsUrl = environmentParam.dynamicFormQuestionsUrl;
       environment.dynamicFormValidateUrl = environmentParam.dynamicFormValidateUrl;
+      environment.dynaimcFormAutoCompleteUrl = environmentParam.dynaimcFormAutoCompleteUrl;
+      environment.dynamicGridUrl = environmentParam.dynamicGridUrl;
+      environment.dynamicGridDataUrl = environmentParam.dynamicGridDataUrl;
       environment.usernamePassword = environmentParam.usernamePassword;
+      environment.dynamicFormSaveUrl = environmentParam.dynamicFormSaveUrl;      
     }
     return this;
     // return {
@@ -105,19 +109,4 @@ export class DynamicFormModule {
 
 }
 
-
-// This wrapper class is needed because String is an interface, and you can't provide an interface 
-// https://stackoverflow.com/questions/46566769/angular-aot-build-internal-error-unknown-identifier-undefined#answer-46579072
-@Injectable()
-export class StringWrapper {
-  s: any;
-  constructor(str: any) {
-    // super();
-    this.s = str;
-  }
-}
-  
-export function getString() {
-  return 'this.s';
-}
 

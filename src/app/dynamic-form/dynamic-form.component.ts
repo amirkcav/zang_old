@@ -14,11 +14,12 @@ import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
 import { ISetValue, Field } from '../inetrfaces';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [QuestionControlService, QuestionService]
+  providers: [QuestionControlService, QuestionService, ConfirmationService]
 })
 export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;
@@ -39,7 +40,11 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   readonly: boolean;
 
-  constructor(private service: QuestionControlService) {}
+  formValueHolder: any;
+
+  flattendFields: QuestionBase<any>[];
+
+  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService) {}
 
   ngOnChanges() {
     this.initForm();
@@ -58,7 +63,18 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   }
 
   onCancel() {
-    this.onCancelled.emit();
+    if (this.form.dirty) {
+      this.confirmationService.confirm({
+        header: 'התנתקות',
+        message: 'האם אתה בטוח?',
+        accept: () => {
+          this.onCancelled.emit(this.form.dirty);
+        }
+      });
+    }
+    else {
+      this.onCancelled.emit(this.form.dirty);
+    }
   }
 
   initForm(): void {

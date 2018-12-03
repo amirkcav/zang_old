@@ -1,6 +1,6 @@
 {
   "name": "amirkcav_zang",
-  "version": "0.0.39",
+  "version": "0.0.92",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^5.2.2",
     "@angular/router": "^5.2.2",
     "@swimlane/ngx-datatable": "^11.1.7",
+    "angular2-busy": "^2.0.4",
     "core-js": "^2.5.3",
     "font-awesome": "^4.7.0",
     "primeng": "^5.2.5",

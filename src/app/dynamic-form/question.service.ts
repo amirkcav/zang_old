@@ -228,6 +228,7 @@ export class QuestionService {
     const data = {
       FORM: formKey,
       FIELD: field,
+      VARCODE: field,
       VALUE: value === null ? '' : value
     };
 
@@ -239,7 +240,7 @@ export class QuestionService {
         if (res.status !== 'ok') {
           return this.handleError(res);
         }
-        return res.data['values']; 
+        return res.data ? res.data['values'] : []; 
       })
       .catch(this.handleError);
   }
@@ -253,6 +254,28 @@ export class QuestionService {
       .toPromise()
       .then(response => {
         const res = response as ServiceResponse;
+        if (res.status !== 'ok') {
+          return this.handleError(res);
+        }
+        const resData: any = (res.data as any) || {};
+        return resData;
+      })
+      .catch(this.handleError);
+  }
+
+  uploadPicture(formKey: string, questionKey: string, picture: string) {        
+    
+    const url = `${ environment.dynamicFormBaseDevUrl }upload.jsp?FORM=${ formKey }&VARCODE=${ questionKey }`;
+    const formData: FormData = new FormData();
+    // The first parameter of File ctor must be an array (string gives an error).
+    formData.append('files', new File(picture.split(',')[1].split(''), questionKey));
+
+    return this.http
+      // .post(url, JSON.stringify(data), { headers: _headers })
+      .post(url, formData, { 'responseType': 'text'})
+      .toPromise()
+      .then(response => {
+        const res = JSON.parse(response); // as ServiceResponse;
         if (res.status !== 'ok') {
           return this.handleError(res);
         }

@@ -36,7 +36,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendar: Calendar;  
   capturedImage: any;
   cameraActive: boolean;
-  
+  canvasHeight: number;
+  canvasWidth: number;
+    
   dateFormat = 'dd/mm/yyyy';
   showDatepicker = false;
 
@@ -48,13 +50,13 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
     if (this.question.controlType === 'file-upload' && this.question['useCamera']) {
-      this.play();
+      // this.play();
       this.useCamera = true;
     }
   }
 
   ngOnDestroy(): void {
-    if (this.useCamera) {
+    if (this.cameraActive) {
       this.stop();
     }
   }
@@ -87,6 +89,10 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     });
   }
 
+  autoCompleteSelect(event) {
+    this.form.controls[this.question.key].setValue(event);
+  }
+
   fileChange(event) {
     const tempQuestion = <FileUploadQuestion>this.question;
     const fileList: FileList = event.target.files;
@@ -109,8 +115,10 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     /*click functionality*/      
   }
 
+  //#region Camera
+
   play() {
-    this.activateCamera({ video: true, audio: false, maxLength: 10, debug: true });
+    this.activateCamera({ video: { facingMode: 'environment' }, audio: false }); //, maxLength: 10, debug: true
   }
 
   activateCamera(config) {
@@ -126,6 +134,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           video.parentElement.style.height = video.clientHeight + 'px';
           video.parentElement.style.width = video.clientWidth + 'px';
+          this.canvasHeight = video.clientHeight;
+          this.canvasWidth = video.clientWidth;
           if (this.capturedImageElem) {
             this.capturedImageElem.nativeElement.style.height = video.clientHeight + 'px';
             this.capturedImageElem.nativeElement.style.width = video.clientWidth + 'px';
@@ -148,7 +158,20 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     const context = this.canvas.nativeElement.getContext('2d').drawImage(this.videoElement.nativeElement, 0, 0, 640, 480);
     this.capturedImage = this.canvas.nativeElement.toDataURL('image/png');
     this.stop();
+
+    // upload the file
+    this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage).then((result) => {
+      // save file name from server
+      this.form.value[this.question.key] = result.image;
+      if (!this.form.dirty) {
+        this.form.markAsDirty();
+      }
+    })    
   }
+
+  //#endregion Camera
+
+  //#region Date field
 
   onBlurDateField(event) {
     event.currentTarget.focus();
@@ -212,5 +235,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       }, 50);
     }
   }
+
+  //#endregion Date field
 
 }

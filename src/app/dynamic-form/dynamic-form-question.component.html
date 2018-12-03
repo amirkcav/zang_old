@@ -1,86 +1,95 @@
 <div [formGroup]="form" class="form-group" [hidden]="!question.visible">
-	<label *ngIf="question.controlType !== 'button'" [attr.for]="question.key" class="center-block">{{question.label}}</label>
-
-	<div [ngSwitch]="question.controlType">			
+		<label *ngIf="question.controlType !== 'button'" [attr.for]="question.key" class="center-block">{{question.label}}</label>
+	
+		<div [ngSwitch]="question.controlType">			
+					
+			<div *ngSwitchCase="'textbox'">
 				
-		<div *ngSwitchCase="'textbox'">
-			
-			<div *ngIf="question.type=='date'" class="clearfix ui-inputgroup">
-				<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" 
-					[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')" class="pull-left _ui-inputgroup-addon"></p-inputMask> 
-				<button pButton type="button" icon="fa fa-calendar" class="pull-right" (click)="showCalendarClick($event)" tabindex="-1"></button>
-			</div>
-			<div *ngIf="question.type=='date'" style="position: absolute; z-index: 1;">
-					<p-calendar #calendar *ngIf="showDatepicker" dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:2050" 
-						(onSelect)="datepickerSelect($event)" [defaultDate]="selectedDate"></p-calendar> <!--[formControlName]="question.key"-->
-			</div>
-
-			<!--<label *ngIf="question.type=='checkbox'" [for]="question.key">
-				 <input [formControlName]="question.key" [id]="question.key" type="checkbox"  
-					[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" >
-				</label>	  -->
-			<p-checkbox *ngIf="question.type=='checkbox'" [formControl]="form.controls[question.key]" binary="true" [id]="question.key"></p-checkbox>
-
-			<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
-				[id]="question.key" [type]="question.type" class="form-control" 
-				[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" [attr.tabindex]="question.readonly ? -1 : null"> 		
-
-		</div>				
-
-		<div *ngSwitchCase="'textarea'">
-				<textarea [formControlName]="question.key" [id]="question.key" class="form-control" [attr.readonly]="question.readonly ? '' : null"></textarea>
-		</div>
-
-		<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" 
-			[id]="question.key" [type]="question.type" [inputStyleClass]="'form-control'" emptyMessage="No results"
-			[readonly]="question.readonly" [suggestions]="results" (completeMethod)="autoCompleteChange($event)" field="value"></p-autoComplete>
-		
-		<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value" [filter]="true"></p-dropdown> <!--[disabled]="question.readonly"-->
-
-		<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
-
-			<!--input type file-->
-			<!-- <input type="file" class="form-control" [id]="question.key" [formControlName]="question.key" (change)="fileChange($event)" [ngClass]="{ 'has-image': question.image }" />
-			<img *ngIf="question.image" [src]="question.image" class="file-image" /> -->
-			<!--prime ng uploader-->
-			<p-fileUpload name="myfile[]" *ngIf="!useCamera" [url]="question.url" [multiple]="question.multiple"></p-fileUpload>
-			
-			<!--camera-->			
-			<!--using ngif-->
-			<div *ngIf="useCamera">
-				<div id="video-parent" [ngClass]="{ 'video-active': cameraActive }">
-					<img #capturedImageElem id="captured-image" *ngIf="capturedImage" [src]="capturedImage" [ngClass]="{ 'capturing': capturing }" class="camera-image" />			
-					<video #videoElement *ngIf="cameraActive"></video>
-					<canvas #canvas id="canvas" width="640" height="480" hidden *ngIf="cameraActive"></canvas>			
-					<!--using hidden class-->
-					<!-- <video #videoElement height="250" [ngClass]="{ 'hidden': !cameraActive }"></video>
-					<img  id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing, 'hidden': !(capturedImage && !cameraActive) }" class="camera-image" /> -->
+				<div *ngIf="question.type=='date' && !question.readonly" class="clearfix ui-inputgroup">
+					<p-inputMask #maskInput mask="99/99/9999" (onComplete)="completeMask(maskInput)" [formControlName]="question.key" 
+						[placeholder]="dateFormat" [slotChar]="dateFormat" [styleClass]="'form-control mask-input ' + (question.invalid ? 'invalid' : '')" class="pull-left _ui-inputgroup-addon"></p-inputMask> 
+					<button pButton type="button" icon="fa fa-calendar" class="pull-right" (click)="showCalendarClick($event)" tabindex="-1"></button>
+				</div>
+				<div *ngIf="question.type=='date' && !question.readonly" style="position: absolute; z-index: 1;">
+						<p-calendar #calendar *ngIf="showDatepicker" dateFormat="dd/mm/yy" [inline]="true" monthNavigator="true" yearNavigator="true" yearRange="1950:2050" 
+							(onSelect)="datepickerSelect($event)" [defaultDate]="selectedDate"></p-calendar> <!--[formControlName]="question.key"-->
 				</div>
 
-				<button *ngIf="!cameraActive" (click)="play()" class="btn btn-primary">Other picture</button>
-				<button *ngIf="cameraActive && capturedImage" (click)="stop()" class="btn btn-warning">Cancel</button>
-				<button *ngIf="cameraActive" (click)="capture()" class="btn btn-info">Take picture</button>
+				<!-- readonly date field is a regular text field. -->
+				<input *ngIf="question.type=='date' && question.readonly" [formControlName]="question.key"
+					[id]="question.key" [type]="text" class="form-control" 
+					[appValidateOnBlur]="validateOnBlur" readonly tabindex="-1">
+	
+				<!--<label *ngIf="question.type=='checkbox'" [for]="question.key">
+					 <input [formControlName]="question.key" [id]="question.key" type="checkbox"  
+						[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" >
+					</label>	  -->
+				<p-checkbox *ngIf="question.type=='checkbox'" [formControl]="form.controls[question.key]" binary="true" [id]="question.key"></p-checkbox>
+	
+				<input *ngIf="!['date', 'checkbox'].includes(question.type)" [formControlName]="question.key"
+					[id]="question.key" [type]="question.type" class="form-control" 
+					[appValidateOnBlur]="validateOnBlur" [attr.readonly]="question.readonly ? '' : null" [attr.tabindex]="question.readonly ? -1 : null"> 		
+	
+			</div>				
+	
+			<div *ngSwitchCase="'textarea'">
+					<textarea [formControlName]="question.key" [id]="question.key" class="form-control" [attr.readonly]="question.readonly ? '' : null"></textarea>
+			</div>
+	
+			<p-autoComplete *ngSwitchCase="'autocomplete'" [formControlName]="question.key" [id]="question.key" [type]="question.type" 
+				[inputStyleClass]="'form-control'" emptyMessage="No results" [readonly]="question.readonly" [suggestions]="results" 
+				(completeMethod)="autoCompleteChange($event)" field="value" (onSelect)="autoCompleteSelect($event)" (onSelect)="autoCompleteSelect($event)"></p-autoComplete>
+			
+			<p-dropdown *ngSwitchCase="'dropdown'" [options]="question.options" [id]="question.key" [formControlName]="question.key" optionLabel="value" [filter]="true"></p-dropdown> <!--[disabled]="question.readonly"-->
+	
+			<div *ngSwitchCase="'file-upload'" id="file-upload-div" class="clearfix">			
+	
+				<!--input type file-->
+				<!-- <input type="file" class="form-control" [id]="question.key" [formControlName]="question.key" (change)="fileChange($event)" [ngClass]="{ 'has-image': question.image }" />
+				<img *ngIf="question.image" [src]="question.image" class="file-image" /> -->
+				<!--prime ng uploader-->
+				<p-fileUpload name="myfile[]" *ngIf="!useCamera" [url]="question.url" [multiple]="question.multiple"></p-fileUpload>
+				
+				<!--camera-->			
+				<!--using ngif-->
+				<div *ngIf="useCamera">
+					<a *ngIf="!cameraActive && !capturedImage" href="javascript:;" (click)="play()">
+						<i class="fa fa-camera fa-2x"></i>
+					</a>
+					<div id="video-parent" [ngClass]="{ 'video-active': cameraActive }">						
+						<img #capturedImageElem id="captured-image" *ngIf="capturedImage" [src]="capturedImage" [ngClass]="{ 'capturing': capturing }" class="camera-image" />			
+						<video #videoElement *ngIf="cameraActive"></video>
+						<canvas #canvas id="canvas" [attr.width]="canvasWidth" [attr.height]="canvasHeight" hidden *ngIf="cameraActive"></canvas>			
+						<!--using hidden class-->
+						<!-- <video #videoElement height="250" [ngClass]="{ 'hidden': !cameraActive }"></video>
+						<img  id="captured-image" [src]="capturedImage" height="250" [ngClass]="{ 'capturing': capturing, 'hidden': !(capturedImage && !cameraActive) }" class="camera-image" /> -->
+					</div>
+	
+					<button *ngIf="!cameraActive && capturedImage" (click)="play()" class="btn btn-primary">עדכן תמונה</button>
+					<button *ngIf="cameraActive && capturedImage" (click)="stop()" class="btn btn-warning">חזור</button>
+					<button *ngIf="cameraActive" (click)="capture()" class="btn btn-info">צלם</button>
+				</div>
+			</div>
+	
+			<img *ngSwitchCase="'image'" [src]="question.imageSrc" />
+	
+			<button *ngSwitchCase="'button'" type="button" class="btn btn-primary" [ngClass]="'btn-' + question.cssClass" (click)="buttonClick($event)">{{ question.label }}</button>
+	
+		</div> 
+	
+		<div class="alert alert-danger" *ngIf="isInvalid">
+			<div *ngIf="errors.required">
+				{{question.label}} is required.
+			</div>
+			<div *ngIf="errors.minlength">
+				{{question.label}} must be at least 4 characters long.
+			</div>
+			<div *ngIf="errors.serverError">
+				{{errors.serverError.message}}
+			</div>
+			<div *ngIf="errors.email">
+				Email not valid.
 			</div>
 		</div>
-
-		<img *ngSwitchCase="'image'" [src]="question.imageSrc" />
-
-		<button *ngSwitchCase="'button'" type="button" class="btn btn-primary" [ngClass]="'btn-' + question.cssClass" (click)="buttonClick($event)">{{ question.label }}</button>
-
-	</div> 
-
-	<div class="alert alert-danger" *ngIf="isInvalid">
-		<div *ngIf="errors.required">
-			{{question.label}} is required.
-		</div>
-		<div *ngIf="errors.minlength">
-			{{question.label}} must be at least 4 characters long.
-		</div>
-		<div *ngIf="errors.serverError">
-			{{errors.serverError.message}}
-		</div>
-		<div *ngIf="errors.email">
-			Email not valid.
-		</div>
 	</div>
-</div>
+	

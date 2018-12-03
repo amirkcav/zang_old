@@ -5,3 +5,7 @@
 .row-button {
   color: #333;
 }
+
+.ui-paginator-bottom {
+  direction: ltr;
+}

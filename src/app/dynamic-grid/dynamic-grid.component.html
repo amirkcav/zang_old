@@ -9,8 +9,8 @@
   [scrollbarH]="grid.scrollbarH"
   [scrollbarV]="grid.scrollbarV"
   [rows]="data" 
-  [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}">
-  <!--[ngBusy]="{busy: loadingPlanItems, message: 'טוען נתונים...'}" -->
+  [messages]="{emptyMessage: 'אין נתונים להצגה', totalMessage: 'שורות'}"
+  >   <!--[ngBusy]="{busy: loadingPlanItems, message: 'טוען נתונים...'}"-->
   <ngx-datatable-column *ngFor="let col of grid.columns" 
     [prop]="col.id" 
     [name]="col.name" 
