@@ -8,7 +8,7 @@
         <ng-template pTemplate="caption">
             <div style="text-align: right">        
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%">
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:50%" [value]="filterValue">
                 <button type="button" pButton class="table-download-button" icon="fa-file-o" iconPos="left" label="Download CSV" (click)="dt.exportCSV()" style="float:left"></button>
             </div>
         </ng-template>
