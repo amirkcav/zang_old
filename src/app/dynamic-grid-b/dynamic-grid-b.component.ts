@@ -19,6 +19,7 @@ import { ConfirmationService, SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { ISetValue, Field } from '../inetrfaces';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 
 @Component({
@@ -56,7 +57,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
 
   filterValue = '';
 
-  constructor(private service: QuestionService, private confirmationService: ConfirmationService) {}
+  constructor(private service: QuestionService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   ngOnChanges() {
     this.initGrid();
@@ -73,6 +74,9 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       this.grid = response;
       this.setEmptyObject();
       this.objFields = Object.keys(this.currObject.fields);
+    })    
+    .catch((err) => {
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
     });
 
     // load the grid data
@@ -108,6 +112,9 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
           }, 1);
         }
       }
+    })
+    .catch((err) => {
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
     });
   }
 
@@ -244,7 +251,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     this.data[field.line][field.field] = value;
   }
 
-  onRowClick(event) {
+  onRowClick(rowNumber) {
     const tableState = {
       rows: this.dt.rows,
       filter: this.dt.filters.global,
@@ -254,7 +261,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       sortOrder: this.dt.sortOrder
     };
     localStorage.setItem('tableState', JSON.stringify(tableState));
-    this.onClicked.emit(event);      
+    this.onClicked.emit({ 'rowNumber': rowNumber, 'totalRows': this.dt.value.length });      
   }
 
 }

@@ -15,6 +15,7 @@ import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
 import { ISetValue, Field } from '../inetrfaces';
 import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'dynamic-form',
@@ -44,7 +45,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   flattendFields: QuestionBase<any>[];
 
-  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService) {}
+  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
   ngOnChanges() {
     this.initForm();
@@ -58,7 +59,15 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
     this.service
       .save(this.formKey, this.formParameters, this.form.value)
       .then(response => {
-        this.onSaved.emit({ formKey: this.formKey, values: response });
+        if (response.status !== 'ok') {
+          this.messageService.add({ severity: 'warn', summary: '', detail: response.message });
+        }
+        else {
+          this.onSaved.emit({ formKey: this.formKey, values: response });
+        }
+      })
+      .catch((err) => {
+        this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
       });
   }
 
@@ -93,6 +102,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
           break;
         }
       }
+    })
+    .catch((err) => {
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 

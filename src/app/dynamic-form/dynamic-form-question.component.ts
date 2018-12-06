@@ -7,6 +7,7 @@ import { QuestionBase } from './question-base';
 import { QuestionService } from './question.service';
 import { FileUploadQuestion } from './question-fileUpload';
 import { Calendar } from 'primeng/calendar';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'df-question',
@@ -45,7 +46,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   closeDatepickerOnSelect = true;
   selectedDate: any;
 
-  constructor(private service: QuestionService) { }  
+  constructor(private service: QuestionService, private messageService: MessageService) { }  
 
   ngOnInit() {
     // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
@@ -86,6 +87,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     );
     this.autoCompleteSearch.then(response => {
       this.results = response ? response : [];
+    })
+    .catch((err) => {
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 
@@ -141,6 +145,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
             this.capturedImageElem.nativeElement.style.width = video.clientWidth + 'px';
           }
         }, 500);
+      })
+      .catch((err) => {
+        this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
       });
     } else {
       alert('Video is not supported');
@@ -166,7 +173,10 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       if (!this.form.dirty) {
         this.form.markAsDirty();
       }
-    })    
+    })
+    .catch((err) => {
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+    });
   }
 
   //#endregion Camera
