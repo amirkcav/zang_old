@@ -80,7 +80,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     this.loadingGridData.then(response => {
       this.data = response;
 
-      // load table state
+      // load previous table state (when coming back from other page)
       if (localStorage.getItem('tableState')) {
         const state = JSON.parse(localStorage.getItem('tableState'));
         localStorage.removeItem('tableState');
