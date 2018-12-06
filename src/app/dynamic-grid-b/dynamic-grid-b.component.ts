@@ -19,14 +19,13 @@ import { ConfirmationService, SortEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { ISetValue, Field } from '../inetrfaces';
-import { MessageService } from 'primeng/components/common/messageservice';
-
+import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'dynamic-grid-b',
   templateUrl: './dynamic-grid-b.component.html',
   styleUrls: ['./dynamic-grid-b.component.css'],
-  providers: [ QuestionService, ConfirmationService ]
+  providers: [ QuestionService, ConfirmationService, MessageService ]
 })
 export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {    
   @ViewChild('dt') dt: Table
@@ -47,7 +46,6 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
 
   rowsInPage: number;
   defaultRowsInPage = 10;
-
   editDataHolder: any[];
   editDataIndex: number = -1;
 
@@ -76,7 +74,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       this.objFields = Object.keys(this.currObject.fields);
     })    
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
 
     // load the grid data
@@ -114,7 +112,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
+      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 

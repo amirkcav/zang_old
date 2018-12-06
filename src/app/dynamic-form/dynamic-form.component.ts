@@ -20,7 +20,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [QuestionControlService, QuestionService, ConfirmationService]
+  providers: [QuestionControlService, QuestionService, ConfirmationService, MessageService]
 })
 export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;

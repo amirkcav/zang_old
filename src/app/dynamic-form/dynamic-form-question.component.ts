@@ -7,13 +7,14 @@ import { QuestionBase } from './question-base';
 import { QuestionService } from './question.service';
 import { FileUploadQuestion } from './question-fileUpload';
 import { Calendar } from 'primeng/calendar';
+
 import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'df-question',
   templateUrl: './dynamic-form-question.component.html',
   styleUrls: ['./dynamic-form-question.component.css'],
-  providers: [QuestionService],
+  providers: [QuestionService], 
   encapsulation: ViewEncapsulation.None
 })
 export class DynamicFormQuestionComponent implements OnInit, OnDestroy {  
@@ -46,7 +47,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   closeDatepickerOnSelect = true;
   selectedDate: any;
 
-  constructor(private service: QuestionService, private messageService: MessageService) { }  
+  constructor(private service: QuestionService, private messageService: MessageService) { } 
 
   ngOnInit() {
     // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';

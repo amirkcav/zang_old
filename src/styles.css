@@ -191,3 +191,28 @@
   margin-right: 15px;
   margin-left: 0;
 }
+
+
+p-messages .ui-messages {
+  display: block;
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* width: 80%; */
+  margin-bottom: 0;
+  box-shadow: #666 0 0 10px 0;
+  min-width: 400px;
+  padding-left: 1.5em;
+  transition: opacity 0.3s;
+}
+
+.rtl-elem .ui-messages {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl-elem .ui-messages .ui-messages-close {
+  left: 5px;
+  right: unset;
+}
