@@ -64,7 +64,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       .then(response => {
         if (response.status !== 'ok') {
           // this.messageService.add({ severity: 'warn', summary: '', detail: response.message });
-          this.alertsService.alert('warn', '', response.message);
+          this.alertsService.alert('error', '', response.message);
         }
         else {
           this.alertsService.alert('success', 'המידע נשמר בהצלחה', '');
