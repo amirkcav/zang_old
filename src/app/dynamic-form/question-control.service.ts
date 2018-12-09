@@ -129,6 +129,9 @@ export class QuestionControlService {
             // Server did not validate
             return { serverError: { message: response.message } };
           }
+        })
+        .catch((error) => {
+          return { serverError: { message: `אירעה שגיאה: ${ error.message || error }` } };
         });
     };
   }
