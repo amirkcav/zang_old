@@ -17,10 +17,12 @@ import { ISetValue, Field } from '../inetrfaces';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
+import { AlertsService } from '../alerts.service'
+
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [QuestionControlService, QuestionService, ConfirmationService, MessageService]
+  providers: [QuestionControlService, QuestionService, ConfirmationService, AlertsService, MessageService] 
 })
 export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;
@@ -45,7 +47,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
 
   flattendFields: QuestionBase<any>[];
 
-  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
+  // tslint:disable-next-line:max-line-length
+  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private alertsService: AlertsService) {} // private messageService: MessageService, 
 
   ngOnChanges() {
     this.initForm();
@@ -60,15 +63,18 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       .save(this.formKey, this.formParameters, this.form.value)
       .then(response => {
         if (response.status !== 'ok') {
-          this.messageService.add({ severity: 'warn', summary: '', detail: response.message });
+          // this.messageService.add({ severity: 'warn', summary: '', detail: response.message });
+          this.alertsService.alert('warn', '', response.message);
         }
         else {
-          this.messageService.add({ severity: 'success', summary: 'המידע נשמר בהצלחה', detail: '' });
+          this.alertsService.alert('success', 'המידע נשמר בהצלחה', '');
+          // this.messageService.add({ severity: 'success', summary: 'המידע נשמר בהצלחה', detail: '' });
           this.onSaved.emit({ formKey: this.formKey, values: response });
         }
       })
       .catch((err) => {
-        this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+        this.alertsService.alert('error', 'אירעה שגיאה', err);
       });
   }
 
@@ -105,7 +111,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+        this.alertsService.alert('error', 'אירעה שגיאה', err);
+        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 

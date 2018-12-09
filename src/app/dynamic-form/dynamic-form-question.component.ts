@@ -8,7 +8,8 @@ import { QuestionService } from './question.service';
 import { FileUploadQuestion } from './question-fileUpload';
 import { Calendar } from 'primeng/calendar';
 
-import { MessageService } from 'primeng/components/common/messageservice';
+// import { MessageService } from 'primeng/components/common/messageservice';
+import { AlertsService } from '../alerts.service'
 
 @Component({
   selector: 'df-question',
@@ -47,7 +48,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   closeDatepickerOnSelect = true;
   selectedDate: any;
 
-  constructor(private service: QuestionService, private messageService: MessageService) { } 
+  constructor(private service: QuestionService, private alertsService: AlertsService) { } 
 
   ngOnInit() {
     // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
@@ -90,7 +91,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       this.results = response ? response : [];
     })
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      this.alertsService.alert('error', 'אירעה שגיאה', err);
+      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 
@@ -148,7 +150,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
         }, 500);
       })
       .catch((err) => {
-        this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
+        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
+        this.alertsService.alert('error', 'אירעה שגיאה בהפעלת המצלמה', err);
       });
     } else {
       alert('Video is not supported');
@@ -176,7 +179,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       }
     })
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      this.alertsService.alert('error', 'אירעה שגיאה', err);
     });
   }
 

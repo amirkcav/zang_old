@@ -20,12 +20,13 @@ import { Table } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { ISetValue, Field } from '../inetrfaces';
 import {MessageService} from 'primeng/components/common/messageservice';
+import { AlertsService } from '../alerts.service';
 
 @Component({
   selector: 'dynamic-grid-b',
   templateUrl: './dynamic-grid-b.component.html',
   styleUrls: ['./dynamic-grid-b.component.css'],
-  providers: [ QuestionService, ConfirmationService, MessageService ]
+  providers: [ QuestionService, ConfirmationService, AlertsService, MessageService ]
 })
 export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {    
   @ViewChild('dt') dt: Table
@@ -55,7 +56,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
 
   filterValue = '';
 
-  constructor(private service: QuestionService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
+  constructor(private service: QuestionService, private confirmationService: ConfirmationService, private alertsService: AlertsService) {}
 
   ngOnChanges() {
     this.initGrid();
@@ -74,7 +75,8 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       this.objFields = Object.keys(this.currObject.fields);
     })    
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+        this.alertsService.alert('error', 'אירעה שגיאה', err);
+        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
 
     // load the grid data
@@ -112,7 +114,8 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-      this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      this.alertsService.alert('error', 'אירעה שגיאה', err);
     });
   }
 
