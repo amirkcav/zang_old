@@ -63,18 +63,15 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       .save(this.formKey, this.formParameters, this.form.value)
       .then(response => {
         if (response.status !== 'ok') {
-          // this.messageService.add({ severity: 'warn', summary: '', detail: response.message });
           this.alertsService.alert('error', '', response.message);
         }
         else {
           this.alertsService.alert('success', 'המידע נשמר בהצלחה', '');
-          // this.messageService.add({ severity: 'success', summary: 'המידע נשמר בהצלחה', detail: '' });
           this.onSaved.emit({ formKey: this.formKey, values: response });
         }
       })
       .catch((err) => {
-        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
-        this.alertsService.alert('error', 'אירעה שגיאה', err);
+        this.alertsService.alert('error', 'אירעה שגיאה', err, false);
       });
   }
 
@@ -112,7 +109,6 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
     })
     .catch((err) => {
         this.alertsService.alert('error', 'אירעה שגיאה', err);
-        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
   }
 

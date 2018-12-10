@@ -76,7 +76,6 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     })    
     .catch((err) => {
         this.alertsService.alert('error', 'אירעה שגיאה', err);
-        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
     });
 
     // load the grid data
@@ -114,7 +113,6 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
       this.alertsService.alert('error', 'אירעה שגיאה', err);
     });
   }

@@ -9,14 +9,16 @@ export class AlertsService {
 
   constructor(private messageService: MessageService) { }
 
-  public alert(severity: string, summary: string, detail: string) {
+  public alert(severity: string, summary: string, detail: string, autoHide = true) {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
     this.messageService.add({ severity: severity, summary: summary, detail: detail });    
-    this.timeout = setTimeout(() => {
-      this.messageService.clear();
-    }, 2500);
+    if (autoHide) {
+      this.timeout = setTimeout(() => {
+        this.messageService.clear();
+      }, 2500);
+    }
   }
 
 }

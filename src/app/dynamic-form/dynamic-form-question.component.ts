@@ -91,8 +91,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       this.results = response ? response : [];
     })
     .catch((err) => {
-      this.alertsService.alert('error', 'אירעה שגיאה', err);
-      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
+      this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }
 
@@ -150,8 +149,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
         }, 500);
       })
       .catch((err) => {
-        // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה בהפעלת המצלמה', detail: err });
-        this.alertsService.alert('error', 'אירעה שגיאה בהפעלת המצלמה', err);
+        this.alertsService.alert('error', 'אירעה שגיאה בהפעלת המצלמה', err, false);
       });
     } else {
       alert('Video is not supported');
@@ -179,8 +177,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       }
     })
     .catch((err) => {
-      // this.messageService.add({ severity: 'error', summary: 'אירעה שגיאה', detail: err });
-      this.alertsService.alert('error', 'אירעה שגיאה', err);
+      this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }
 
