@@ -108,7 +108,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-        this.alertsService.alert('error', 'אירעה שגיאה', err);
+        this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }
 
