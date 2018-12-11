@@ -76,18 +76,19 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   }
 
   onCancel() {
-    if (this.form.dirty) {
-      this.confirmationService.confirm({
-        header: 'התנתקות',
-        message: 'האם אתה בטוח?',
-        accept: () => {
-          this.onCancelled.emit(this.form.dirty);
-        }
-      });
-    }
-    else {
-      this.onCancelled.emit(this.form.dirty);
-    }
+    // if (this.form.dirty) {
+    //   this.confirmationService.confirm({
+    //     header: 'בטל שינויים',
+    //     message: 'האם אתה בטוח?',
+    //     accept: () => {
+    //       this.onCancelled.emit(this.form.dirty);
+    //     }
+    //   });
+    // }
+    // else {
+    //   this.onCancelled.emit(this.form.dirty);
+    // }
+    this.onCancelled.emit(this.form.dirty);
   }
 
   initForm(): void {
