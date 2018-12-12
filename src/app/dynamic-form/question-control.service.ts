@@ -48,7 +48,7 @@ export class QuestionControlService {
    * @param  {string} The key (identifier) of the form
    * @return {FormGroup}
    */
-  toFormGroup(questions: QuestionBase<any>[], formKey: string, validateOnBlur: Boolean): FormGroup {
+  toFormGroup(questions: QuestionBase<any>[], formKey: string, validateOnBlur: Boolean, formParameters: any): FormGroup {
     const group: any = {};
     // Observable FormValidationResponse
     const formValidationResponse = new Subject<FormValidationResponse>();
@@ -59,7 +59,8 @@ export class QuestionControlService {
       const serverValidator = this.serverValidator(
         formValidationResponse,
         formKey,
-        question.key
+        question.key,
+        formParameters
       );
       const syncValidators = []; // question.required ? [Validators.required] : [];
       if (question.required) {
@@ -103,7 +104,8 @@ export class QuestionControlService {
   serverValidator(
     formData: Subject<FormValidationResponse>,
     formKey: string,
-    fieldName: string
+    fieldName: string,
+    formParameters: any
   ): AsyncValidatorFn {
     return (
       control: AbstractControl
@@ -115,7 +117,7 @@ export class QuestionControlService {
       // console.log('validate'); // for demo purposes only
       const self = this;
       return this.service
-        .validateControl(formKey, fieldName, control.value)
+        .validateControl(formKey, fieldName, control.value, formParameters)
         .then(response => {
           // console.log('validated: ' + response); // for demo purposes only
 

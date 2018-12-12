@@ -112,14 +112,16 @@ export class QuestionService {
   validateControl(
     formKey: string,
     field: string,
-    value: string
+    value: string,
+    formParameters = {}
   ): Promise<FormValidationResponse> {
     const url = this.getUrl(this.validateUrl);
     const data = {
       FORM: formKey,
       FIELD: field,
       VARCODE: field,
-      VALUE: value === null ? '' : value
+      VALUE: value === null ? '' : value,
+      PARAMS: formParameters
     };
 
     return this.http

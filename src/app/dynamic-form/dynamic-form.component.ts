@@ -98,7 +98,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
     );
     this.loadingQuestions.then(response => {
       this.questions = response.questions;
-      this.form = this.service.toFormGroup(this.questions, this.formKey, this.validateOnBlur);
+      this.form = this.service.toFormGroup(this.questions, this.formKey, this.validateOnBlur, this.formParameters);
       this.formTitle = response.formTitle;
       this.readonly = true;
       for (const question of this.questions) {
