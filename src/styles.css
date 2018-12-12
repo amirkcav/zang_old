@@ -216,3 +216,23 @@ p-messages .ui-messages {
   left: 5px;
   right: unset;
 }
+
+/* .landscape-primary .landscape-only {
+  display: table-cell;
+}
+
+.portrait-primary .landscape-only {
+  display: none;
+} */
+
+@media (orientation: landscape) {
+  .landscape-only {
+    display: table-cell;
+  }
+}
+
+@media (orientation: portrait) {
+  .landscape-only {
+    display: none;
+  }
+}

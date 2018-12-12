@@ -15,6 +15,7 @@ export class Column {
   buttons: string[];
   isEditable: boolean;
   options: any[];
+  landscapeOnly?: boolean;
 
   constructor(options: {
     id?: string,
@@ -32,7 +33,8 @@ export class Column {
     visible?: boolean,
     buttons?: string[],
     isEditable?: boolean,
-    options: any[]
+    options: any[],
+    landscapeOnly?: boolean
   }) {
     this.id = options.id;
     this.field = options.field;
@@ -50,5 +52,6 @@ export class Column {
     this.buttons = options.buttons || [];    
     this.isEditable = options.isEditable;
     this.options = options.options || [];    
+    this.landscapeOnly = options.landscapeOnly || false;    
   }
 }

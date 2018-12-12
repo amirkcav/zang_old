@@ -265,7 +265,7 @@ export class QuestionService {
 
   uploadPicture(formKey: string, questionKey: string, picture: string) {        
     
-    const url = `${ environment.dynamicFormBaseDevUrl }upload.jsp?FORM=${ formKey }&VARCODE=${ questionKey }`;
+    const url = `${environment.dynamicFormBaseDevUrl}upload.jsp?FORM=${formKey}&VARCODE=${questionKey}`;
     const formData: FormData = new FormData();
     // The first parameter of File ctor must be an array (string gives an error).
     formData.append('files', new File(picture.split(',')[1].split(''), questionKey));

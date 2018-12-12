@@ -12,6 +12,7 @@ export class Grid {
   scrollbarV: boolean;
   columns: Column[];
   title: string;
+  landscapeOnly: boolean;
 
   constructor(options: {
     class?: string;
@@ -43,5 +44,6 @@ export class Grid {
     else {
       this.columns = [] as Column[];
     }
+
   }
 }

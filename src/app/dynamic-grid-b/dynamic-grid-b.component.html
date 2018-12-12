@@ -14,7 +14,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th *ngFor="let col of (grid.columns)" [pSortableColumn]="col.id" [style.width]="col.width + '%'" [pSortableColumnDisabled]="col.type === 'buttons'">
+                <th *ngFor="let col of (grid.columns)" [ngClass]="{ 'landscape-only': col.landscapeOnly }" [pSortableColumn]="col.id" [style.width]="col.width + '%'" [pSortableColumnDisabled]="col.type === 'buttons'">
                     {{ col.name }}
                     <p-sortIcon [field]="col.field" *ngIf="col.type !== 'buttons'"></p-sortIcon>
                 </th>
@@ -22,7 +22,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
             <tr (click)="onRowClick(rowIndex)">
-                <td *ngFor="let col of (grid.columns)"> 
+                <td *ngFor="let col of (grid.columns)" [ngClass]="{ 'landscape-only': col.landscapeOnly }"> 
                     <div [ngSwitch]="col.type">
                         <div *ngSwitchCase="'buttons'">
                             <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
