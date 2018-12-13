@@ -41,6 +41,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   cameraActive: boolean;
   canvasHeight: number;
   canvasWidth: number;
+  uploadPicture: Promise<any>;
     
   dateFormat = 'dd/mm/yyyy';
   showDatepicker = false;
@@ -169,7 +170,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     this.stop();
 
     // upload the file
-    this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage).then((result) => {
+    //this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage).then((result) => {
+    this.uploadPicture = this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage);
+    this.uploadPicture.then((result) => {
       // save file name from server
       this.form.value[this.question.key] = result.image;
       if (!this.form.dirty) {

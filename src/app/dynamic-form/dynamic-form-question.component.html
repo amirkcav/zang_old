@@ -52,7 +52,7 @@
 				
 				<!--camera-->			
 				<!--using ngif-->
-				<div *ngIf="useCamera">
+				<div *ngIf="useCamera" [ngBusy]="{busy: uploadPicture, message: 'מעלה תמונה. אנא המתן...'}">
 					<a *ngIf="!cameraActive && !capturedImage" href="javascript:;" (click)="play()">
 						<i class="fa fa-camera fa-2x"></i>
 					</a>
