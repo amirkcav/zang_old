@@ -63,7 +63,18 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
   }
 
   ngOnInit() {
-    // this.initGrid();
+    // the contains function is changed so it would support using objects as values of table cells (not just the value itself).
+    // original function - https://github.com/primefaces/primeng/blob/master/src/app/components/table/table.ts#L1250
+    this.dt.filterConstraints.contains = (value, filter) => {
+      if (filter === undefined || filter === null || (typeof filter === 'string' && filter.trim() === '')) {
+          return true;
+      }
+      if (value === undefined || value === null) {
+          return false;
+      }
+                                                                                 // added this part of the condition
+      return value.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1 || value.value.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+    } 
   }
 
   initGrid(): void {
@@ -250,7 +261,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     this.data[field.line][field.field] = value;
   }
 
-  onRowClick(rowNumber) {
+  onRowClick(rowId) {
     const tableState = {
       rows: this.dt.rows,
       filter: this.dt.filters.global,
@@ -260,7 +271,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       sortOrder: this.dt.sortOrder
     };
     localStorage.setItem('tableState', JSON.stringify(tableState));
-    this.onClicked.emit({ 'rowNumber': rowNumber, 'totalRows': this.dt.value.length });      
+    this.onClicked.emit({ 'rowId': rowId, 'totalRows': this.dt.value.length });      
   }
 
 }
