@@ -21,7 +21,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-            <tr (click)="onRowClick(rowIndex)" [ngStyle]="rowData.style">
+            <tr (click)="onRowClick(rowData.id.value)" [ngStyle]="rowData.style">
                 <td *ngFor="let col of (grid.columns)" [ngClass]="{ 'landscape-only': col.landscapeOnly }" [ngStyle]="rowData[col.id]?.style" [attr.aaa]="rowData[col.id]?.style"> 
                     <div [ngSwitch]="col.type">
                         <div *ngSwitchCase="'buttons'">
