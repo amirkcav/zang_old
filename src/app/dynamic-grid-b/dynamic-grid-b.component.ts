@@ -274,4 +274,8 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     this.onClicked.emit({ 'rowId': rowId, 'totalRows': this.dt.value.length });      
   }
 
+  exportToCsv(data) {
+    return data.data.value;
+  }
+
 }
