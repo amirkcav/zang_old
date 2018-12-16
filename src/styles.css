@@ -237,10 +237,6 @@ p-messages .ui-messages {
   }
 }
 
-::ng-deep ng-busy .ng-busy {
-  position: fixed;
-}
-
-::ng-deep ng-busy-backdrop .ng-busy-backdrop {
-  position: fixed;
+.ng-busy, .ng-busy-backdrop { 
+  position: fixed !important;
 }
