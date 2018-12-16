@@ -21,8 +21,8 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-            <tr (click)="onRowClick(rowIndex)">
-                <td *ngFor="let col of (grid.columns)" [ngClass]="{ 'landscape-only': col.landscapeOnly }"> 
+            <tr (click)="onRowClick(rowIndex)" [ngStyle]="rowData.style">
+                <td *ngFor="let col of (grid.columns)" [ngClass]="{ 'landscape-only': col.landscapeOnly }" [ngStyle]="rowData[col.id]?.style" [attr.aaa]="rowData[col.id]?.style"> 
                     <div [ngSwitch]="col.type">
                         <div *ngSwitchCase="'buttons'">
                             <a href="javascript:;" *ngFor="let btn of col.buttons" class="row-button" (click)="this[btn.type](rowData)">
@@ -33,7 +33,7 @@
                             {{ rowData[col.id] | date: 'dd/MM/yyyy' }}
                         </div> -->
                         <div *ngSwitchDefault>
-                            {{ rowData[col.id] }}    
+                            {{ rowData[col.id].value }}    
                         </div>
                     </div>
                     <!-- <div *ngIf="col.type == 'buttons' && col.buttons && col.buttons.length > 0; then buttons else cellContent"></div>

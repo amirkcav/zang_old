@@ -236,3 +236,11 @@ p-messages .ui-messages {
     display: none;
   }
 }
+
+::ng-deep ng-busy .ng-busy {
+  position: fixed;
+}
+
+::ng-deep ng-busy-backdrop .ng-busy-backdrop {
+  position: fixed;
+}
