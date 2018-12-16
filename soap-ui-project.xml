@@ -40,16 +40,16 @@ return label + name
   {"id":"col6","field":"col6","minWidth":100,"name":"Actions","width":100,"type":"buttons","buttons":[{ "type": "edit" }, { "type": "delete", "icon": "remove" }]}
 ],"footerHeight":50,"limit":5,"scrollbarH":false,"scrollbarV":false},"message":null,"status":"ok"}
 </con:responseContent></con:response><con:response name="GRIDDATAA" id="b2c08d6a-ab83-463a-b7b5-404bfc592bca" httpResponseStatus="200" mediaType="application/json"><con:settings/><con:responseContent>{"data":[
-  {"col1":112,"col2":94,"col3":133, "col4":"22/07/2018","col5":true },
-  {"col1":985,"col2":439,"col3":428,"col4":"02/09/2018","col5":true},
-  {"col1":187,"col2":322,"col3":343,"col4":"10/10/2018","col5":false},
-  {"col1":317,"col2":93,"col3":682, "col4":"22/07/2019","col5":false },
-  {"col1":575,"col2":832,"col3":257,"col4":"22/07/2018","col5":false},
-  {"col1":962,"col2":561,"col3":766,"col4":"24/07/2018","col5":true},
-  {"col1":506,"col2":399,"col3":397,"col4":"22/11/2017","col5":false},
-  {"col1":219,"col2":48,"col3":569, "col4":"29/12/2018","col5":true},
-  {"col1":153,"col2":278,"col3":646,"col4":"10/07/2019","col5":false},
-  {"col1":942,"col2":600,"col3":587,"col4":"01/01/2000","col5":true}
+  {"id":{"value":1} ,"col1":{"value":112},"col2":{"value":94 },"col3":{"value":133},"col4":{"value":"22/07/2018"},"col5":{"value":true} },
+  {"id":{"value":2} ,"col1":{"value":985},"col2":{"value":439},"col3":{"value":428},"col4":{"value":"02/09/2018"},"col5":{"value":true} },
+  {"id":{"value":3} ,"col1":{"value":187},"col2":{"value":322},"col3":{"value":343},"col4":{"value":"10/10/2018"},"col5":{"value":false}},
+  {"id":{"value":4} ,"col1":{"value":317},"col2":{"value":93 },"col3":{"value":682},"col4":{"value":"22/07/2019"},"col5":{"value":false}},
+  {"id":{"value":5} ,"col1":{"value":575},"col2":{"value":832},"col3":{"value":257},"col4":{"value":"22/07/2018"},"col5":{"value":false}},
+  {"id":{"value":6} ,"col1":{"value":962},"col2":{"value":561},"col3":{"value":766},"col4":{"value":"24/07/2018"},"col5":{"value":true} },
+  {"id":{"value":7} ,"col1":{"value":506},"col2":{"value":399},"col3":{"value":397},"col4":{"value":"22/11/2017"},"col5":{"value":false}},
+  {"id":{"value":8} ,"col1":{"value":219},"col2":{"value":48 },"col3":{"value":569},"col4":{"value":"29/12/2018"},"col5":{"value":true} },
+  {"id":{"value":9} ,"col1":{"value":153},"col2":{"value":278},"col3":{"value":646},"col4":{"value":"10/07/2019"},"col5":{"value":false}},
+  {"id":{"value":10},"col1":{"value":942},"col2":{"value":600},"col3":{"value":587},"col4":{"value":"01/01/2000"},"col5":{"value":true} }
 ],"message":null,"status":"ok"}</con:responseContent></con:response><con:response name="VALIDATE" id="447e166e-bf83-4c00-b139-80678c0986fb" httpResponseStatus="200" mediaType="application/json"><con:settings/><con:script><![CDATA[def requestBody = mockRequest.getRequestContent()
 def jsonSlurper = new groovy.json.JsonSlurper()
 def req = jsonSlurper.parseText(requestBody);
@@ -57,7 +57,10 @@ def req = jsonSlurper.parseText(requestBody);
 //log.info req
 
 // inline edit grid
-if (!(req.VALUE instanceof String)) {
+if (req.VALUE == true || req.VALUE == false) {
+	context.status = true;
+}
+else if (!(req.VALUE instanceof String)) {
 	context.rowIndex = req.VALUE.rowIndex
 	context.field = req.VALUE.field
 	
@@ -127,11 +130,12 @@ context.value4 = arr[7];
 context.value5 = arr[9];
 //context.values = req.VALUES
 //context.values = " { \"col1\": \"1\", \"col2\": \"2\", \"col3\": \"3\", \"col4\": \"4\", \"col5\": \"5\" } "</con:script><con:responseContent>{"data": { 
-  "col1": "${value1}",
-  "col2": "${value2}",
-  "col3": "${value3}",
-  "col4": "${value4}",
-  "col5": "${value5}"
+  "status":"ok", 
+  "col1": {"value":"${value1}"},
+  "col2": {"value":"${value2}"},
+  "col3": {"value":"${value3}"},
+  "col4": {"value":"${value4}"},
+  "col5": {"value":"${value5}"}
 },
 "message":null,"status":"ok"}
 </con:responseContent></con:response><con:response name="GETAPPSABC" id="045764c7-4ab3-4593-8fba-8f61eb1f4b7f" httpResponseStatus="200" mediaType="application/json"><con:settings/><con:responseContent>{
