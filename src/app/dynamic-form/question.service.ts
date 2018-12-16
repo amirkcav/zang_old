@@ -22,6 +22,9 @@ import { TextareaQuestion } from './question-textarea';
 
 @Injectable()
 export class QuestionService {
+
+  static unauthorizedResponse = new Subject<any>();
+
   private readonly baseDevUrl = environment.dynamicFormBaseDevUrl ||
     'http://cache.cav.local:8081/zang/app/';
 
@@ -105,6 +108,11 @@ export class QuestionService {
   }
 
   private handleError(error: any): Promise<any> {
+    if (error.status === 403) {
+      QuestionService.unauthorizedResponse.next(error);
+      // don't show the "regular" error alert.
+      return Promise.resolve();
+    }
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
