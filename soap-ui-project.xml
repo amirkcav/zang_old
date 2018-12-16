@@ -40,13 +40,13 @@ return label + name
   {"id":"col6","field":"col6","minWidth":100,"name":"Actions","width":100,"type":"buttons","buttons":[{ "type": "edit" }, { "type": "delete", "icon": "remove" }]}
 ],"footerHeight":50,"limit":5,"scrollbarH":false,"scrollbarV":false},"message":null,"status":"ok"}
 </con:responseContent></con:response><con:response name="GRIDDATAA" id="b2c08d6a-ab83-463a-b7b5-404bfc592bca" httpResponseStatus="200" mediaType="application/json"><con:settings/><con:responseContent>{"data":[
-  {"id":{"value":1} ,"col1":{"value":112},"col2":{"value":94 },"col3":{"value":133},"col4":{"value":"22/07/2018"},"col5":{"value":true} },
+  {"id":{"value":1} ,"col1":{"value":112},"col2":{"value":94,"style":{"background":"yellow"} },"col3":{"value":133},"col4":{"value":"22/07/2018"},"col5":{"value":true} },
   {"id":{"value":2} ,"col1":{"value":985},"col2":{"value":439},"col3":{"value":428},"col4":{"value":"02/09/2018"},"col5":{"value":true} },
   {"id":{"value":3} ,"col1":{"value":187},"col2":{"value":322},"col3":{"value":343},"col4":{"value":"10/10/2018"},"col5":{"value":false}},
   {"id":{"value":4} ,"col1":{"value":317},"col2":{"value":93 },"col3":{"value":682},"col4":{"value":"22/07/2019"},"col5":{"value":false}},
-  {"id":{"value":5} ,"col1":{"value":575},"col2":{"value":832},"col3":{"value":257},"col4":{"value":"22/07/2018"},"col5":{"value":false}},
-  {"id":{"value":6} ,"col1":{"value":962},"col2":{"value":561},"col3":{"value":766},"col4":{"value":"24/07/2018"},"col5":{"value":true} },
-  {"id":{"value":7} ,"col1":{"value":506},"col2":{"value":399},"col3":{"value":397},"col4":{"value":"22/11/2017"},"col5":{"value":false}},
+  {"id":{"value":5}, "style":{"background":"#efe"} ,"col1":{"value":575},"col2":{"value":832},"col3":{"value":257},"col4":{"value":"22/07/2018"},"col5":{"value":false}},
+  {"id":{"value":6} ,"col1":{"value":962},"col2":{"value":561},"col3":{"value":766},"col4":{"value":"24/07/2018","style":{"color":"blue"}},"col5":{"value":true} },
+  {"id":{"value":7} ,"col1":{"value":506},"col2":{"value":399},"col3":{"value":397},"col4":{"value":"22/11/2017","style":{"color":"green"}},"col5":{"value":false}},
   {"id":{"value":8} ,"col1":{"value":219},"col2":{"value":48 },"col3":{"value":569},"col4":{"value":"29/12/2018"},"col5":{"value":true} },
   {"id":{"value":9} ,"col1":{"value":153},"col2":{"value":278},"col3":{"value":646},"col4":{"value":"10/07/2019"},"col5":{"value":false}},
   {"id":{"value":10},"col1":{"value":942},"col2":{"value":600},"col3":{"value":587},"col4":{"value":"01/01/2000"},"col5":{"value":true} }
