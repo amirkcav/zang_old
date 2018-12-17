@@ -4,7 +4,7 @@
     </div>
 
     <p-table #dt [value]="data" [columns]="(grid.columns)" [paginator]="true" [rows]="rowsInPage ? rowsInPage : defaultRowsInPage" [rowsPerPageOptions]="[5,10,25]" [rowHover]="true"
-            (sortFunction)="customSort($event)" [customSort]="true" [exportFunction]="exportToCsv">
+            (sortFunction)="customSort($event)" [customSort]="true" [exportFunction]="exportToCsv" [exportFilename]="containers">
         <ng-template pTemplate="caption">
             <div style="text-align: right">        
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>

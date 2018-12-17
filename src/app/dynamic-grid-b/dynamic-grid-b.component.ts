@@ -144,8 +144,18 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
     this.dialog.header = 'Edit row';
     const rowIndex = this.data.indexOf(rowData);
     this.currObject.rowIndex = rowIndex;
-    this.currObject.fields = Object.assign({}, rowData);
+    this.currObject.fields = this.toFormObject(rowData); // Object.assign({}, rowData);
     this.displayDialog = true;
+  }
+
+  toFormObject(gridObject): any {
+    const formObject = {};
+    for (const p in gridObject) {
+      if (gridObject.hasOwnProperty(p)) {
+        formObject[p] = gridObject[p].value;
+      }
+    }
+    return formObject;
   }
 
   delete(data) {
