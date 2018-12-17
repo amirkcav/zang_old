@@ -56,6 +56,8 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
 
   filterValue = '';
 
+  exportDate: string;
+
   constructor(private service: QuestionService, private confirmationService: ConfirmationService, private alertsService: AlertsService) {}
 
   ngOnChanges() {
@@ -63,6 +65,8 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
   }
 
   ngOnInit() {
+    this.exportDate = new Date()['format']('dd_mm_yyyy');
+    
     // the contains function is changed so it would support using objects as values of table cells (not just the value itself).
     // original function - https://github.com/primefaces/primeng/blob/master/src/app/components/table/table.ts#L1250
     this.dt.filterConstraints.contains = (value, filter) => {
