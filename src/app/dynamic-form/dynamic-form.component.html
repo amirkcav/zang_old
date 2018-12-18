@@ -10,7 +10,9 @@
     <div *ngFor="let question of questions" class="form-row">
       <df-question [question]="question" [form]="form" [validateOnBlur]="validateOnBlur" [formKey]="formKey"></df-question>
     </div>
-    
+   
+    <ng-content></ng-content>
+
     <div *ngIf="saveButton || cancelButton" class="form-row buttons-row">
       <button *ngIf="saveButton" type="submit" [disabled]="form.invalid || readonly" class="btn btn-primary">{{saveButton}}</button>
       <button *ngIf="cancelButton" type="button" (click)="onCancel()" class="btn btn-secondary">{{cancelButton}}</button>
