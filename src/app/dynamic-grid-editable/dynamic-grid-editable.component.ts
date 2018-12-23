@@ -26,7 +26,7 @@ import { ISetValue, Field } from '../inetrfaces';
   selector: 'dynamic-grid-editable',
   templateUrl: './dynamic-grid-editable.component.html',
   styleUrls: [ './dynamic-grid-editable.component.css' ],
-  // needed to load the css. https://github.com/angular/angular/issues/7845#issuecomment-302326549
+  // // needed to load the css. https://github.com/angular/angular/issues/7845#issuecomment-302326549
   // encapsulation: ViewEncapsulation.None,
   providers: [ QuestionService, ConfirmationService ]
 })
@@ -160,18 +160,66 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
   }
 
   customSort(event: SortEvent) {
-    event.data.sort((data1, data2) => {
-      // keep the new row always first.
-      if (data1['new-row']) {
-        return -1;
-      }
-      // sorting by the value property
-      const value1 = +data1[event.field].value;
-      const value2 = +data2[event.field].value;
-      const result = value1 > value2 ? 1 : -1;
+    const column = this.grid.columns.find(function(c) { return c.id === event.field });
 
-      return (event.order * result);
-    });
+    if (column['type'] === 'date') {
+      event.data.sort((data1, data2) => {
+        // changing dd/mm/yyyy to yyyymmdd (which is the format to sort dates).
+        const value1 = +data1[event.field].value.split('/').reverse().join('');
+        const value2 = +data2[event.field].value.split('/').reverse().join('');
+        const result = value1 > value2 ? 1 : -1;
+        return (event.order * result);
+      });
+    }
+    else if (column['type'] === 'checkbox') {
+      event.data.sort((data1, data2) => {
+        const result = data1[event.field].value.toString() === 'true' ? 1 : -1;
+        return (event.order * result);
+      });
+    }
+    else if (column['type'] === 'number') {
+      event.data.sort((data1, data2) => {
+        // make no difference between number and number as strings
+        const value1 = +data1[event.field].value;
+        const value2 = +data2[event.field].value;
+        const result = value1 > value2 ? 1 : -1;
+        return (event.order * result);
+      });
+    }
+    else if (column['type'] === 'select' || column['type'] === 'autocomplete') {
+      event.data.sort((data1, data2) => {
+        // make no difference between number and number as strings
+        // const value1 = data1[event.field].value.toLowerCase();
+        // const value2 = data2[event.field].value.toLowerCase();
+        const value1 = data1[event.field].value.value.toString().toLowerCase();
+        const value2 = data2[event.field].value.value.toString().toLowerCase();
+        const result = value1 > value2 ? 1 : -1;
+        return (event.order * result);
+      });
+    }
+    else {
+      event.data.sort((data1, data2) => {
+        // make no difference between number and number as strings
+        // const value1 = data1[event.field].value.toLowerCase();
+        // const value2 = data2[event.field].value.toLowerCase();
+        const value1 = data1[event.field].value.toString().toLowerCase();
+        const value2 = data2[event.field].value.toString().toLowerCase();
+        const result = value1 > value2 ? 1 : -1;
+        return (event.order * result);
+      });
+    }
+    // event.data.sort((data1, data2) => {
+    //   // keep the new row always first.
+    //   if (data1['new-row']) {
+    //     return -1;
+    //   }
+    //   // sorting by the value property
+    //   const value1 = +data1[event.field].value;
+    //   const value2 = +data2[event.field].value;
+    //   const result = value1 > value2 ? 1 : -1;
+
+    //   return (event.order * result);
+    // });
   }
 
   saveNewRow(event) {
@@ -229,7 +277,7 @@ export class DynamicGridEditableComponent implements OnInit, OnChanges, ISetValu
     // "this" is the Table object of PrimeNG, not the component.
     const col = this['columns'].find((c) => c.id === event['field'].toString());
     let val = event.data.value;
-    if (col.type === 'autocomplete') {
+    if (col.type === 'autocomplete' || col.type === 'select') {
       val = event.data.value.value;
     }
     return val;
