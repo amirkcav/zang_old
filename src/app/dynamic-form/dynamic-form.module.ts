@@ -34,6 +34,8 @@ import { environment } from '../../environments/environment';
 import { DynamicGridBComponent } from '../dynamic-grid-b/dynamic-grid-b.component';
 // import { environment } from 'environments/environment';
 
+import { MyLoaderComponent } from '../my-loader/my-loader.component'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -63,7 +65,8 @@ import { DynamicGridBComponent } from '../dynamic-grid-b/dynamic-grid-b.componen
     DynamicGridComponent,
     DynamicGridBComponent,
     DynamicGridEditableComponent,
-    DynamicMultiAppsComponent
+    DynamicMultiAppsComponent,
+    MyLoaderComponent
   ],
   exports: [
     DynamicFormComponent,

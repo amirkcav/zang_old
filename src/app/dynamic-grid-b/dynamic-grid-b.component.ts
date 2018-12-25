@@ -21,12 +21,13 @@ import { Dialog } from 'primeng/dialog';
 import { ISetValue, Field } from '../inetrfaces';
 import {MessageService} from 'primeng/components/common/messageservice';
 import { AlertsService } from '../alerts.service';
+import { MyLoaderService } from '../my-loader/my-loader.service';
 
 @Component({
   selector: 'dynamic-grid-b',
   templateUrl: './dynamic-grid-b.component.html',
   styleUrls: ['./dynamic-grid-b.component.css'],
-  providers: [ QuestionService, ConfirmationService, AlertsService, MessageService ]
+  providers: [ QuestionService, ConfirmationService, AlertsService, MessageService, MyLoaderService ]
 })
 export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {    
   @ViewChild('dt') dt: Table
@@ -58,7 +59,9 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
 
   exportDate: string;
 
-  constructor(private service: QuestionService, private confirmationService: ConfirmationService, private alertsService: AlertsService) {}
+  constructor(private service: QuestionService, private confirmationService: ConfirmationService, private alertsService: AlertsService, private myLoaderService: MyLoaderService) {
+
+  }
 
   ngOnChanges() {
     this.initGrid();
@@ -82,6 +85,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
   }
 
   initGrid(): void {
+    this.myLoaderService.show();
     // load the grid definitions
     this.loadingGrid = this.service.getGrid(this.gridKey, this.gridParameters);
     this.loadingGrid.then(response => {
@@ -90,12 +94,14 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       this.objFields = Object.keys(this.currObject.fields);
     })    
     .catch((err) => {
-        this.alertsService.alert('error', 'אירעה שגיאה', err, false);
+      this.alertsService.alert('error', 'אירעה שגיאה', err, false);
+      this.myLoaderService.hide();        
     });
 
     // load the grid data
     this.loadingGridData = this.service.getGridData(this.gridKey, this.gridParameters);
     this.loadingGridData.then(response => {
+      this.myLoaderService.hide();
       this.data = response;
 
       // load previous table state (when coming back from other page)
@@ -128,6 +134,7 @@ export class DynamicGridBComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
+      this.myLoaderService.hide();        
       this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }

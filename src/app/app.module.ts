@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LogHttpIntercepter } from './log-http-intercepter';
 
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MyLoaderComponent } from './my-loader/my-loader.component';
 // import { DynamicAppComponent } from './dynamic-app/dynamic-app.component';
 // import { DynamicPageComponent } from './dynamic-page/dynamic-page.component';
 // import { CalendarModule } from 'primeng/calendar';

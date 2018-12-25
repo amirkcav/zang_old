@@ -10,6 +10,7 @@ import { Calendar } from 'primeng/calendar';
 
 // import { MessageService } from 'primeng/components/common/messageservice';
 import { AlertsService } from '../alerts.service'
+import { MyLoaderService } from '../my-loader/my-loader.service';
 
 @Component({
   selector: 'df-question',
@@ -49,7 +50,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
   closeDatepickerOnSelect = true;
   selectedDate: any;
 
-  constructor(private service: QuestionService, private alertsService: AlertsService) { } 
+  constructor(private service: QuestionService, private alertsService: AlertsService, private myLoaderService: MyLoaderService) { } 
 
   ngOnInit() {
     // this.useCamera = this.question.controlType === 'file-upload' && this.question.key === 'image';
@@ -170,9 +171,11 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
     this.stop();
 
     // upload the file
+    this.myLoaderService.show('מעלה תמונה. אנא המתן...');
     //this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage).then((result) => {
     this.uploadPicture = this.service.uploadPicture(this.formKey, this.question.key, this.capturedImage);
     this.uploadPicture.then((result) => {
+      this.myLoaderService.hide();
       // save file name from server
       this.form.value[this.question.key] = result.image;
       if (!this.form.dirty) {
@@ -180,6 +183,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnDestroy {
       }
     })
     .catch((err) => {
+      this.myLoaderService.hide();
       this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }

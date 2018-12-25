@@ -18,11 +18,12 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 import { AlertsService } from '../alerts.service'
+import { MyLoaderService } from '../my-loader/my-loader.service';
 
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [QuestionControlService, QuestionService, ConfirmationService, AlertsService, MessageService] 
+  providers: [QuestionControlService, QuestionService, ConfirmationService, AlertsService, MessageService, MyLoaderService] // 
 })
 export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;
@@ -48,7 +49,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   flattendFields: QuestionBase<any>[];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private alertsService: AlertsService) {} // private messageService: MessageService, 
+  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private alertsService: AlertsService, 
+              private myLoaderService: MyLoaderService) {}
 
   ngOnChanges() {
     this.initForm();
@@ -92,11 +94,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   }
 
   initForm(): void {
+    this.myLoaderService.show();
     this.loadingQuestions = this.service.getQuestions(
       this.formKey,  
       this.formParameters
     );
     this.loadingQuestions.then(response => {
+      this.myLoaderService.hide();
       this.questions = response.questions;
       this.form = this.service.toFormGroup(this.questions, this.formKey, this.validateOnBlur, this.formParameters);
       this.formTitle = response.formTitle;
@@ -109,7 +113,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
       }
     })
     .catch((err) => {
-        this.alertsService.alert('error', 'אירעה שגיאה', err, false);
+      this.myLoaderService.hide();
+      this.alertsService.alert('error', 'אירעה שגיאה', err, false);
     });
   }
 

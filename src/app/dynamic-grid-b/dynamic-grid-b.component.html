@@ -1,4 +1,4 @@
-<div [ngClass]="{'ui-rtl rtl-elem': isRtl}" [ngBusy]="{busy: loadingGridData, message: 'טוען נתונים...'}">
+<div [ngClass]="{'ui-rtl rtl-elem': isRtl}" ><!--[ngBusy]="{busy: loadingGridData, message: 'טוען נתונים...'}"-->
     <div *ngIf="grid.title">
         <h2 style="margin-bottom: 10px;">{{ grid.title }}</h2>
     </div>
@@ -83,4 +83,6 @@
 
     <p-messages class="rtl-elem"></p-messages>
     
+    <app-my-loader></app-my-loader>
+
 </div>
