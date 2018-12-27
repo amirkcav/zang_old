@@ -14,7 +14,7 @@ import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
 import { QuestionService } from './question.service';
 import { ISetValue, Field } from '../inetrfaces';
-import { ConfirmationService } from 'primeng/api';
+// import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 import { AlertsService } from '../alerts.service'
@@ -23,7 +23,7 @@ import { MyLoaderService } from '../my-loader/my-loader.service';
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  providers: [QuestionControlService, QuestionService, ConfirmationService, AlertsService, MessageService, MyLoaderService] // 
+  providers: [QuestionControlService, QuestionService, AlertsService, MessageService, MyLoaderService] // 
 })
 export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   @Input() formKey: string;
@@ -49,7 +49,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, ISetValue {
   flattendFields: QuestionBase<any>[];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private service: QuestionControlService, private confirmationService: ConfirmationService, private alertsService: AlertsService, 
+  constructor(private service: QuestionControlService, private alertsService: AlertsService, 
               private myLoaderService: MyLoaderService) {}
 
   ngOnChanges() {

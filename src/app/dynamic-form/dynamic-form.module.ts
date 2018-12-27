@@ -4,9 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-// import { BusyModule } from 'angular2-busy';
-import { BusyModule } from 'tixif-ngx-busy';
-// import { BusyModule } from 'angular2-busy-aot';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -44,7 +41,6 @@ import { MyLoaderComponent } from '../my-loader/my-loader.component'
     ReactiveFormsModule,
     // HttpModule,
     HttpClientModule,
-    BusyModule,
     BrowserAnimationsModule,
     NgxDatatableModule,
     AutoCompleteModule,

@@ -21,7 +21,8 @@
       "styles": [
         "styles.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
-        "../node_modules/tixif-ngx-busy/build/style/busy.css"
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [
         "assets/date.format.js",
